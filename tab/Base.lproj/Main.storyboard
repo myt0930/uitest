@@ -62,7 +62,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="YSq-mK-TDe"/>
                     <connections>
-                        <outlet property="searchBar" destination="Kht-Sl-ZZN" id="ltv-uh-nVs"/>
+                        <outlet property="searchBar" destination="Kht-Sl-ZZN" id="Ge0-Cc-iCC"/>
                         <outlet property="searchController" destination="17V-0y-vUH" id="Bbc-eg-giJ"/>
                         <outlet property="searchDisplayController" destination="17V-0y-vUH" id="hiB-Af-6e5"/>
                         <outlet property="tableView" destination="atk-Pi-L1P" id="CSy-yH-je5"/>

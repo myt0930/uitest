@@ -10,7 +10,7 @@
 #import "TabBarController.h"
 #import "BaseViewController.h"
 
-@interface SearchViewController : BaseViewController
+@interface SearchViewController : BaseViewController<UISearchDisplayDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
