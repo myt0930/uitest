@@ -13,6 +13,7 @@
 @interface LiveHouseTrait : NSObject
 @property int		liveHouseNo;
 @property NSString	*name;
+@property NSString  *info;
 
 +(void)loadMast:(LoadData *)data;
 +(NSString *)liveHouseName:(int)liveHouseNo;

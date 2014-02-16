@@ -18,8 +18,8 @@
 		353198C518A2147E00EBBC82 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198C418A2147E00EBBC82 /* main.m */; };
 		353198C918A2147E00EBBC82 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198C818A2147E00EBBC82 /* AppDelegate.m */; };
 		353198CC18A2147E00EBBC82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 353198CA18A2147E00EBBC82 /* Main.storyboard */; };
-		353198CF18A2147E00EBBC82 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198CE18A2147E00EBBC82 /* FirstViewController.m */; };
-		353198D218A2147E00EBBC82 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198D118A2147E00EBBC82 /* SecondViewController.m */; };
+		353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198CE18A2147E00EBBC82 /* HomeViewController.m */; };
+		353198D218A2147E00EBBC82 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198D118A2147E00EBBC82 /* SearchViewController.m */; };
 		353198D418A2147E00EBBC82 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 353198D318A2147E00EBBC82 /* Images.xcassets */; };
 		353198DB18A2147E00EBBC82 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 353198DA18A2147E00EBBC82 /* XCTest.framework */; };
 		353198DC18A2147E00EBBC82 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 353198B818A2147E00EBBC82 /* Foundation.framework */; };
@@ -39,6 +39,9 @@
 		5C7E3FE418AE3F7E00AAC68B /* shield-round.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FE318AE3F7E00AAC68B /* shield-round.png */; };
 		5C7E3FE618AE3F9B00AAC68B /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FE518AE3F9B00AAC68B /* music.png */; };
 		5C7E3FE818AE3FD100AAC68B /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FE718AE3FD100AAC68B /* gear.png */; };
+		5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */; };
+		5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FED18AF1BF600AAC68B /* FavViewController.m */; };
+		5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,10 +72,10 @@
 		353198C718A2147E00EBBC82 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		353198C818A2147E00EBBC82 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		353198CB18A2147E00EBBC82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		353198CD18A2147E00EBBC82 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		353198CE18A2147E00EBBC82 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		353198D018A2147E00EBBC82 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		353198D118A2147E00EBBC82 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		353198CD18A2147E00EBBC82 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		353198CE18A2147E00EBBC82 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		353198D018A2147E00EBBC82 /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		353198D118A2147E00EBBC82 /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		353198D318A2147E00EBBC82 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		353198D918A2147E00EBBC82 /* tabTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tabTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		353198DA18A2147E00EBBC82 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -97,6 +100,12 @@
 		5C7E3FE318AE3F7E00AAC68B /* shield-round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shield-round.png"; path = "iconbeast lite - png/shield-round.png"; sourceTree = SOURCE_ROOT; };
 		5C7E3FE518AE3F9B00AAC68B /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = music.png; path = "iconbeast lite - png/music.png"; sourceTree = SOURCE_ROOT; };
 		5C7E3FE718AE3FD100AAC68B /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = "iconbeast lite - png/gear.png"; sourceTree = SOURCE_ROOT; };
+		5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		5C7E3FEC18AF1BF600AAC68B /* FavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavViewController.h; sourceTree = "<group>"; };
+		5C7E3FED18AF1BF600AAC68B /* FavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavViewController.m; sourceTree = "<group>"; };
+		5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseViewController.h; sourceTree = "<group>"; };
+		5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,9 +171,6 @@
 				353198C818A2147E00EBBC82 /* AppDelegate.m */,
 				353198F018A2251C00EBBC82 /* Common.h */,
 				353198F118A2251C00EBBC82 /* Common.m */,
-				353198F218A2251C00EBBC82 /* CustomTableViewCell.h */,
-				353198F318A2251C00EBBC82 /* CustomTableViewCell.m */,
-				353198F418A2251C00EBBC82 /* CustomTableViewCell.xib */,
 				353198D318A2147E00EBBC82 /* Images.xcassets */,
 				353198F718A2251C00EBBC82 /* LoadData.h */,
 				353198F818A2251C00EBBC82 /* LoadData.m */,
@@ -224,18 +230,35 @@
 		3534E31C18A4D7B300BFA91B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				353198CD18A2147E00EBBC82 /* FirstViewController.h */,
-				353198CE18A2147E00EBBC82 /* FirstViewController.m */,
-				353198D018A2147E00EBBC82 /* SecondViewController.h */,
-				353198D118A2147E00EBBC82 /* SecondViewController.m */,
+				5C7E3FF218AF97E000AAC68B /* Base */,
+				353198F218A2251C00EBBC82 /* CustomTableViewCell.h */,
+				353198F318A2251C00EBBC82 /* CustomTableViewCell.m */,
+				353198F418A2251C00EBBC82 /* CustomTableViewCell.xib */,
 				35318F1F18AB1CDB00602C70 /* DetailViewController.h */,
 				35318F2018AB1CDB00602C70 /* DetailViewController.m */,
 				35318F2118AB1CDB00602C70 /* DetailViewController.xib */,
+				5C7E3FEC18AF1BF600AAC68B /* FavViewController.h */,
+				5C7E3FED18AF1BF600AAC68B /* FavViewController.m */,
+				353198CD18A2147E00EBBC82 /* HomeViewController.h */,
+				353198CE18A2147E00EBBC82 /* HomeViewController.m */,
+				5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */,
+				5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */,
+				353198D018A2147E00EBBC82 /* SearchViewController.h */,
+				353198D118A2147E00EBBC82 /* SearchViewController.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		5C7E3FF218AF97E000AAC68B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */,
+				5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */,
 				35318F2418AB24FF00602C70 /* TabBarController.h */,
 				35318F2518AB24FF00602C70 /* TabBarController.m */,
 				35318F2618AB24FF00602C70 /* TabBarController.xib */,
 			);
-			name = View;
+			name = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,14 +369,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */,
-				353198D218A2147E00EBBC82 /* SecondViewController.m in Sources */,
+				5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */,
+				353198D218A2147E00EBBC82 /* SearchViewController.m in Sources */,
 				353198C918A2147E00EBBC82 /* AppDelegate.m in Sources */,
+				5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */,
 				353198FC18A2251C00EBBC82 /* LiveInfoTrait.m in Sources */,
 				353198FA18A2251C00EBBC82 /* CustomTableViewCell.m in Sources */,
 				35318F2718AB24FF00602C70 /* TabBarController.m in Sources */,
 				35318F2218AB1CDB00602C70 /* DetailViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
-				353198CF18A2147E00EBBC82 /* FirstViewController.m in Sources */,
+				353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */,
+				5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */,
 				353198C518A2147E00EBBC82 /* main.m in Sources */,
 				353198FD18A2251C00EBBC82 /* LoadData.m in Sources */,
 			);

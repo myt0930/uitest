@@ -8,9 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class LiveInfoTrait;
+
 @interface DetailViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UILabel *place;
 @property (strong, nonatomic) IBOutlet UIView *childView;
+@property const LiveInfoTrait *liveTrait;
+
+@property IBOutlet UILabel *date;
+@property IBOutlet UILabel *place;
+@property IBOutlet UILabel *eventTitle;
+@property IBOutlet UILabel *act;
+@property IBOutlet UILabel *ticket;
+@property IBOutlet UILabel *startTime;
+@property IBOutlet UILabel *liveHouseInfo;
+
+- (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait;
 
 @end

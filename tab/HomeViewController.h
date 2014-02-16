@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "TabBarController.h"
+#import "BaseViewController.h"
 
 @class CustomTableViewCell;
 
-@interface FirstViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,MyTabBarControllerDelegate>
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@interface HomeViewController : BaseViewController;
 
 @end

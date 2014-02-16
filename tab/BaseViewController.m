@@ -1,38 +1,26 @@
 //
-//  SecondViewController.m
+//  BaseViewController.m
 //  tab
 //
-//  Created by MIYATA Wataru on 2014/02/05.
+//  Created by Wataru Miyata on 2014/02/15.
 //  Copyright (c) 2014年 MIYATA Wataru. All rights reserved.
 //
 
-#import "SecondViewController.h"
+#import "BaseViewController.h"
 #import "CustomTableViewCell.h"
-#import "LiveInfoTrait.h"
-#import "TabBarController.h"
+#import "Common.h"
 
-@interface SecondViewController ()
-@property (nonatomic, strong) NSArray *items;
-@end
-
-@implementation SecondViewController
+@implementation BaseViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 	
 	UINib *nib = [UINib nibWithNibName:@"CustomTableViewCell" bundle:nil];
-	[self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
-	
-	[LiveInfoTrait addTestLiveInfo];
+	[self.tableView registerNib:nib forCellReuseIdentifier:@"customCell"];
 	
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
-	
-	//テーブルの戦闘に検索バーを配置
-	self.tableView.tableHeaderView = _searchBar;
-	_items = [LiveInfoTrait traitList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +34,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -56,7 +44,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"cell";
+    static NSString *CellIdentifier = @"customCell";
     
     CustomTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -67,13 +55,10 @@
         
         
     }
-	cell.textLabel.text = @"";
-	cell.detailTextLabel.text = @"";
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+	
 	const LiveInfoTrait *trait = [self.items objectAtIndex:indexPath.row];
 	[cell setTextWithTrait:trait];
-	
+    
     return cell;
 }
 
@@ -82,33 +67,21 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return CELL_HEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    LiveInfoTrait *trait = self.items[indexPath.row];
-    NSString *className = [@"DynamicBehaviors" stringByAppendingString:@"ViewController"];
-    
-    if (NSClassFromString(className)) {
-		
-        Class aClass = NSClassFromString(className);
-        id instance = [[aClass alloc] init];
-        
-        if ([instance isKindOfClass:[UIViewController class]]) {
-            
-            [(UIViewController *)instance setTitle:trait.openTime];
-            [self.navigationController pushViewController:(UIViewController *)instance
-                                                 animated:YES];
-        }
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = BACKGROUND_COLOR;
 }
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
-    NSLog(@"tab 2");
+    NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
+	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:NO];
 }
 @end

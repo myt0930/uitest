@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TabBarController.h"
+#import "BaseViewController.h"
 
-@interface SecondViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate,MyTabBarControllerDelegate>
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@interface SearchViewController : BaseViewController
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 

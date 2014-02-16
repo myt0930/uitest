@@ -12,11 +12,16 @@
 #define MAKE_HIRAGINO_BOLD_FONT(x) [UIFont fontWithName:@"HiraKakuProN-W6"size:x]
 #define MAKE_UICOLOR(r,g,b,a) [UIColor colorWithRed:r/255. green:g/255. blue:b/255. alpha:a]
 
+#define BACKGROUND_COLOR	MAKE_UICOLOR(245, 245, 245, 1)
+#define PLACE_COLOR			MAKE_UICOLOR(238,101,87,1)
+#define TITLE_COLOR			MAKE_UICOLOR(22,166,182,1)
+#define ACT_COLOR			MAKE_UICOLOR(24,24,24,1)
+
 
 @interface UILabel(Ex)
 + (id)labelWithFontName:(UIFont *)font color:(UIColor *)color;
 @end
 
 @interface NSAttributedString(Ex)
-+ (id)attributedStringWithString:(NSString *)string space:(int)space alignment:(NSTextAlignment)alignment breakmode:(NSLineBreakMode)breakmode;
++ (id)tlsAttributedStringWithString:(NSString *)string lineSpace:(float)lineSpace;
 @end

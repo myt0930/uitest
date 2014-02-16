@@ -21,15 +21,12 @@
 
 @implementation NSAttributedString(Ex)
 
-+ (id)attributedStringWithString:(NSString *)string
-						   space:(int)space
-					   alignment:(NSTextAlignment)alignment
-					   breakmode:(NSLineBreakMode)breakmode
++ (id)tlsAttributedStringWithString:(NSString *)string lineSpace:(float)lineSpace
 {
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 2.0f;
-	paragraphStyle.alignment = alignment;
-	paragraphStyle.lineBreakMode = breakmode;
+    paragraphStyle.lineSpacing = lineSpace;
+	paragraphStyle.alignment = NSTextAlignmentLeft;
+	paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
 	paragraphStyle.lineHeightMultiple = 1.1f;
     
 	NSDictionary *attributeDic = @{NSParagraphStyleAttributeName:paragraphStyle};

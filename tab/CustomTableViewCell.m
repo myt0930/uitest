@@ -12,23 +12,15 @@
 
 #define LABEL_X_POS 30
 
-#define BACKGROUND_COLOR	MAKE_UICOLOR(245, 245, 245, 1)
-#define PLACE_COLOR			MAKE_UICOLOR(238,101,87,1)
-#define TITLE_COLOR			MAKE_UICOLOR(22,166,182,1)
-#define ACT_COLOR			MAKE_UICOLOR(24,24,24,1)
-
-//title MAKE_UICOLOR(52,152,219,1)
-
 @implementation CustomTableViewCell
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-	
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.backgroundColor				= BACKGROUND_COLOR;
 	self.contentView.backgroundColor	= BACKGROUND_COLOR;
-	self.backgroundColor				= BACKGROUND_COLOR;
-	self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
+
 	//日付
 	{
 		//日
@@ -110,9 +102,12 @@ static int dateCount = 1;
 	}
 	
 	_day.text				= @"Sat";
-	_place.attributedText	= [self attributedStringForCellWithString:placeList[arc4random() % placeList.count]];
-	_title.attributedText	= [self attributedStringForCellWithString:trait.eventTitle];
-	_act.attributedText		= [self attributedStringForCellWithString:trait.act];
+	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:placeList[arc4random() % placeList.count]
+                                                                    lineSpace:2.0f];
+	_title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
+                                                                    lineSpace:2.0f];
+	_act.attributedText		= [NSAttributedString tlsAttributedStringWithString:trait.act
+                                                                   lineSpace:2.0f];
 	
 	//座標調整
 	[_day	sizeToFit];
@@ -120,14 +115,6 @@ static int dateCount = 1;
 	[_place sizeToFit];
 	[_title sizeToFit];
 	[_act	sizeToFit];
-}
-
-- (NSAttributedString *)attributedStringForCellWithString:(NSString *)string
-{
-	return [NSAttributedString attributedStringWithString:string
-													space:0
-												alignment:NSTextAlignmentLeft
-												breakmode:NSLineBreakByTruncatingTail];
 }
 
 @end
