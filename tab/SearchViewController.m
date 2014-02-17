@@ -10,13 +10,18 @@
 #import "CustomTableViewCell.h"
 #import "LiveInfoTrait.h"
 #import "TabBarController.h"
+#import "DetailViewController.h"
 
 @implementation SearchViewController
 
 - (void)viewDidLoad
 {
+//    _searchController.displaysSearchBarInNavigationBar = YES;
     [super viewDidLoad];
 	
+    
+    _searchItems = [NSMutableArray array];
+    
 	[LiveInfoTrait addTestLiveInfo];
 	
 	//テーブルの戦闘に検索バーを配置
@@ -27,6 +32,19 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark UITableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return [_searchItems count];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -43,89 +61,71 @@
         
     }
     
-    if( indexPath.row == 0 )
+    if(tableView == self.searchDisplayController.searchResultsTableView)
     {
-        return cell;
+        const LiveInfoTrait *trait = [_searchItems objectAtIndex:indexPath.row];
+        [cell setTextWithTrait:trait];
     }
-	
-    NSLog(@"%d",indexPath.row);
-	const LiveInfoTrait *trait = [self.items objectAtIndex:indexPath.row];
-	[cell setTextWithTrait:trait];
     
     return cell;
 }
 
-- (void) searchItem:(NSString *) searchText {
-    NSMutableArray *resultArray = [NSMutableArray array];
+- (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString
+{
+    BOOL ret = YES; //検索結果を更新するときはYESを返す
+    searchString = [searchString lowercaseString];
+ 
+    NSLog(@"%@", searchString);
+    
+    [_searchItems removeAllObjects];
+    
     for( const LiveInfoTrait *trait in [LiveInfoTrait traitList] )
     {
         //出演者名検索
-        NSRange searchResult = [trait.act rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if(searchResult.location == NSNotFound)
+        NSString *act = [trait.act lowercaseString];
+        if( [act rangeOfString:searchString].location == NSNotFound )
         {
             //イベント名検索
-            searchResult = [trait.act rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if(searchResult.location == NSNotFound)
+            NSString *title = [trait.eventTitle lowercaseString];
+            if( [title rangeOfString:searchString].location == NSNotFound )
             {
-                //出演者、イベント名共に含まれなければcontinue
+                //イベント名、出演者名に含まれない時はcontinue
                 continue;
             }
         }
         
-        [resultArray addObject:trait];
+        [_searchItems addObject:trait];
     }
     
-    self.items = resultArray;
+    return ret; 
+}
+
+// =============================================================================
+#pragma mark - BaseViewController
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+    LiveInfoTrait *trait = _searchItems[indexPath.row];
+    NSString *className = [@"Detail" stringByAppendingString:@"ViewController"];
     
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-}
-
-- (void) searchBarSearchButtonClicked: (UISearchBar *) searchBar {
-    [searchBar resignFirstResponder];
-    [self searchItem:searchBar.text];
-}
-
-- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *) searchText {
-    NSLog(@"serch text=%@", searchText);
-    if ([searchText length]!=0) {
-        // インクリメンタル検索など
+    if (NSClassFromString(className)) {
+		
+        id instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait];
+        
+        if ([instance isKindOfClass:[UIViewController class]]) {
+            
+            [(UIViewController *)instance setTitle:trait.liveDate];
+            [self.navigationController pushViewController:(UIViewController *)instance
+                                                 animated:YES];
+        }
     }
-}
-
-#pragma mark - UISearchBar Delegate
-
-// テキストフィールド入力開始前に呼ばれる
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-    NSLog(@"searchBarShouldBeginEditing");
     
-    return YES;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-// テキストフィールドの入力開始時に呼ばれる
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+#pragma mark - MyTabBarControllerDelegate
+- (void) didSelect:(TabBarController *)tabBarController
 {
-    NSLog(@"searchBarTextDidBeginEditing");
+
 }
 
-// テキストフィールドの入力完了前に呼ばれる
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
-{
-    NSLog(@"searchBarShouldEndEditing");
-    
-    return YES;
-}
-
-// テキストフィールドの入力完了後に呼ばれる
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    NSLog(@"searchBarTextDidEndEditing");
-}
-
-// UISearchBarのtextFieldでenterを押した時に呼ばれる
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    NSLog(@"textFieldShouldReturn");
-    return YES;
-}
 @end
