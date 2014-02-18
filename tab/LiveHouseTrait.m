@@ -70,6 +70,7 @@ static NSMutableArray* traitList;
 
 + (void)addTestLiveHouseTrait
 {
+	[traitList removeAllObjects];
 	LiveHouseTrait *trait = nil;
 	
 	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:1 name:@"新宿Motion"];

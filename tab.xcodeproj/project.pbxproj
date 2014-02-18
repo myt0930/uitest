@@ -32,6 +32,15 @@
 		353198FC18A2251C00EBBC82 /* LiveInfoTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198F618A2251C00EBBC82 /* LiveInfoTrait.m */; };
 		353198FD18A2251C00EBBC82 /* LoadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198F818A2251C00EBBC82 /* LoadData.m */; };
 		3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */; };
+		35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F718B3436A00DB2627 /* music_64.png */; };
+		35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F818B3436A00DB2627 /* search_64@2x.png */; };
+		35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F918B3436A00DB2627 /* home_64@2x.png */; };
+		35BAE2FF18B3436A00DB2627 /* list_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2FA18B3436A00DB2627 /* list_64@2x.png */; };
+		35BAE30018B3436A00DB2627 /* settings_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2FB18B3436A00DB2627 /* settings_64@2x.png */; };
+		35BAE30218B3464200DB2627 /* star_outline_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE30118B3464200DB2627 /* star_outline_64@2x.png */; };
+		35BAE30418B348BC00DB2627 /* calendar_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE30318B348BC00DB2627 /* calendar_64@2x.png */; };
+		35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BAE30918B3522A00DB2627 /* LiveListViewController.m */; };
+		35BAE30C18B3522A00DB2627 /* LiveListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */; };
 		5C7E3FDC18AE3EBC00AAC68B /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FDB18AE3EBC00AAC68B /* star.png */; };
 		5C7E3FDE18AE3EC700AAC68B /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FDD18AE3EC700AAC68B /* search.png */; };
 		5C7E3FE018AE3F2E00AAC68B /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E3FDF18AE3F2E00AAC68B /* home.png */; };
@@ -93,6 +102,16 @@
 		353198F818A2251C00EBBC82 /* LoadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadData.m; sourceTree = "<group>"; };
 		3534E31818A4CD5200BFA91B /* LiveHouseTrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseTrait.h; sourceTree = "<group>"; };
 		3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseTrait.m; sourceTree = "<group>"; };
+		35BAE2F718B3436A00DB2627 /* music_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = music_64.png; path = "iconbeast lite - png/music_64.png"; sourceTree = SOURCE_ROOT; };
+		35BAE2F818B3436A00DB2627 /* search_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search_64@2x.png"; path = "iconbeast lite - png/search_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE2F918B3436A00DB2627 /* home_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home_64@2x.png"; path = "iconbeast lite - png/home_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE2FA18B3436A00DB2627 /* list_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "list_64@2x.png"; path = "iconbeast lite - png/list_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE2FB18B3436A00DB2627 /* settings_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings_64@2x.png"; path = "iconbeast lite - png/settings_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE30118B3464200DB2627 /* star_outline_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_outline_64@2x.png"; path = "iconbeast lite - png/star_outline_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE30318B348BC00DB2627 /* calendar_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar_64@2x.png"; path = "iconbeast lite - png/calendar_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		35BAE30818B3522A00DB2627 /* LiveListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveListViewController.h; sourceTree = "<group>"; };
+		35BAE30918B3522A00DB2627 /* LiveListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveListViewController.m; sourceTree = "<group>"; };
+		35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveListViewController.xib; sourceTree = "<group>"; };
 		5C7E3FDB18AE3EBC00AAC68B /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star.png; path = "iconbeast lite - png/star.png"; sourceTree = SOURCE_ROOT; };
 		5C7E3FDD18AE3EC700AAC68B /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = "iconbeast lite - png/search.png"; sourceTree = SOURCE_ROOT; };
 		5C7E3FDF18AE3F2E00AAC68B /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = "iconbeast lite - png/home.png"; sourceTree = SOURCE_ROOT; };
@@ -183,6 +202,13 @@
 		353198BF18A2147E00EBBC82 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				35BAE30318B348BC00DB2627 /* calendar_64@2x.png */,
+				35BAE30118B3464200DB2627 /* star_outline_64@2x.png */,
+				35BAE2F718B3436A00DB2627 /* music_64.png */,
+				35BAE2F818B3436A00DB2627 /* search_64@2x.png */,
+				35BAE2F918B3436A00DB2627 /* home_64@2x.png */,
+				35BAE2FA18B3436A00DB2627 /* list_64@2x.png */,
+				35BAE2FB18B3436A00DB2627 /* settings_64@2x.png */,
 				5C7E3FE318AE3F7E00AAC68B /* shield-round.png */,
 				5C7E3FE718AE3FD100AAC68B /* gear.png */,
 				5C7E3FE518AE3F9B00AAC68B /* music.png */,
@@ -243,6 +269,9 @@
 				353198CE18A2147E00EBBC82 /* HomeViewController.m */,
 				5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */,
 				5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */,
+				35BAE30818B3522A00DB2627 /* LiveListViewController.h */,
+				35BAE30918B3522A00DB2627 /* LiveListViewController.m */,
+				35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */,
 				353198D018A2147E00EBBC82 /* SearchViewController.h */,
 				353198D118A2147E00EBBC82 /* SearchViewController.m */,
 			);
@@ -340,14 +369,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BAE2FF18B3436A00DB2627 /* list_64@2x.png in Resources */,
+				35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */,
 				353198D418A2147E00EBBC82 /* Images.xcassets in Resources */,
 				35318F2818AB24FF00602C70 /* TabBarController.xib in Resources */,
 				5C7E3FE018AE3F2E00AAC68B /* home.png in Resources */,
 				353198C318A2147E00EBBC82 /* InfoPlist.strings in Resources */,
+				35BAE30218B3464200DB2627 /* star_outline_64@2x.png in Resources */,
+				35BAE30C18B3522A00DB2627 /* LiveListViewController.xib in Resources */,
+				35BAE30018B3436A00DB2627 /* settings_64@2x.png in Resources */,
 				5C7E3FDE18AE3EC700AAC68B /* search.png in Resources */,
+				35BAE30418B348BC00DB2627 /* calendar_64@2x.png in Resources */,
+				35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */,
 				5C7E3FE818AE3FD100AAC68B /* gear.png in Resources */,
 				5C7E3FE618AE3F9B00AAC68B /* music.png in Resources */,
 				5C7E3FE418AE3F7E00AAC68B /* shield-round.png in Resources */,
+				35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */,
 				35318F2318AB1CDB00602C70 /* DetailViewController.xib in Resources */,
 				5C7E3FDC18AE3EBC00AAC68B /* star.png in Resources */,
 				353198FB18A2251C00EBBC82 /* CustomTableViewCell.xib in Resources */,
@@ -380,6 +417,7 @@
 				353198FA18A2251C00EBBC82 /* CustomTableViewCell.m in Sources */,
 				35318F2718AB24FF00602C70 /* TabBarController.m in Sources */,
 				35318F2218AB1CDB00602C70 /* DetailViewController.m in Sources */,
+				35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
 				353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */,
 				5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */,

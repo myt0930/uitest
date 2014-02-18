@@ -10,6 +10,7 @@
 #import "LiveInfoTrait.h"
 #import "LiveHouseTrait.h"
 #import "HomeViewController.h"
+#import "LiveListViewController.h"
 
 @interface LiveHouseViewController ()
 
@@ -58,6 +59,7 @@
         
         
     }
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	const LiveHouseTrait *trait = [self.items objectAtIndex:indexPath.row];
 	cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
@@ -68,10 +70,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	LiveInfoTrait *trait = self.items[indexPath.row];
+	LiveHouseTrait *trait = self.items[indexPath.row];
 	
 	//詳細view表示
-	HomeViewController *instance = [[HomeViewController alloc] init];
+	LiveListViewController *instance = [[LiveListViewController alloc] initWithTrait:trait];
 	[self.navigationController pushViewController:instance
 										 animated:YES];
     
@@ -83,7 +85,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 30;
+    return 40;
 }
 
 @end
