@@ -23,7 +23,10 @@
     [super viewDidLoad];
 	
 	//お気に入りを追加
+#if 1
     [LiveHouseTrait addTestLiveHouseTrait];
+#endif
+	
 	self.items = [LiveHouseTrait traitList];
 }
 
@@ -74,6 +77,10 @@
 	
 	//詳細view表示
 	LiveListViewController *instance = [[LiveListViewController alloc] initWithTrait:trait];
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+	backButton.title = @"一覧";
+	[self.navigationItem setBackBarButtonItem:backButton];
+	
 	[self.navigationController pushViewController:instance
 										 animated:YES];
     

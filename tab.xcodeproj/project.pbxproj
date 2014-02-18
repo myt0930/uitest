@@ -256,38 +256,38 @@
 		3534E31C18A4D7B300BFA91B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5C7E3FF218AF97E000AAC68B /* Base */,
+				35BAE30D18B357EF00DB2627 /* MainMenu */,
+				5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */,
+				5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */,
 				353198F218A2251C00EBBC82 /* CustomTableViewCell.h */,
 				353198F318A2251C00EBBC82 /* CustomTableViewCell.m */,
 				353198F418A2251C00EBBC82 /* CustomTableViewCell.xib */,
 				35318F1F18AB1CDB00602C70 /* DetailViewController.h */,
 				35318F2018AB1CDB00602C70 /* DetailViewController.m */,
 				35318F2118AB1CDB00602C70 /* DetailViewController.xib */,
+				35BAE30818B3522A00DB2627 /* LiveListViewController.h */,
+				35BAE30918B3522A00DB2627 /* LiveListViewController.m */,
+				35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */,
+				35318F2418AB24FF00602C70 /* TabBarController.h */,
+				35318F2518AB24FF00602C70 /* TabBarController.m */,
+				35318F2618AB24FF00602C70 /* TabBarController.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		35BAE30D18B357EF00DB2627 /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
 				5C7E3FEC18AF1BF600AAC68B /* FavViewController.h */,
 				5C7E3FED18AF1BF600AAC68B /* FavViewController.m */,
 				353198CD18A2147E00EBBC82 /* HomeViewController.h */,
 				353198CE18A2147E00EBBC82 /* HomeViewController.m */,
 				5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */,
 				5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */,
-				35BAE30818B3522A00DB2627 /* LiveListViewController.h */,
-				35BAE30918B3522A00DB2627 /* LiveListViewController.m */,
-				35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */,
 				353198D018A2147E00EBBC82 /* SearchViewController.h */,
 				353198D118A2147E00EBBC82 /* SearchViewController.m */,
 			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		5C7E3FF218AF97E000AAC68B /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */,
-				5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */,
-				35318F2418AB24FF00602C70 /* TabBarController.h */,
-				35318F2518AB24FF00602C70 /* TabBarController.m */,
-				35318F2618AB24FF00602C70 /* TabBarController.xib */,
-			);
-			name = Base;
+			name = MainMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
