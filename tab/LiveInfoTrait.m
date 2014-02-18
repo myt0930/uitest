@@ -406,7 +406,7 @@ static NSMutableArray* traitList;
 											  liveDate:[NSString stringWithFormat:@"%d", date++]
 												 subNo:1
 											eventTitle:@"カンノテルヒロ×相良×Motion共同企画弾き語りイベン ト「弾くか死ぬか」"
-												   act:@"相良 (from ALTRA&CRYOGENIC) / 菅野旭洋 (from The chord) / 太田哲宇 (from RENTAL HOPE) / 太田美音 (from microcosm) / アオキ (from you made my day) / 石井優也 (from MAGI SCENE ) / Ayumi melody (from A Month of Sundays ) / 平野太樹 (from room12) / 中村コロ助（from fifi） /	 世界のあーちゃん（from きのこ帝国）"
+												   act:@"相良 (from ALTRA&CRYOGENIC) / 菅野旭洋 (from The chord) / 太田哲宇 (from RENTAL HOPE) / 太田美音 (from microcosm) / アオキ (from you made my day) / 石井優也 (from MAGI SCENE ) / Ayumi melody (from A Month of Sundays ) / 平野太樹 (from room12) / 中村コロ助（from fifi）/ 世界のあーちゃん（from きのこ帝国）"
 											  openTime:@"18:00"
 											 startTime:@"18:30"
 										 advanceTicket:2000
@@ -440,27 +440,27 @@ static NSMutableArray* traitList;
 												 subNo:1
 											eventTitle:@"New Creation"
 												   act:@"・クリストファー・マグワイアのコピバン\n"
-														 "サダトシトモヤ (Slumberland)"
-														 "キノシタナオヤ (Dots Dash/サーティーン)"
-														 "マツイヒロキ (ポテコムジン/SATISFACTIONS)"
-														 "そとかわたかこ (ex.the banca)"
+														 "サダトシトモヤ (Slumberland)/"
+														 "キノシタナオヤ (Dots Dash・サーティーン)/"
+														 "マツイヒロキ (ポテコムジン・SATISFACTIONS)/"
+														 "そとかわたかこ (ex.the banca)//"
 														 
-														 "・トースタンコース"
-														 "モデストロイ (modestroy)"
-														 "えらめぐみ (股下89/Dots dash)"
-														 "和田ハマー翔太 (modestroy)"
+														 "・トースタンコース/"
+														 "モデストロイ (modestroy)/"
+														 "えらめぐみ (股下89・Dots dash)/"
+														 "和田ハマー翔太 (modestroy)//"
 														 
-														 "・鈴木バンド"
-														 "スズキヨウスケ (she might be swimmer)"
-														 "ミヤジマ (ex.she might be swimmer)"
-														 "赤羽 (told)"
+														 "・鈴木バンド/"
+														 "スズキヨウスケ (she might be swimmer)/"
+														 "ミヤジマ (ex.she might be swimmer)/"
+														 "赤羽 (told)//"
 														 
-														 "・Dots Dash"
+														 "・Dots Dash//"
 														 
-														 "・帝国の逆襲"
-														 "アンドレ (狂気/SATISFACTIONS)"
-														 "Ikuko (Merpeoples)"
-														 "シン・マスナガ (シガレットケース・科楽特奏隊)"
+														 "・帝国の逆襲/"
+														 "アンドレ (狂気・SATISFACTIONS)/"
+														 "Ikuko (Merpeoples)/"
+														 "シン・マスナガ (シガレットケース・科楽特奏隊)//"
 											  openTime:@"18:00"
 											 startTime:@"18:30"
 										 advanceTicket:2000

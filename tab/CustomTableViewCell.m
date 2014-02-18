@@ -86,7 +86,8 @@ static int dateCount = 1;
 	_act.frame		= CGRectMake(LABEL_X_POS, 45,	290-LABEL_X_POS, 30);
 	
 	NSArray* placeList		= @[@"新宿Motion"];
-	_date.text				= [NSString stringWithFormat:@"%d", dateCount++];
+	NSString *sub = [trait.liveDate substringWithRange:NSMakeRange([trait.liveDate length] - 2, 2)];
+	_date.text				= [NSString stringWithFormat:@"%d", [sub intValue]];
 	
 	int a = arc4random() % 3;
 	switch (a) {

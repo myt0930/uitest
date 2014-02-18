@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 #import "CustomTableViewCell.h"
 #import "Common.h"
+#import "DetailViewController.h"
 
 @implementation BaseViewController
 
@@ -62,16 +63,24 @@
     return cell;
 }
 
-
 // =============================================================================
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return CELL_HEIGHT;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	LiveInfoTrait *trait = self.items[indexPath.row];
+	
+	//詳細view表示
+	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait];
+	[self.navigationController pushViewController:instance
+										 animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

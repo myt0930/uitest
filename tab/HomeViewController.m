@@ -20,34 +20,15 @@
 	
 	[LiveInfoTrait addTestLiveInfo];
 	self.items = [LiveInfoTrait traitList];
+	
+	//タイトル設定
+	self.navigationItem.title = @"2014/02/18 (Tue)";
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-// =============================================================================
-#pragma mark - BaseViewController
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    LiveInfoTrait *trait = self.items[indexPath.row];
-    NSString *className = [@"Detail" stringByAppendingString:@"ViewController"];
-    
-    if (NSClassFromString(className)) {
-		
-        id instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait];
-        
-        if ([instance isKindOfClass:[UIViewController class]]) {
-            
-            [(UIViewController *)instance setTitle:trait.liveDate];
-            [self.navigationController pushViewController:(UIViewController *)instance
-                                                 animated:YES];
-        }
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -24,6 +24,15 @@
 + (id)tlsAttributedStringWithString:(NSString *)string lineSpace:(float)lineSpace
 {
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	
+	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
+	{
+		lineSpace -= 2.0f;
+		if( lineSpace < 0 )
+		{
+			lineSpace = 0;
+		}
+	}
     paragraphStyle.lineSpacing = lineSpace;
 	paragraphStyle.alignment = NSTextAlignmentLeft;
 	paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
