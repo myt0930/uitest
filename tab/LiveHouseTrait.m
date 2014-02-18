@@ -23,6 +23,11 @@ static NSMutableArray* traitList;
 	[traitList removeAllObjects];
 }
 
++(NSArray *)traitList
+{
+	return traitList;
+}
+
 + (void)loadMast:(LoadData*)data
 {
 	//ライブ一覧をクリア
@@ -61,5 +66,34 @@ static NSMutableArray* traitList;
 		_name			= name;
 	}
 	return self;
+}
+
++ (void)addTestLiveHouseTrait
+{
+	LiveHouseTrait *trait = nil;
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:1 name:@"新宿Motion"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:2 name:@"秋葉原GOODMAN"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:3 name:@"下北沢BASEMENT BAR"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:4 name:@"下北沢THREE"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:5 name:@"下北沢DAISY BAR"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:6 name:@"下北沢SHELTER"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:7 name:@"下北沢QUE"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:8 name:@"下北沢251"];
+	[traitList addObject:trait];
 }
 @end

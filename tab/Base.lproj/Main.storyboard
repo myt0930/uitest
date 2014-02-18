@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qh2-T1-AhA" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1303" y="-240"/>
+            <point key="canvasLocation" x="1292" y="-256"/>
         </scene>
         <!--Live House View Controller - LiveHouse-->
         <scene sceneID="cD6-aE-bvT">
@@ -35,7 +35,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="jZc-Kk-fhj"/>
+                    <navigationItem key="navigationItem" title="ライブハウス一覧" id="jZc-Kk-fhj"/>
                     <connections>
                         <outlet property="tableView" destination="EHy-o3-rkm" id="PR9-Jd-kdO"/>
                     </connections>
@@ -84,7 +84,7 @@
             </objects>
             <point key="canvasLocation" x="1303" y="512"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - 設定-->
         <scene sceneID="qxO-VC-tIW">
             <objects>
                 <viewController id="j9p-cY-8cF" sceneMemberID="viewController">
@@ -97,7 +97,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="BAe-W3-j30"/>
+                    <navigationItem key="navigationItem" title="設定" id="BAe-W3-j30"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ika-gX-Nzm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -193,7 +193,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="tKO-US-UYQ"/>
+                    <navigationItem key="navigationItem" title="お気に入り" id="tKO-US-UYQ"/>
                     <connections>
                         <outlet property="tableView" destination="4fW-fH-fwF" id="h3R-bx-fWK"/>
                     </connections>

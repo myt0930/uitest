@@ -15,8 +15,11 @@
 @property NSString	*name;
 @property NSString  *info;
 
++(NSArray *)traitList;
 +(void)loadMast:(LoadData *)data;
 +(NSString *)liveHouseName:(int)liveHouseNo;
 
 - (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name;
+
++ (void)addTestLiveHouseTrait;
 @end
