@@ -9,6 +9,7 @@
 #import "DetailViewController.h"
 #import "Common.h"
 #import "LiveInfoTrait.h"
+#import "SettingData.h"
 
 @interface DetailViewController ()
 
@@ -129,12 +130,28 @@
     
 	[_scrollView setContentSize:CGSizeMake(_childView.bounds.size.width, labelHeight)];
 	NSLog(@" viewDidLoad %@",NSStringFromCGRect(self.scrollView.frame));
+    
+    //スイッチの変更を通知
+    [_favSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    _favSwitch.on = [[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)switchChanged:(UISwitch*)uiSwitch{
+    if( uiSwitch.on )
+    {
+        [[SettingData instance] addFavoriteUniqueId:_liveTrait.uniqueID];
+    }
+    else
+    {
+        [[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
+    }
 }
 
 @end

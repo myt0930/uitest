@@ -8,6 +8,7 @@
 
 #import "FavViewController.h"
 #import "LiveInfoTrait.h"
+#import "SettingData.h"
 
 @interface FavViewController ()
 
@@ -18,10 +19,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	//お気に入りを追加
-    [LiveInfoTrait addTestLiveInfo];
-	self.items = [LiveInfoTrait traitList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -30,4 +27,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadFavItems
+{
+    NSMutableArray *favArray = [NSMutableArray array];
+    NSArray *saveUniqueIdArray = [SettingData instance].favoriteLiveArray;
+    for( NSString *uniqueId in saveUniqueIdArray )
+    {
+        const LiveInfoTrait *trait = [LiveInfoTrait traitOfUniqueID:uniqueId];
+        if( trait )
+        {
+            [favArray addObject:trait];
+        }
+    }
+	self.items = favArray;
+    [self.tableView reloadData];
+}
+
+#pragma mark - MyTabBarControllerDelegate
+- (void) didSelect:(TabBarController *)tabBarController {
+    [self reloadFavItems];
+}
 @end

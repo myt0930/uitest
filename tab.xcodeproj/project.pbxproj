@@ -51,6 +51,7 @@
 		5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */; };
 		5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FED18AF1BF600AAC68B /* FavViewController.m */; };
 		5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */; };
+		5CBD701A18B502440078C409 /* SettingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD701918B502440078C409 /* SettingData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,8 @@
 		5C7E3FED18AF1BF600AAC68B /* FavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavViewController.m; sourceTree = "<group>"; };
 		5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseViewController.h; sourceTree = "<group>"; };
 		5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseViewController.m; sourceTree = "<group>"; };
+		5CBD701818B502440078C409 /* SettingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingData.h; sourceTree = "<group>"; };
+		5CBD701918B502440078C409 /* SettingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +193,8 @@
 				353198C818A2147E00EBBC82 /* AppDelegate.m */,
 				353198F018A2251C00EBBC82 /* Common.h */,
 				353198F118A2251C00EBBC82 /* Common.m */,
+				5CBD701818B502440078C409 /* SettingData.h */,
+				5CBD701918B502440078C409 /* SettingData.m */,
 				353198D318A2147E00EBBC82 /* Images.xcassets */,
 				353198F718A2251C00EBBC82 /* LoadData.h */,
 				353198F818A2251C00EBBC82 /* LoadData.m */,
@@ -338,7 +343,7 @@
 				ORGANIZATIONNAME = "MIYATA Wataru";
 				TargetAttributes = {
 					353198B418A2147E00EBBC82 = {
-						DevelopmentTeam = V859Q9B43N;
+						DevelopmentTeam = 7ATEHMWAS4;
 					};
 					353198D818A2147E00EBBC82 = {
 						TestTargetID = 353198B418A2147E00EBBC82;
@@ -408,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CBD701A18B502440078C409 /* SettingData.m in Sources */,
 				3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */,
 				5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */,
 				353198D218A2147E00EBBC82 /* SearchViewController.m in Sources */,

@@ -7,12 +7,13 @@
 //
 
 #import "AppDelegate.h"
-
+#import "SettingData.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    //お気に入りをロード
+    [[SettingData instance] loadData];
     return YES;
 }
 							

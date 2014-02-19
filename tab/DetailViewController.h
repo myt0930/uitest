@@ -13,6 +13,7 @@
 @interface DetailViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *childView;
+@property (weak, nonatomic) IBOutlet UISwitch *favSwitch;
 @property const LiveInfoTrait *liveTrait;
 
 @property IBOutlet UILabel *date;

@@ -69,7 +69,7 @@ static NSMutableArray* traitList;
 	return nil;
 }
 
-+(id)traitIfUniqueID:(NSString *)uniqueID
++(id)traitOfUniqueID:(NSString *)uniqueID
 {
 	for( LiveInfoTrait *trait in traitList )
 	{
