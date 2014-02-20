@@ -16,6 +16,8 @@
 #define PLACE_COLOR			MAKE_UICOLOR(238,101,87,1)
 #define TITLE_COLOR			MAKE_UICOLOR(22,166,182,1)
 #define ACT_COLOR			MAKE_UICOLOR(24,24,24,1)
+#define FAV_COLOR			MAKE_UICOLOR(255,133,28,1)
+#define FAV_DISABLE_COLOR	MAKE_UICOLOR(200,200,200,1)
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)

@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIView *childView;
 @property (weak, nonatomic) IBOutlet UISwitch *favSwitch;
 @property const LiveInfoTrait *liveTrait;
+@property IBOutlet UIImageView *favImageView;
 
 @property IBOutlet UILabel *date;
 @property IBOutlet UILabel *place;

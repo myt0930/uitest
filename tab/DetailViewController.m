@@ -131,16 +131,17 @@
 	}
     
 	[_scrollView setContentSize:CGSizeMake(_childView.bounds.size.width, labelHeight)];
-	NSLog(@" viewDidLoad %@",NSStringFromCGRect(self.scrollView.frame));
-    
-    //スイッチの変更を通知
-    [_favSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    _favSwitch.on = [[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID];
 	
-	UIImage *image = [UIImage imageNamed:@"star_64_f5f5f5.png" withColor:TITLE_COLOR drawAsOverlay:NO];
-	UIImageView *view = [[UIImageView alloc] initWithImage:image];
-	[_scrollView addSubview:view];
+	//スター画像
+	{
+		_favImageView		= [[UIImageView alloc] initWithFrame:CGRectMake(320 - 48, 10, 24, 24)];
+		_favImageView.image = [self favoriteUIImage:[[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID]];
+		_favImageView.userInteractionEnabled = YES;
+		
+		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapFavorite:)];
+		[_favImageView addGestureRecognizer:tapGesture];
+		[_scrollView addSubview:_favImageView];
+	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,20 +159,6 @@
     {
         [[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
     }
-}
-
-- (UIImage *)imageWithColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
 }
 
 - (void)screenShot
@@ -212,6 +199,27 @@
 										  cancelButtonTitle: @"OK"
 										  otherButtonTitles: nil];	//twitterへ投稿ボタンをつける
 	[alert show];
+}
+										  
+- (void)onTapFavorite:(UITapGestureRecognizer *)tapGesture
+{
+	if( [[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID] )
+	{
+		[[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
+		_favImageView.image = [self favoriteUIImage:NO];
+	}
+	else
+	{
+		[[SettingData instance] addFavoriteUniqueId:_liveTrait.uniqueID];
+		_favImageView.image = [self favoriteUIImage:YES];
+	}
+}
+
+- (UIImage *)favoriteUIImage:(BOOL)isFavorite
+{
+	return [UIImage imageNamed:@"star_64_f5f5f5.png"
+					 withColor:isFavorite ? FAV_COLOR : FAV_DISABLE_COLOR
+				 drawAsOverlay:NO];
 }
 
 @end
