@@ -135,6 +135,10 @@
     [_favSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     
     _favSwitch.on = [[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID];
+	
+	UIImage *image = [UIImage imageNamed:@"star_64_f5f5f5.png" withColor:TITLE_COLOR drawAsOverlay:NO];
+	UIImageView *view = [[UIImageView alloc] initWithImage:image];
+	[_scrollView addSubview:view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -152,6 +156,20 @@
     {
         [[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
     }
+}
+
+- (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 @end

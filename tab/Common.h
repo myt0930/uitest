@@ -32,3 +32,7 @@
 @interface NSAttributedString(Ex)
 + (id)tlsAttributedStringWithString:(NSString *)string lineSpace:(float)lineSpace;
 @end
+
+@interface UIImage(Color)
++ (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color drawAsOverlay:(BOOL)overlay;
+@end
