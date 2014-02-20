@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 MIYATA Wataru. All rights reserved.
 //
 
+#import <CoreGraphics/CoreGraphics.h>
+#import <QuartzCore/QuartzCore.h>
 #import "DetailViewController.h"
 #import "Common.h"
 #import "LiveInfoTrait.h"
@@ -170,6 +172,46 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
+- (void)screenShot
+{
+	// キャプチャ対象をWindowに設定
+	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+	
+	// キャプチャ画像を描画する対象を生成
+	UIGraphicsBeginImageContextWithOptions(window.bounds.size, NO, 0.0f);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	// Windowの現在の表示内容を１つずつ描画
+	for (UIWindow *aWindow in [[UIApplication sharedApplication] windows]) {
+		[aWindow.layer renderInContext:context];
+	}
+	
+	// 描画した内容をUIImageとして受け取り
+	UIImage *capturedImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	// 描画を終了
+	UIGraphicsEndImageContext();
+	
+	//画像保存完了時のセレクタ指定
+	SEL selector = @selector(onCompleteCapture:didFinishSavingWithError:contextInfo:);
+	//画像を保存する
+	UIImageWriteToSavedPhotosAlbum(capturedImage, self, selector, NULL);
+}
+
+//画像保存完了時のセレクタ
+- (void)onCompleteCapture:(UIImage *)screenImage
+ didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+	NSString *message = @"画像を保存しました";
+	if (error) message = @"画像の保存に失敗しました";
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+													message: message
+												   delegate: nil
+										  cancelButtonTitle: @"OK"
+										  otherButtonTitles: nil];	//twitterへ投稿ボタンをつける
+	[alert show];
 }
 
 @end
