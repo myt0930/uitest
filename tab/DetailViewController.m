@@ -12,6 +12,7 @@
 #import "Common.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
+#import "BaseViewController.h"
 
 @interface DetailViewController ()
 
@@ -19,11 +20,12 @@
 
 @implementation DetailViewController
 
-- (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait
+- (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait baseController:(BaseViewController *)baseController
 {
     if( (self = [super init]) )
     {
         _liveTrait = trait;
+		_baseController = baseController;
 		[self setTitle:@"2014/02/18 (Wed)"];
     }
     return self;
@@ -134,13 +136,17 @@
 	
 	//スター画像
 	{
-		_favImageView		= [[UIImageView alloc] initWithFrame:CGRectMake(320 - 48, 10, 24, 24)];
-		_favImageView.image = [self favoriteUIImage:[[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID]];
-		_favImageView.userInteractionEnabled = YES;
+		_favBaseView		= [[UIView alloc] initWithFrame:CGRectMake(260, 0, 60, 60)];
+		[_scrollView addSubview:_favBaseView];
 		
 		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapFavorite:)];
-		[_favImageView addGestureRecognizer:tapGesture];
-		[_scrollView addSubview:_favImageView];
+		_favBaseView.userInteractionEnabled = YES;
+		[_favBaseView addGestureRecognizer:tapGesture];
+		
+		_favImageView		= [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 24, 24)];
+		_favImageView.image = [self favoriteUIImage:[[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID]];
+		
+		[_favBaseView addSubview:_favImageView];
 	}
 }
 
@@ -213,6 +219,9 @@
 		[[SettingData instance] addFavoriteUniqueId:_liveTrait.uniqueID];
 		_favImageView.image = [self favoriteUIImage:YES];
 	}
+	
+	//呼び出し元のテーブル表示をリロード
+	[_baseController reloadTable];
 }
 
 - (UIImage *)favoriteUIImage:(BOOL)isFavorite

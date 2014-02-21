@@ -30,6 +30,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadTable
+{
+	[_tableView reloadData];
+}
+
 // =============================================================================
 #pragma mark - UITableViewDataSource
 
@@ -76,7 +81,7 @@
 	LiveInfoTrait *trait = self.items[indexPath.row];
 	
 	//詳細view表示
-	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait];
+	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait baseController:self];
 	[self.navigationController pushViewController:instance
 										 animated:YES];
     
@@ -92,5 +97,8 @@
 - (void) didSelect:(TabBarController *)tabBarController {
     NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
 	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:NO];
+	[_tableView reloadData];
 }
+
+
 @end

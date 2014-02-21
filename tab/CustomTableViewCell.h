@@ -18,6 +18,7 @@
 @property IBOutlet UILabel *act;
 @property IBOutlet UILabel *date;
 @property IBOutlet UILabel *day;
+@property IBOutlet UIImageView *favImageView;
 
 - (void)setTextWithTrait:(const LiveInfoTrait *)trait;
 @end

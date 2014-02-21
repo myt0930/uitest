@@ -12,4 +12,6 @@
 @interface BaseViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,MyTabBarControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, readwrite) NSArray *items;
+
+- (void)reloadTable;
 @end

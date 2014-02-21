@@ -9,6 +9,7 @@
 #import "CustomTableViewCell.h"
 #import "LiveInfoTrait.h"
 #import "Common.h"
+#import "SettingData.h"
 
 #define LABEL_X_POS 30
 
@@ -64,6 +65,14 @@
 		_act.backgroundColor	= BACKGROUND_COLOR;
 		[self.contentView addSubview:_act];
 	}
+	
+	{
+		_favImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_64_f5f5f5.png"
+																	withColor:FAV_COLOR
+																 drawAsOverlay:NO]];
+		_favImageView.frame = SYSTEM_VERSION_LESS_THAN(@"7.0") ? CGRectMake(320-22, 7, 12, 12) : CGRectMake(320-26, 7, 12, 12);
+		[self.contentView addSubview:_favImageView];
+	}
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -84,6 +93,8 @@ static int dateCount = 1;
 	_place.frame	= CGRectMake(LABEL_X_POS, 5,	290-LABEL_X_POS, 12);
 	_title.frame	= CGRectMake(LABEL_X_POS, 20,	290-LABEL_X_POS, 30);
 	_act.frame		= CGRectMake(LABEL_X_POS, 45,	290-LABEL_X_POS, 30);
+	
+	_favImageView.hidden = ![[SettingData instance] isContainsFavoriteUniqueId:trait.uniqueID];
 	
 	NSArray* placeList		= @[@"新宿Motion"];
 	NSString *sub = [trait.liveDate substringWithRange:NSMakeRange([trait.liveDate length] - 2, 2)];

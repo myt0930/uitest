@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class LiveInfoTrait;
+@class BaseViewController;
 
 @interface DetailViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *childView;
-@property (weak, nonatomic) IBOutlet UISwitch *favSwitch;
-@property const LiveInfoTrait *liveTrait;
-@property IBOutlet UIImageView *favImageView;
-
+@property const LiveInfoTrait	*liveTrait;
+@property IBOutlet UIView		*favBaseView;
+@property IBOutlet UIImageView	*favImageView;
 @property IBOutlet UILabel *date;
 @property IBOutlet UILabel *place;
 @property IBOutlet UILabel *eventTitle;
@@ -24,7 +24,8 @@
 @property IBOutlet UILabel *ticket;
 @property IBOutlet UILabel *startTime;
 @property IBOutlet UILabel *liveHouseInfo;
+@property BaseViewController *baseController;
 
-- (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait;
+- (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait baseController:(BaseViewController *)baseController;
 
 @end
