@@ -20,11 +20,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	_sectionArray = @[@"2014/02",@"2014/03"];
-
-	NSArray *datas = [NSArray arrayWithObjects:self.items, self.items, nil];
-	_dataSource = [NSDictionary dictionaryWithObjects:datas forKeys:_sectionArray];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,6 +42,11 @@
     }
 	self.items = favArray;
     [self.tableView reloadData];
+	
+	_sectionArray = @[@"2014/02",@"2014/03"];
+	
+	NSArray *datas = [NSArray arrayWithObjects:self.items, self.items, nil];
+	_dataSource = [NSDictionary dictionaryWithObjects:datas forKeys:_sectionArray];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -77,12 +77,14 @@
     // セクション名をキーにしてそのセクションの項目をすべて取得
     NSArray *items = [_dataSource objectForKey:sectionName];
 	LiveInfoTrait *trait = [items objectAtIndex:indexPath.row];
+
 	[cell setTextWithTrait:trait];
 	return cell;
 }
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
+	[super didSelect:tabBarController];
     [self reloadFavItems];
 }
 @end

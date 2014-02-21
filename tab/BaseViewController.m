@@ -96,7 +96,7 @@
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
     NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
-	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:NO];
+	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:YES];
 	[_tableView reloadData];
 }
 

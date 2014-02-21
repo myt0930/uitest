@@ -39,7 +39,7 @@
 	_scrollView.delegate = self;
 	_childView.backgroundColor = BACKGROUND_COLOR;
     
-    float labelHeight = _place.frame.origin.y;
+    float labelHeight = _place.frame.origin.y + 5;
 
     //会場名
 	{
@@ -143,7 +143,7 @@
 		_favBaseView.userInteractionEnabled = YES;
 		[_favBaseView addGestureRecognizer:tapGesture];
 		
-		_favImageView		= [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 24, 24)];
+		_favImageView		= [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 24, 24)];
 		_favImageView.image = [self favoriteUIImage:[[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID]];
 		
 		[_favBaseView addSubview:_favImageView];
