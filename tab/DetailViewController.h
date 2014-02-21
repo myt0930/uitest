@@ -27,5 +27,4 @@
 @property BaseViewController *baseController;
 
 - (id)initWithLiveInfoTrait:(const LiveInfoTrait*)trait baseController:(BaseViewController *)baseController;
-
 @end

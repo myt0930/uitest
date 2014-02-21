@@ -148,6 +148,15 @@
 		
 		[_favBaseView addSubview:_favImageView];
 	}
+	
+	//ナビゲーションバー
+	{
+		UIBarButtonItem *btn = [[UIBarButtonItem alloc]
+								initWithBarButtonSystemItem:UIBarButtonSystemItemCamera
+								target:self
+								action:@selector(screenShot:)];
+		self.navigationItem.rightBarButtonItem = btn;
+	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -167,7 +176,7 @@
     }
 }
 
-- (void)screenShot
+- (void)screenShot:(UIBarButtonItem*)barButtonItem
 {
 	// キャプチャ対象をWindowに設定
 	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -197,14 +206,24 @@
 - (void)onCompleteCapture:(UIImage *)screenImage
  didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-	NSString *message = @"画像を保存しました";
-	if (error) message = @"画像の保存に失敗しました";
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
-													message: message
-												   delegate: nil
-										  cancelButtonTitle: @"OK"
-										  otherButtonTitles: nil];	//twitterへ投稿ボタンをつける
-	[alert show];
+	if (error)
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: nil
+														message: @"画像の保存に失敗しました"
+													   delegate: nil
+											  cancelButtonTitle: @"閉じる"
+											  otherButtonTitles: nil];
+		[alert show];
+	}
+	else
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: nil
+														message: @"画像を保存しました。\n画像を添付してtwitterに投稿することが出来ます。\n投稿画面を表示しますか？"
+													   delegate: nil
+											  cancelButtonTitle: @"いいえ"
+											  otherButtonTitles: @"はい", nil];
+		[alert show];
+	}
 }
 										  
 - (void)onTapFavorite:(UITapGestureRecognizer *)tapGesture
