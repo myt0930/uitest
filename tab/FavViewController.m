@@ -10,6 +10,7 @@
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
 #import "CustomTableViewCell.h"
+#import "Common.h"
 
 @interface FavViewController ()
 
@@ -47,6 +48,7 @@
 	
 	NSArray *datas = [NSArray arrayWithObjects:self.items, self.items, nil];
 	_dataSource = [NSDictionary dictionaryWithObjects:datas forKeys:_sectionArray];
+	
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,6 +59,30 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return [_sectionArray objectAtIndex:section];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *sectionView = [[UIView alloc] init];
+        
+	// UIView を戻り値にて返すとセクションに反映される。
+	sectionView.backgroundColor = LIST_SECTION_COLOR;
+	sectionView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 20.0f);
+	
+	// UIView にラベルを追加する。
+	UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 20.0f)];
+	// テキストの色を変更したり・・・
+	sectionLabel.textColor = ACT_COLOR;
+	// 背景の色を変更したり・・・
+	sectionLabel.text = _sectionArray[section];
+	// フォント変更ももちろん可能
+	sectionLabel.font = [UIFont systemFontOfSize:14];
+	// シャドウカラーを設定することももちろんできます。
+	// ビューにセットして
+	[sectionView addSubview:sectionLabel];
+	// ビューを戻り値で返すとセクションに反映されます。
+
+    return sectionView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

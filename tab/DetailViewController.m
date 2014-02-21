@@ -165,17 +165,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)switchChanged:(UISwitch*)uiSwitch{
-    if( uiSwitch.on )
-    {
-        [[SettingData instance] addFavoriteUniqueId:_liveTrait.uniqueID];
-    }
-    else
-    {
-        [[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
-    }
-}
-
 - (void)screenShot:(UIBarButtonItem*)barButtonItem
 {
 	// キャプチャ対象をWindowに設定
@@ -228,7 +217,7 @@
 										  
 - (void)onTapFavorite:(UITapGestureRecognizer *)tapGesture
 {
-	if( [[SettingData instance] isContainsFavoriteUniqueId:_liveTrait.uniqueID] )
+	if( [_liveTrait isFavorite] )
 	{
 		[[SettingData instance] removeFavoriteUniqueId:_liveTrait.uniqueID];
 		_favImageView.image = [self favoriteUIImage:NO];

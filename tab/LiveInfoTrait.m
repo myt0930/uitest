@@ -8,6 +8,7 @@
 
 #import "LiveInfoTrait.h"
 #import "LoadData.h"
+#import "SettingData.h"
 
 static NSMutableArray* traitList;
 
@@ -137,6 +138,11 @@ static NSMutableArray* traitList;
 		_uniqueID		= [NSString stringWithFormat:@"%d%@%d", _liveHouseNo, _liveDate, _subNo];
 	}
 	return self;
+}
+
+- (BOOL)isFavorite
+{
+	return [[SettingData instance] isContainsFavoriteUniqueId:_uniqueID];
 }
 
 

@@ -32,4 +32,6 @@
 
 //debug method
 +(void)addTestLiveInfo;
+
+- (BOOL)isFavorite;
 @end
