@@ -11,21 +11,24 @@
 #import "LiveInfoTrait.h"
 #import "TabBarController.h"
 #import "DetailViewController.h"
+#import "Common.h"
 
 @implementation SearchViewController
-
 - (void)viewDidLoad
 {
-//    _searchController.displaysSearchBarInNavigationBar = YES;
     [super viewDidLoad];
-	
-    
+
+	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
+	{
+		self.tableView.tableHeaderView = _searchBar;
+	}
+	else
+	{
+		_searchController.displaysSearchBarInNavigationBar = YES;
+	}
     _searchItems = [NSMutableArray array];
     
 	[LiveInfoTrait addTestLiveInfo];
-	
-	//テーブルの戦闘に検索バーを配置
-	self.tableView.tableHeaderView = _searchBar;
 }
 
 - (void)didReceiveMemoryWarning
