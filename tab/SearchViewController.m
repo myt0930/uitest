@@ -17,7 +17,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
 	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
 	{
 		self.tableView.tableHeaderView = _searchBar;

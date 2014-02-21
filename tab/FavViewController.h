@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface FavViewController : BaseViewController
-
+@property NSArray *sectionArray;
+@property NSDictionary *dataSource;
 @end

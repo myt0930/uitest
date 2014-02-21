@@ -9,6 +9,7 @@
 #import "FavViewController.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
+#import "CustomTableViewCell.h"
 
 @interface FavViewController ()
 
@@ -19,6 +20,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	_sectionArray = @[@"2014/02",@"2014/03"];
+
+	NSArray *datas = [NSArray arrayWithObjects:self.items, self.items, nil];
+	_dataSource = [NSDictionary dictionaryWithObjects:datas forKeys:_sectionArray];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,6 +47,38 @@
     }
 	self.items = favArray;
     [self.tableView reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [_sectionArray count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [_sectionArray objectAtIndex:section];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"customCell";
+    
+    CustomTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        
+        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+										  reuseIdentifier:CellIdentifier];
+        
+        
+    }
+	NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
+	
+    // セクション名をキーにしてそのセクションの項目をすべて取得
+    NSArray *items = [_dataSource objectForKey:sectionName];
+	LiveInfoTrait *trait = [items objectAtIndex:indexPath.row];
+	[cell setTextWithTrait:trait];
+	return cell;
 }
 
 #pragma mark - MyTabBarControllerDelegate
