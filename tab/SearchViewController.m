@@ -34,6 +34,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadTable
+{
+	[_searchController.searchResultsTableView reloadData];
+}
+
+
 #pragma mark UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -54,11 +60,8 @@
     CustomTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        
         cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
 										  reuseIdentifier:CellIdentifier];
-        
-        
     }
     
     if(tableView == self.searchDisplayController.searchResultsTableView)
@@ -98,6 +101,19 @@
     }
     
     return ret; 
+}
+
+// =============================================================================
+#pragma mark - BaseViewController
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	LiveInfoTrait *trait = _searchItems[indexPath.row];
+	
+	//詳細view表示
+	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait baseController:self];
+	[self.navigationController pushViewController:instance
+										 animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - MyTabBarControllerDelegate
