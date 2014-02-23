@@ -108,7 +108,8 @@
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
-	[super didSelect:tabBarController];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    [self.tableView reloadData];
     [self reloadFavItems];
 }
 @end
