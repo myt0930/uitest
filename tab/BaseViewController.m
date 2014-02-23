@@ -22,6 +22,10 @@
 	
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+	backButton.title = @"Back";
+	[self.navigationItem setBackBarButtonItem:backButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,6 +99,8 @@
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    
     NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
 	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:YES];
 	[_tableView reloadData];

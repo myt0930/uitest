@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 MIYATA Wataru. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "FavViewController.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
@@ -63,26 +64,22 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
+    if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
+    {
+        // iOS7.0より前の端末ではデフォルトのセクションを表示
+        return nil;
+    }
+    
     UIView *sectionView = [[UIView alloc] init];
-        
-	// UIView を戻り値にて返すとセクションに反映される。
-	sectionView.backgroundColor = LIST_SECTION_COLOR;
+	sectionView.backgroundColor = ACT_COLOR;
 	sectionView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 20.0f);
 	
-	// UIView にラベルを追加する。
 	UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 20.0f)];
-	// テキストの色を変更したり・・・
-	sectionLabel.textColor = ACT_COLOR;
-	sectionLabel.backgroundColor = LIST_SECTION_COLOR;
-	// 背景の色を変更したり・・・
+	sectionLabel.textColor = BACKGROUND_COLOR;
+	sectionLabel.backgroundColor = ACT_COLOR;
 	sectionLabel.text = _sectionArray[section];
-	// フォント変更ももちろん可能
-	sectionLabel.font =  MAKE_HIRAGINO_FONT(14);
-	// シャドウカラーを設定することももちろんできます。
-	// ビューにセットして
+	sectionLabel.font =  MAKE_HIRAGINO_BOLD_FONT(14);
 	[sectionView addSubview:sectionLabel];
-	// ビューを戻り値で返すとセクションに反映されます。
-
     return sectionView;
 }
 

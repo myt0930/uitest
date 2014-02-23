@@ -28,6 +28,10 @@
 #endif
 	
 	self.items = [LiveHouseTrait traitList];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+	backButton.title = @"Back";
+	[self.navigationItem setBackBarButtonItem:backButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,9 +81,6 @@
 	
 	//詳細view表示
 	LiveListViewController *instance = [[LiveListViewController alloc] initWithTrait:trait];
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
-	backButton.title = @"一覧";
-	[self.navigationItem setBackBarButtonItem:backButton];
 	
 	[self.navigationController pushViewController:instance
 										 animated:YES];

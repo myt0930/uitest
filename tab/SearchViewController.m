@@ -27,6 +27,9 @@
 		_searchController.displaysSearchBarInNavigationBar = YES;
 	}
     _searchItems = [NSMutableArray array];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+	backButton.title = @"Back";
+	[self.navigationItem setBackBarButtonItem:backButton];
     
 	[LiveInfoTrait addTestLiveInfo];
 }
