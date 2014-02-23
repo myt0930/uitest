@@ -19,12 +19,13 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
 #import "CKCalendarView.h"
+#import "Common.h"
 
 #define BUTTON_MARGIN 4
 #define CALENDAR_MARGIN 5
 #define TOP_HEIGHT 44
-#define DAYS_HEADER_HEIGHT 22
-#define DEFAULT_CELL_WIDTH 43
+#define DAYS_HEADER_HEIGHT 32
+#define DEFAULT_CELL_WIDTH 49
 #define CELL_BORDER_WIDTH 1
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -93,8 +94,8 @@
     self = [super init];
     if (self) {
         self.backgroundColor = UIColorFromRGB(0xF2F2F2);
-        self.selectedBackgroundColor = UIColorFromRGB(0x88B6DB);
-        self.textColor = UIColorFromRGB(0x393B40);
+        self.selectedBackgroundColor = BLUE_COLOR;
+        self.textColor = BLACK_COLOR;
         self.selectedTextColor = UIColorFromRGB(0xF2F2F2);
     }
     return self;
@@ -139,7 +140,7 @@
 
     self.cellWidth = DEFAULT_CELL_WIDTH;
 
-    self.dateFormatter = [[NSDateFormatter alloc] init];
+    self.dateFormatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
     [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.dateFormatter.dateFormat = @"LLLL yyyy";
 
@@ -199,6 +200,7 @@
         dayOfWeekLabel.backgroundColor = [UIColor clearColor];
         dayOfWeekLabel.shadowColor = [UIColor whiteColor];
         dayOfWeekLabel.shadowOffset = CGSizeMake(0, 1);
+
         [labels addObject:dayOfWeekLabel];
         [self.calendarContainer addSubview:dayOfWeekLabel];
     }
@@ -255,7 +257,10 @@
     CGFloat containerHeight = (numberOfWeeksToShow * (self.cellWidth + CELL_BORDER_WIDTH) + DAYS_HEADER_HEIGHT);
 
     CGRect newFrame = self.frame;
-    newFrame.origin.y = 80;
+    if( SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        newFrame.origin.y = 80;
+    }
     newFrame.size.height = containerHeight + CALENDAR_MARGIN + TOP_HEIGHT;
     self.frame = newFrame;
 
@@ -423,7 +428,7 @@
     [self setTitleFont:[UIFont boldSystemFontOfSize:17.0]];
 
     [self setDayOfWeekFont:[UIFont boldSystemFontOfSize:12.0]];
-    [self setDayOfWeekTextColor:UIColorFromRGB(0x999999)];
+    [self setDayOfWeekTextColor];
     [self setDayOfWeekBottomColor:UIColorFromRGB(0xCCCFD5) topColor:[UIColor whiteColor]];
 
     [self setDateFont:[UIFont boldSystemFontOfSize:16.0f]];
@@ -519,9 +524,13 @@
     return (self.dayOfWeekLabels.count > 0) ? ((UILabel *)[self.dayOfWeekLabels lastObject]).font : nil;
 }
 
-- (void)setDayOfWeekTextColor:(UIColor *)color {
-    for (UILabel *label in self.dayOfWeekLabels) {
-        label.textColor = color;
+- (void)setDayOfWeekTextColor {
+    for( int i = 0;i < self.dayOfWeekLabels.count;i++ )
+    {
+        UILabel *label = self.dayOfWeekLabels[i];
+        if( i == 5 )        label.textColor = BLUE_COLOR;
+        else if( i == 6 )   label.textColor = RED_COLOR;
+        else                label.textColor = BLACK_COLOR;
     }
 }
 - (UIColor *)dayOfWeekTextColor {

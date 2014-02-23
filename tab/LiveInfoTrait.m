@@ -9,6 +9,7 @@
 #import "LiveInfoTrait.h"
 #import "LoadData.h"
 #import "SettingData.h"
+#import "Common.h"
 
 static NSMutableArray* traitList;
 
@@ -136,6 +137,12 @@ static NSMutableArray* traitList;
 		_advanceTicket	= advanceTicket;
 		_todayTicket	= todayTicket;
 		_uniqueID		= [NSString stringWithFormat:@"%d%@%d", _liveHouseNo, _liveDate, _subNo];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
+        [formatter setDateFormat:@"yyyyMMdd"];
+        NSDate *date = [formatter dateFromString:_liveDate];
+        
+        _dayOfWeek      = [NSString stringWithDateFormat:@"E" date:date];
 	}
 	return self;
 }
@@ -148,7 +155,7 @@ static NSMutableArray* traitList;
 
 +(void)addTestLiveInfo
 {
-	int date = 20140101;
+	int date = 20140201;
 	
 	[traitList removeAllObjects];
 	

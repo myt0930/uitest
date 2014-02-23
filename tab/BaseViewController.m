@@ -94,7 +94,7 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.backgroundColor = BACKGROUND_COLOR;
+    cell.backgroundColor = WHITE_COLOR;
 }
 
 #pragma mark - MyTabBarControllerDelegate

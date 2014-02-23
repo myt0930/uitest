@@ -12,15 +12,16 @@
 
 @interface LiveInfoTrait : NSObject
 @property int		liveHouseNo;	//会場ID
-@property NSString *liveDate;		//日程
+@property NSString  *liveDate;		//日程
 @property int		subNo;			//サブNo
-@property NSString *eventTitle;		//タイトル
-@property NSString *act;			//出演者
-@property NSString *openTime;		//開場時間
-@property NSString *startTime;		//開始時間
+@property NSString  *eventTitle;		//タイトル
+@property NSString  *act;			//出演者
+@property NSString  *openTime;		//開場時間
+@property NSString  *startTime;		//開始時間
 @property int		advanceTicket;	//前売価格
 @property int		todayTicket;	//当日価格
-@property NSString *uniqueID;		//ユニークID
+@property NSString  *uniqueID;		//ユニークID
+@property NSString  *dayOfWeek;     //曜日
 
 +(void)loadMast:(LoadData *)data;
 

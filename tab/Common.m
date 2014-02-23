@@ -46,7 +46,7 @@
 }
 
 @end
-@implementation UIImage (Color)
+@implementation UIImage (Ex)
 
 + (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color drawAsOverlay:(BOOL)overlay{
     // load the image
@@ -81,5 +81,43 @@
     
     //return the color-burned image
     return coloredImg;
+}
+@end
+
+#pragma mark -
+@implementation NSString(Ex)
+//-<NHN>--------------------------------------------------------------------------------------------
+// Function : stringWithDateFormat: date:
+// Explain  : カレンダー設定が和暦でも正しくフォーマットしてNSStringを返す
+//--------------------------------------------------------------------------------------------<NHN>-
++ (NSString*)stringWithDateFormat:(NSString*)format timeZone:(NSTimeZone*)timeZone date:(NSDate*)date
+{
+	if( format == nil || date == nil ){ return @""; }
+    
+	NSDateFormatter* df = [[NSDateFormatter alloc] initWithGregorianCalendar];
+	[df setLocale:[NSLocale currentLocale]];
+	[df setTimeZone:timeZone];
+	df.dateFormat  = format;
+	NSString* str = [df stringFromDate:date];
+    
+	return str;
+}
++ (NSString*)stringWithDateFormat:(NSString*)format date:(NSDate*)date
+{
+	return [NSString stringWithDateFormat:format timeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"] date:date];
+}
+
+@end
+
+#pragma mark -
+@implementation NSDateFormatter(Ex)
+- (id)initWithGregorianCalendar
+{
+	if( self = [self init] )
+	{
+		NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+		[self setCalendar:calendar];
+	}
+	return self;
 }
 @end

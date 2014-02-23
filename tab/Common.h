@@ -12,10 +12,10 @@
 #define MAKE_HIRAGINO_BOLD_FONT(x) [UIFont fontWithName:@"HiraKakuProN-W6"size:x]
 #define MAKE_UICOLOR(r,g,b,a) [UIColor colorWithRed:r/255. green:g/255. blue:b/255. alpha:a]
 
-#define BACKGROUND_COLOR	MAKE_UICOLOR(245, 245, 245, 1)
-#define PLACE_COLOR			MAKE_UICOLOR(238,101,87,1)
-#define TITLE_COLOR			MAKE_UICOLOR(22,166,182,1)
-#define ACT_COLOR			MAKE_UICOLOR(24,24,24,1)
+#define WHITE_COLOR         MAKE_UICOLOR(245, 245, 245, 1)
+#define RED_COLOR			MAKE_UICOLOR(238,101,87,1)
+#define BLUE_COLOR			MAKE_UICOLOR(22,166,182,1)
+#define BLACK_COLOR			MAKE_UICOLOR(24,24,24,1)
 #define FAV_COLOR			MAKE_UICOLOR(255,133,28,1)
 #define FAV_DISABLE_COLOR	MAKE_UICOLOR(200,200,200,1)
 #define LIST_SECTION_COLOR	MAKE_UICOLOR(160,160,160,0.8)
@@ -36,6 +36,15 @@
 + (id)tlsAttributedStringWithString:(NSString *)string lineSpace:(float)lineSpace;
 @end
 
-@interface UIImage(Color)
+@interface UIImage(Ex)
 + (UIImage *)imageNamed:(NSString *)name withColor:(UIColor *)color drawAsOverlay:(BOOL)overlay;
+@end
+
+@interface NSString(Ex)
++ (NSString*)stringWithDateFormat:(NSString*)format timeZone:(NSTimeZone*)timeZone date:(NSDate*)date;
++ (NSString*)stringWithDateFormat:(NSString*)format date:(NSDate*)date;
+@end
+
+@interface NSDateFormatter(Ex)
+- (id)initWithGregorianCalendar;
 @end

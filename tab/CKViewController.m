@@ -1,6 +1,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "CKViewController.h"
 #import "CKCalendarView.h"
+#import "HomeViewController.h"
 
 @interface CKViewController () <CKCalendarDelegate>
 
@@ -25,11 +26,7 @@
         [self.dateFormatter setDateFormat:@"dd/MM/yyyy"];
         self.minimumDate = [self.dateFormatter dateFromString:@"20/09/2012"];
 
-        self.disabledDates = @[
-                [self.dateFormatter dateFromString:@"05/01/2013"],
-                [self.dateFormatter dateFromString:@"06/01/2013"],
-                [self.dateFormatter dateFromString:@"07/01/2013"]
-        ];
+        self.disabledDates = @[];
 
         calendar.onlyShowCurrentMonth = NO;
         calendar.adaptHeightToNumberOfWeeksInMonth = YES;
@@ -41,6 +38,12 @@
         [self.view addSubview:self.dateLabel];
 
         self.view.backgroundColor = [UIColor whiteColor];
+        
+        // UIActivityIndicatorViewのインスタンス化
+        _indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+        _indicator.center = self.view.center;
+        _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [self.view addSubview:_indicator];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange) name:NSCurrentLocaleDidChangeNotification object:nil];
     }
@@ -90,10 +93,10 @@
 
 - (void)calendar:(CKCalendarView *)calendar configureDateItem:(CKDateItem *)dateItem forDate:(NSDate *)date {
     // TODO: play with the coloring if we want to...
-    if ([self dateIsDisabled:date]) {
-        dateItem.backgroundColor = [UIColor redColor];
-        dateItem.textColor = [UIColor whiteColor];
-    }
+//    if ([self dateIsDisabled:date]) {
+//        dateItem.backgroundColor = [UIColor redColor];
+//        dateItem.textColor = [UIColor whiteColor];
+//    }
 }
 
 - (BOOL)calendar:(CKCalendarView *)calendar willSelectDate:(NSDate *)date {
@@ -101,21 +104,25 @@
 }
 
 - (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date {
-    self.dateLabel.text = [self.dateFormatter stringFromDate:date];
+    if( _indicator.isAnimating )
+    {
+        //インジケーター表示中は何もしない
+        return;
+    }
+    HomeViewController *home = [self.navigationController.viewControllers objectAtIndex:0];
+    [home changeDate:date];
+    [_indicator startAnimating];
+    
+    [self performSelector:@selector(popRootView) withObject:nil afterDelay:0.2];
 }
 
 - (BOOL)calendar:(CKCalendarView *)calendar willChangeToMonth:(NSDate *)date {
-    if ([date laterDate:self.minimumDate] == date) {
-        self.calendar.backgroundColor = [UIColor blueColor];
-        return YES;
-    } else {
-        self.calendar.backgroundColor = [UIColor redColor];
-        return NO;
-    }
+    return YES;
 }
 
-- (void)calendar:(CKCalendarView *)calendar didLayoutInRect:(CGRect)frame {
-    NSLog(@"calendar layout: %@", NSStringFromCGRect(frame));
+- (void)popRootView
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

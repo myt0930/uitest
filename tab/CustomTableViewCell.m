@@ -8,6 +8,7 @@
 
 #import "CustomTableViewCell.h"
 #import "LiveInfoTrait.h"
+#import "LiveHouseTrait.h"
 #import "Common.h"
 #import "SettingData.h"
 
@@ -19,21 +20,24 @@
 {
     [super awakeFromNib];
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.backgroundColor				= BACKGROUND_COLOR;
-	self.contentView.backgroundColor	= BACKGROUND_COLOR;
+    self.backgroundColor				= WHITE_COLOR;
+	self.contentView.backgroundColor	= WHITE_COLOR;
 
 	//日付
 	{
 		//日
-		_date = [UILabel labelWithFontName:MAKE_HIRAGINO_FONT(9)
-									 color:ACT_COLOR];
-		_date.backgroundColor	= BACKGROUND_COLOR;
+		_date = [UILabel labelWithFontName:MAKE_HIRAGINO_FONT(11)
+									 color:BLACK_COLOR];
+		_date.backgroundColor	= WHITE_COLOR;
+        _date.textAlignment     = NSTextAlignmentCenter;
+        _date.baselineAdjustment= UIBaselineAdjustmentAlignBaselines;
 		[self.contentView addSubview:_date];
 		
 		//曜日
-		_day = [UILabel labelWithFontName:MAKE_HIRAGINO_FONT(9)
-									 color:ACT_COLOR];
-		_day.backgroundColor	= BACKGROUND_COLOR;
+		_day = [UILabel labelWithFontName:MAKE_HIRAGINO_FONT(11)
+									 color:BLACK_COLOR];
+		_day.backgroundColor	= WHITE_COLOR;
+        _day.textAlignment      = NSTextAlignmentCenter;
 		[self.contentView addSubview:_day];
 	}
 	
@@ -43,16 +47,16 @@
 									  color:MAKE_UICOLOR(238,101,87,1)];
 		_place.numberOfLines	= 1;
 		
-		_place.backgroundColor	= BACKGROUND_COLOR;
+		_place.backgroundColor	= WHITE_COLOR;
 		[self.contentView addSubview:_place];
 	}
 	
 	//イベント名
 	{
 		_title = [UILabel labelWithFontName:MAKE_HIRAGINO_BOLD_FONT(10)
-									  color:TITLE_COLOR];
+									  color:BLUE_COLOR];
 		_title.numberOfLines	= 2;
-		_title.backgroundColor	= BACKGROUND_COLOR;
+		_title.backgroundColor	= WHITE_COLOR;
 		
 		[self.contentView addSubview:_title];
 	}
@@ -60,9 +64,9 @@
 	//出演者名
 	{
 		_act = [UILabel labelWithFontName:MAKE_HIRAGINO_BOLD_FONT(11)
-									color:ACT_COLOR];
+									color:BLACK_COLOR];
 		_act.numberOfLines		= 3;
-		_act.backgroundColor	= BACKGROUND_COLOR;
+		_act.backgroundColor	= WHITE_COLOR;
 		[self.contentView addSubview:_act];
 	}
 	
@@ -82,13 +86,12 @@
     // Configure the view for the selected state
 }
 
-static int dateCount = 1;
-
 - (void)setTextWithTrait:(const LiveInfoTrait *)trait
 {
-	float datePosX	= dateCount >= 10 ? 6 : 8.5;
-	_date.frame		= CGRectMake(datePosX, CELL_HEIGHT / 2 - 15, 20, 8);
-	_day.frame		= CGRectMake(5, CELL_HEIGHT / 2, 20, 9);
+    int date = [[trait.liveDate substringWithRange:NSMakeRange([trait.liveDate length] - 2, 2)] intValue];
+
+	_date.frame		= CGRectMake(0, CELL_HEIGHT / 2 - 15, LABEL_X_POS-5, 18);
+	_day.frame		= CGRectMake(0, CELL_HEIGHT / 2, LABEL_X_POS-5, 18);
 	
 	_place.frame	= CGRectMake(LABEL_X_POS, 5,	290-LABEL_X_POS, 12);
 	_title.frame	= CGRectMake(LABEL_X_POS, 20,	290-LABEL_X_POS, 30);
@@ -96,25 +99,24 @@ static int dateCount = 1;
 	
 	_favImageView.hidden = ![[SettingData instance] isContainsFavoriteUniqueId:trait.uniqueID];
 	
-	NSArray* placeList		= @[@"新宿Motion"];
-	NSString *sub = [trait.liveDate substringWithRange:NSMakeRange([trait.liveDate length] - 2, 2)];
-	_date.text				= [NSString stringWithFormat:@"%d", [sub intValue]];
+	_date.text				= [NSString stringWithFormat:@"%d", date];
 	
-	int a = arc4random() % 3;
-	switch (a) {
-		case 0:
-			_day.textColor	= ACT_COLOR;
-			break;
-		case 1:
-			_day.textColor	= TITLE_COLOR;
-			break;
-		case 2:
-			_day.textColor	= PLACE_COLOR;
-			break;
-	}
+	_day.text				= [NSString stringWithFormat:@"(%@)", trait.dayOfWeek];
+    if( [_day.text isEqualToString:@"(土)"] || [_day.text isEqualToString:@"(Sat)"] )
+    {
+        _day.textColor	= BLUE_COLOR;
+    }
+    else if( [_day.text isEqualToString:@"(日)"]  || [_day.text isEqualToString:@"(Sun)"] )
+    {
+        _day.textColor	= RED_COLOR;
+    }
+    else
+    {
+        _date.textColor = BLACK_COLOR;
+        _day.textColor	= BLACK_COLOR;
+    }
 	
-	_day.text				= @"Sat";
-	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:placeList[arc4random() % placeList.count]
+	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:@"新宿Motion"
                                                                     lineSpace:2.0f];
 	_title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
                                                                     lineSpace:2.0f];
@@ -122,8 +124,10 @@ static int dateCount = 1;
                                                                    lineSpace:2.0f];
 	
 	//座標調整
-	[_day	sizeToFit];
-	[_date	sizeToFit];
+    CGSize maxSize = CGSizeMake(LABEL_X_POS-5,18);
+    CGSize titleLabelSize = [_day sizeThatFits:maxSize];
+//	[_day	sizeToFit];
+//	[_date	sizeToFit];
 	[_place sizeToFit];
 	[_title sizeToFit];
 	[_act	sizeToFit];
