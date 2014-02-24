@@ -33,8 +33,9 @@ typedef enum {
 
 @interface CKCalendarView : UIView
 
-- (id)initWithStartDay:(CKCalendarStartDay)firstDay;
-- (id)initWithStartDay:(CKCalendarStartDay)firstDay frame:(CGRect)frame;
+- (id)initWithCurrentDate:(NSDate*)currentDate;
+- (id)initWithStartDay:(CKCalendarStartDay)firstDay currentDate:(NSDate*)currentDate;
+- (id)initWithStartDay:(CKCalendarStartDay)firstDay currentDate:(NSDate*)currentDate frame:(CGRect)frame;
 
 @property (nonatomic) CKCalendarStartDay calendarStartDay;
 @property (nonatomic, strong) NSLocale *locale;
@@ -52,6 +53,8 @@ typedef enum {
 @property (nonatomic, strong) UIFont *dateOfWeekFont;
 @property (nonatomic, strong) UIColor *dayOfWeekTextColor;
 @property (nonatomic, strong) UIFont *dateFont;
+
+@property NSDate *currentDate;
 
 - (void)setMonthButtonColor:(UIColor *)color;
 - (void)setInnerBorderColor:(UIColor *)color;

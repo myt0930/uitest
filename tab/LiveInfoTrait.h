@@ -12,7 +12,7 @@
 
 @interface LiveInfoTrait : NSObject
 @property int		liveHouseNo;	//会場ID
-@property NSString  *liveDate;		//日程
+@property NSDate    *liveDate;		//日程
 @property int		subNo;			//サブNo
 @property NSString  *eventTitle;		//タイトル
 @property NSString  *act;			//出演者
@@ -26,9 +26,8 @@
 +(void)loadMast:(LoadData *)data;
 
 +(NSArray *)traitList;
-+(NSArray *)traitListWithDate:(NSString *)date;
++(NSArray *)traitListWithDate:(NSDate *)date;
 +(NSArray *)traitListWithLiveHouseNo:(int)liveHouseNo;
-+(id)traitOfLiveHouseNo:(int)liveHouseNo liveDate:(NSString *)liveDate;
 +(id)traitOfUniqueID:(NSString *)uniqueID;
 
 //debug method

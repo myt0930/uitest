@@ -22,11 +22,11 @@
 	
 	[LiveInfoTrait addTestLiveInfo];
     
-    NSDate *todayDate = [NSDate date];
-	self.items = [LiveInfoTrait traitListWithDate:[NSString stringWithDateFormat:@"yyyyMMdd" date:todayDate]];
+    _currentDate = [NSDate date];
+	self.items = [LiveInfoTrait traitListWithDate:_currentDate];
 	
 	//タイトル設定
-	self.navigationItem.title = [NSString stringWithDateFormat:@"yyyy/MM/dd (E)" date:todayDate];
+	self.navigationItem.title = [NSString stringWithDateFormat:@"yyyy/MM/dd (E)" date:_currentDate];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc]
                             initWithTitle:@"カレンダー"
                             style:UIBarButtonItemStylePlain
@@ -42,13 +42,15 @@
 
 - (void)showCalendar:(UIBarButtonItem*)buttonItem
 {
-    CKViewController *controller = [[CKViewController alloc] init];
+    CKViewController *controller = [[CKViewController alloc] initWithCurrentDate:_currentDate];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)changeDate:(NSDate*)date
 {
-    self.items = [LiveInfoTrait traitListWithDate:[NSString stringWithDateFormat:@"yyyyMMdd" date:date]];
+    _currentDate = date;
+    self.items = [LiveInfoTrait traitListWithDate:_currentDate];
+    self.navigationItem.title = [NSString stringWithDateFormat:@"yyyy/MM/dd (E)" date:_currentDate];
     [self reloadTable];
 }
 

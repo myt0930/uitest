@@ -88,7 +88,7 @@
 
 - (void)setTextWithTrait:(const LiveInfoTrait *)trait
 {
-    int date = [[trait.liveDate substringWithRange:NSMakeRange([trait.liveDate length] - 2, 2)] intValue];
+    int date = [[NSString stringWithDateFormat:@"dd" date:trait.liveDate] intValue];
 
 	_date.frame		= CGRectMake(0, CELL_HEIGHT / 2 - 15, LABEL_X_POS-5, 18);
 	_day.frame		= CGRectMake(0, CELL_HEIGHT / 2, LABEL_X_POS-5, 18);
@@ -123,9 +123,6 @@
 	_act.attributedText		= [NSAttributedString tlsAttributedStringWithString:trait.act
                                                                    lineSpace:2.0f];
 	
-	//座標調整
-    CGSize maxSize = CGSizeMake(LABEL_X_POS-5,18);
-    CGSize titleLabelSize = [_day sizeThatFits:maxSize];
 //	[_day	sizeToFit];
 //	[_date	sizeToFit];
 	[_place sizeToFit];

@@ -15,16 +15,16 @@
 
 @implementation CKViewController
 
-- (id)init {
+- (id)initWithCurrentDate:(NSDate*)currentDate {
     self = [super init];
     if (self) {
-        CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday];
+        CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday currentDate:(NSDate*)currentDate];
         self.calendar = calendar;
         calendar.delegate = self;
 
         self.dateFormatter = [[NSDateFormatter alloc] init];
-        [self.dateFormatter setDateFormat:@"dd/MM/yyyy"];
-        self.minimumDate = [self.dateFormatter dateFromString:@"20/09/2012"];
+        [self.dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        self.minimumDate = [self.dateFormatter dateFromString:@"2014/02/01"];
 
         self.disabledDates = @[];
 
@@ -58,6 +58,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    self.navigationItem.title = @"カレンダー";
 }
 
 - (void)viewDidUnload

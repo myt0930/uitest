@@ -13,5 +13,7 @@
 @class CustomTableViewCell;
 
 @interface HomeViewController : BaseViewController;
+@property NSDate *currentDate;
+
 - (void)changeDate:(NSDate*)date;
 @end

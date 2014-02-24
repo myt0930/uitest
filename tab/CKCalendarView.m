@@ -126,15 +126,16 @@
 
 @dynamic locale;
 
-- (id)init {
-    return [self initWithStartDay:startSunday];
+- (id)initWithCurrentDate:(NSDate*)currentDate
+{
+    return [self initWithStartDay:startSunday  currentDate:currentDate];
 }
 
-- (id)initWithStartDay:(CKCalendarStartDay)firstDay {
-    return [self initWithStartDay:firstDay frame:CGRectMake(0, 0, 320, 320)];
+- (id)initWithStartDay:(CKCalendarStartDay)firstDay currentDate:(NSDate*)currentDate {
+    return [self initWithStartDay:firstDay currentDate:currentDate frame:CGRectMake(0, 0, 320, 320)];
 }
 
-- (void)_init:(CKCalendarStartDay)firstDay {
+- (void)_init:(CKCalendarStartDay)firstDay currentDate:(NSDate*)currentDate {
     self.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     [self.calendar setLocale:[NSLocale currentLocale]];
 
@@ -142,13 +143,16 @@
 
     self.dateFormatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
     [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    self.dateFormatter.dateFormat = @"LLLL yyyy";
+    self.dateFormatter.dateFormat = @"yyyy LLLL";
 
     self.calendarStartDay = firstDay;
     self.onlyShowCurrentMonth = YES;
     self.adaptHeightToNumberOfWeeksInMonth = YES;
 
     self.layer.cornerRadius = 6.0f;
+    
+    //今選択中の日程
+    _currentDate = currentDate;
 
     UIView *highlight = [[UIView alloc] initWithFrame:CGRectZero];
     highlight.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
@@ -218,30 +222,22 @@
     self.dateButtons = dateButtons;
 
     // initialize the thing
-    self.monthShowing = [NSDate date];
+    self.monthShowing = _currentDate;
     [self _setDefaultStyle];
     
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
 }
 
-- (id)initWithStartDay:(CKCalendarStartDay)firstDay frame:(CGRect)frame {
+- (id)initWithStartDay:(CKCalendarStartDay)firstDay currentDate:(NSDate*)currentDate frame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self _init:firstDay];
+        [self _init:firstDay currentDate:currentDate];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame {
-    return [self initWithStartDay:startSunday frame:frame];
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self _init:startSunday];
-    }
-    return self;
+- (id)initWithFrame:(CGRect)frame currentDate:(NSDate*)currentDate {
+    return [self initWithStartDay:startSunday currentDate:currentDate frame:frame];
 }
 
 - (void)layoutSubviews {
@@ -599,7 +595,7 @@
 }
 
 - (BOOL)_dateIsToday:(NSDate *)date {
-    return [self date:[NSDate date] isSameDayAsDate:date];
+    return [self date:_currentDate isSameDayAsDate:date];
 }
 
 - (BOOL)date:(NSDate *)date1 isSameDayAsDate:(NSDate *)date2 {

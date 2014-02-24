@@ -45,11 +45,12 @@
 	self.items = favArray;
     [self.tableView reloadData];
 	
-	_sectionArray = @[@"2014/02",@"2014/03"];
-	
-	NSArray *datas = [NSArray arrayWithObjects:self.items, self.items, nil];
-	_dataSource = [NSDictionary dictionaryWithObjects:datas forKeys:_sectionArray];
-	
+    NSMutableSet *array = [NSMutableSet set];
+    for( const LiveInfoTrait *trait in self.items )
+    {
+        [array addObject:[NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate]];
+    }
+	_sectionArray = [array allObjects];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -98,9 +99,17 @@
     }
 	NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
 	
-    // セクション名をキーにしてそのセクションの項目をすべて取得
-    NSArray *items = [_dataSource objectForKey:sectionName];
-	LiveInfoTrait *trait = [items objectAtIndex:indexPath.row];
+    NSMutableArray *array = [NSMutableArray array];
+    for( const LiveInfoTrait *trait in self.items )
+    {
+        NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+        if( [date isEqualToString:sectionName] )
+        {
+            [array addObject:trait];
+        }
+    }
+    
+	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
 
 	[cell setTextWithTrait:trait];
 	return cell;

@@ -30,12 +30,15 @@ static NSMutableArray* traitList;
 	return traitList;
 }
 
-+(NSArray *)traitListWithDate:(NSString *)date
++(NSArray *)traitListWithDate:(NSDate *)date
 {
+    NSString *date1 = [NSString stringWithDateFormat:@"yyyyMMdd" date:date];
+    
 	NSMutableArray *liveList = [NSMutableArray array];
 	for( LiveInfoTrait *trait in traitList )
 	{
-		if( [trait.liveDate compare:date] == NSOrderedSame )
+        NSString *date2 = [NSString stringWithDateFormat:@"yyyyMMdd" date:trait.liveDate];
+		if( [date1 isEqualToString:date2] )
 		{
 			[liveList addObject:trait];
 		}
@@ -56,19 +59,6 @@ static NSMutableArray* traitList;
 	}
 	
 	return liveList;
-}
-
-+(id)traitOfLiveHouseNo:(int)liveHouseNo liveDate:(NSString *)liveDate
-{
-	for( LiveInfoTrait *trait in traitList )
-	{
-		if( trait.liveHouseNo	== liveHouseNo &&
-			[trait.liveDate compare:liveDate] == NSOrderedSame )
-		{
-			return trait;
-		}
-	}
-	return nil;
 }
 
 +(id)traitOfUniqueID:(NSString *)uniqueID
@@ -128,7 +118,6 @@ static NSMutableArray* traitList;
 	if( (self = [super init] ) )
 	{
 		_liveHouseNo	= liveHouseNo;
-		_liveDate		= liveDate;
 		_subNo			= subNo;
 		_eventTitle		= eventTitle;
 		_act			= act;
@@ -136,13 +125,14 @@ static NSMutableArray* traitList;
 		_startTime		= startTime;
 		_advanceTicket	= advanceTicket;
 		_todayTicket	= todayTicket;
-		_uniqueID		= [NSString stringWithFormat:@"%d%@%d", _liveHouseNo, _liveDate, _subNo];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
         [formatter setDateFormat:@"yyyyMMdd"];
-        NSDate *date = [formatter dateFromString:_liveDate];
+        _liveDate = [formatter dateFromString:liveDate];
         
-        _dayOfWeek      = [NSString stringWithDateFormat:@"E" date:date];
+        _uniqueID		= [NSString stringWithFormat:@"%@%d%03d", [NSString stringWithDateFormat:@"yyyyMMdd" date:_liveDate], _subNo, _liveHouseNo];
+        
+        _dayOfWeek      = [NSString stringWithDateFormat:@"E" date:_liveDate];
 	}
 	return self;
 }
@@ -151,7 +141,6 @@ static NSMutableArray* traitList;
 {
 	return [[SettingData instance] isContainsFavoriteUniqueId:_uniqueID];
 }
-
 
 +(void)addTestLiveInfo
 {
