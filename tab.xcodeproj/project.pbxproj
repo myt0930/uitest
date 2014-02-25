@@ -11,6 +11,7 @@
 		352A074718BC43AC00A880FA /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 352A074318BC43AC00A880FA /* left_arrow@2x.png */; };
 		352A074818BC43AC00A880FA /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 352A074418BC43AC00A880FA /* right_arrow.png */; };
 		352A074918BC43AC00A880FA /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 352A074518BC43AC00A880FA /* right_arrow@2x.png */; };
+		352A074C18BC684300A880FA /* SectionBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352A074B18BC684300A880FA /* SectionBaseViewController.m */; };
 		35318F2218AB1CDB00602C70 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35318F2018AB1CDB00602C70 /* DetailViewController.m */; };
 		35318F2318AB1CDB00602C70 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35318F2118AB1CDB00602C70 /* DetailViewController.xib */; };
 		35318F2718AB24FF00602C70 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35318F2518AB24FF00602C70 /* TabBarController.m */; };
@@ -76,6 +77,8 @@
 		352A074318BC43AC00A880FA /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "left_arrow@2x.png"; path = "PNG icons/left_arrow@2x.png"; sourceTree = SOURCE_ROOT; };
 		352A074418BC43AC00A880FA /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right_arrow.png; path = "PNG icons/right_arrow.png"; sourceTree = SOURCE_ROOT; };
 		352A074518BC43AC00A880FA /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "right_arrow@2x.png"; path = "PNG icons/right_arrow@2x.png"; sourceTree = SOURCE_ROOT; };
+		352A074A18BC684300A880FA /* SectionBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionBaseViewController.h; sourceTree = "<group>"; };
+		352A074B18BC684300A880FA /* SectionBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionBaseViewController.m; sourceTree = "<group>"; };
 		35318F1F18AB1CDB00602C70 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		35318F2018AB1CDB00602C70 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		35318F2118AB1CDB00602C70 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
@@ -285,6 +288,10 @@
 				35BAE30D18B357EF00DB2627 /* MainMenu */,
 				5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */,
 				5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */,
+				5C174A6E18BA0C6C003F59C6 /* CKCalendarView.h */,
+				5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */,
+				5C174A7018BA0C6C003F59C6 /* CKViewController.h */,
+				5C174A7118BA0C6C003F59C6 /* CKViewController.m */,
 				353198F218A2251C00EBBC82 /* CustomTableViewCell.h */,
 				353198F318A2251C00EBBC82 /* CustomTableViewCell.m */,
 				353198F418A2251C00EBBC82 /* CustomTableViewCell.xib */,
@@ -294,13 +301,11 @@
 				35BAE30818B3522A00DB2627 /* LiveListViewController.h */,
 				35BAE30918B3522A00DB2627 /* LiveListViewController.m */,
 				35BAE30A18B3522A00DB2627 /* LiveListViewController.xib */,
+				352A074A18BC684300A880FA /* SectionBaseViewController.h */,
+				352A074B18BC684300A880FA /* SectionBaseViewController.m */,
 				35318F2418AB24FF00602C70 /* TabBarController.h */,
 				35318F2518AB24FF00602C70 /* TabBarController.m */,
 				35318F2618AB24FF00602C70 /* TabBarController.xib */,
-				5C174A6E18BA0C6C003F59C6 /* CKCalendarView.h */,
-				5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */,
-				5C174A7018BA0C6C003F59C6 /* CKViewController.h */,
-				5C174A7118BA0C6C003F59C6 /* CKViewController.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -457,6 +462,7 @@
 				35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
 				353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */,
+				352A074C18BC684300A880FA /* SectionBaseViewController.m in Sources */,
 				5C174A7318BA0C6C003F59C6 /* CKViewController.m in Sources */,
 				5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */,
 				353198C518A2147E00EBBC82 /* main.m in Sources */,

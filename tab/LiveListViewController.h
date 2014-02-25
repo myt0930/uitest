@@ -6,13 +6,11 @@
 //  Copyright (c) 2014年 MIYATA Wataru. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "SectionBaseViewController.h"
 @class LiveHouseTrait;
 
-@interface LiveListViewController : BaseViewController
+@interface LiveListViewController : SectionBaseViewController
 @property const LiveHouseTrait *trait;
-@property NSArray *sectionArray;
-@property NSMutableArray *rowCountArray;
 
 - (id)initWithTrait:(const LiveHouseTrait *)trait;
 @end
