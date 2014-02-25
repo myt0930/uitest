@@ -10,8 +10,6 @@
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
 #import "Common.h"
-#import "SettingData.h"
-#import "CustomTableViewCell.h"
 
 @interface LiveListViewController ()
 

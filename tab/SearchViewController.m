@@ -7,9 +7,7 @@
 //
 
 #import "SearchViewController.h"
-#import "CustomTableViewCell.h"
 #import "LiveInfoTrait.h"
-#import "TabBarController.h"
 #import "DetailViewController.h"
 #import "Common.h"
 

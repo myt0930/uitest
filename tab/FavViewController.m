@@ -6,12 +6,9 @@
 //  Copyright (c) 2014年 MIYATA Wataru. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
 #import "FavViewController.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
-#import "CustomTableViewCell.h"
-#import "Common.h"
 
 @interface FavViewController ()
 
