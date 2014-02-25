@@ -102,11 +102,13 @@
 	_date.text				= [NSString stringWithFormat:@"%d", date];
 	
 	_day.text				= [NSString stringWithFormat:@"(%@)", trait.dayOfWeek];
-    if( [_day.text isEqualToString:@"(土)"] || [_day.text isEqualToString:@"(Sat)"] )
+	[self replaceDayOfWeekLabelToJapanese:_day];
+	
+    if( [_day.text isEqualToString:@"(土)"] )
     {
         _day.textColor	= BLUE_COLOR;
     }
-    else if( [_day.text isEqualToString:@"(日)"]  || [_day.text isEqualToString:@"(Sun)"] )
+    else if( [_day.text isEqualToString:@"(日)"] )
     {
         _day.textColor	= RED_COLOR;
     }
@@ -128,6 +130,19 @@
 	[_place sizeToFit];
 	[_title sizeToFit];
 	[_act	sizeToFit];
+}
+
+- (void)replaceDayOfWeekLabelToJapanese:(UILabel*)label
+{
+	NSString *text = label.text;
+	
+	if(		 [text isEqualToString:@"(Sun)"] )	label.text = @"(日)";
+	else if( [text isEqualToString:@"(Mon)"] )	label.text = @"(月)";
+	else if( [text isEqualToString:@"(Tue)"] )	label.text = @"(火)";
+	else if( [text isEqualToString:@"(Wed)"] )	label.text = @"(水)";
+	else if( [text isEqualToString:@"(Thu)"] )	label.text = @"(木)";
+	else if( [text isEqualToString:@"(Fri)"] )	label.text = @"(金)";
+	else if( [text isEqualToString:@"(Sat)"] )	label.text = @"(土)";
 }
 
 @end
