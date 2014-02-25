@@ -10,8 +10,9 @@
 @class LiveHouseTrait;
 
 @interface LiveListViewController : BaseViewController
-//@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property const LiveHouseTrait *trait;
+@property NSArray *sectionArray;
+@property NSMutableArray *rowCountArray;
 
 - (id)initWithTrait:(const LiveHouseTrait *)trait;
 @end
