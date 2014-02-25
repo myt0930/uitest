@@ -54,4 +54,11 @@
     [self reloadTable];
 }
 
+- (void) didSelect:(TabBarController *)tabBarController
+{
+	[super didSelect:tabBarController];
+	
+	//タブを押された時今日の予定を表示
+	[self changeDate:[NSDate date]];
+}
 @end
