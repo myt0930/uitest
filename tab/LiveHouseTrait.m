@@ -96,5 +96,14 @@ static NSMutableArray* traitList;
 	
 	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:8 name:@"下北沢251"];
 	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:9 name:@"下北沢251"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:10 name:@"下北沢251"];
+	[traitList addObject:trait];
+	
+	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:11 name:@"下北沢251"];
+	[traitList addObject:trait];
 }
 @end

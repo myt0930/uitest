@@ -9,6 +9,7 @@
 #import "LiveListViewController.h"
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
+#import "Common.h"
 
 @interface LiveListViewController ()
 
@@ -32,6 +33,16 @@
 	
 	[LiveInfoTrait addTestLiveInfo];
 	self.items = [LiveInfoTrait traitList];
+	
+	CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
+	int height = 540 - screenFrame.size.height;
+	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
+	{
+		//ios6スクロール調整
+		height += 100;
+	}
+	self.tableView.contentInset				= UIEdgeInsetsMake(0, 0, height, 0);
+	self.tableView.scrollIndicatorInsets	= UIEdgeInsetsMake(0, 0, height, 0);
 }
 
 - (void)didReceiveMemoryWarning

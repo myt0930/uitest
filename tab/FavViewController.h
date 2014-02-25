@@ -10,4 +10,5 @@
 
 @interface FavViewController : BaseViewController
 @property NSArray *sectionArray;
+@property NSMutableArray *rowCountArray;
 @end

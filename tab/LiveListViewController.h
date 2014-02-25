@@ -10,7 +10,7 @@
 @class LiveHouseTrait;
 
 @interface LiveListViewController : BaseViewController
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+//@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property const LiveHouseTrait *trait;
 
 - (id)initWithTrait:(const LiveHouseTrait *)trait;

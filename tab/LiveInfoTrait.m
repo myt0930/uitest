@@ -480,6 +480,44 @@ static NSMutableArray* traitList;
 										   todayTicket:2500];
 	[traitList addObject:trait];
 	
+	date = 20140301;
+	trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:1
+											  liveDate:[NSString stringWithFormat:@"%d", date++]
+												 subNo:1
+											eventTitle:@"水の中で雨中 presents 'squlls' vol.1\n"
+			 "「水の中で雨中＆カミヒカルス Wレコ発ライブ」"
+												   act:@"水の中で雨中 / カミヒカルス / OA：ホッタモモ"
+											  openTime:@"18:00"
+											 startTime:@"18:30"
+										 advanceTicket:2000
+										   todayTicket:2500];
+	[traitList addObject:trait];
+	
+	date = 20140401;
+	trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:1
+											  liveDate:[NSString stringWithFormat:@"%d", date++]
+												 subNo:1
+											eventTitle:@"水の中で雨中 presents 'squlls' vol.1\n"
+			 "「水の中で雨中＆カミヒカルス Wレコ発ライブ」"
+												   act:@"水の中で雨中 / カミヒカルス / OA：ホッタモモ"
+											  openTime:@"18:00"
+											 startTime:@"18:30"
+										 advanceTicket:2000
+										   todayTicket:2500];
+	[traitList addObject:trait];
+	
+	date = 20150301;
+	trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:1
+											  liveDate:[NSString stringWithFormat:@"%d", date++]
+												 subNo:1
+											eventTitle:@"水の中で雨中 presents 'squlls' vol.1\n"
+			 "「水の中で雨中＆カミヒカルス Wレコ発ライブ」"
+												   act:@"水の中で雨中 / カミヒカルス / OA：ホッタモモ"
+											  openTime:@"18:00"
+											 startTime:@"18:30"
+										 advanceTicket:2000
+										   todayTicket:2500];
+	[traitList addObject:trait];
 }
 
 @end

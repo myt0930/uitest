@@ -32,6 +32,11 @@
 
 - (void)reloadFavItems
 {
+	if( !_rowCountArray )
+	{
+		_rowCountArray = [NSMutableArray array];
+	}
+	
     NSMutableArray *favArray = [NSMutableArray array];
     NSArray *saveUniqueIdArray = [SettingData instance].favoriteLiveArray;
     for( NSString *uniqueId in saveUniqueIdArray )
@@ -43,14 +48,36 @@
         }
     }
 	self.items = favArray;
-    [self.tableView reloadData];
 	
-    NSMutableSet *array = [NSMutableSet set];
+    NSMutableArray *array = [NSMutableArray array];
     for( const LiveInfoTrait *trait in self.items )
     {
-        [array addObject:[NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate]];
+		NSString *section = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+		if( ![array containsObject:section] )
+		{
+			[array addObject:section];
+		}
     }
-	_sectionArray = [array allObjects];
+	_sectionArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [obj1 compare:obj2];
+	}];
+	
+	[_rowCountArray removeAllObjects];
+	for( NSString *sectionName in _sectionArray )
+	{
+		int count = 0;
+		for( const LiveInfoTrait *trait in self.items )
+		{
+			NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+			if( [date isEqualToString:sectionName] )
+			{
+				count++;
+			}
+		}
+		[_rowCountArray addObject:[NSNumber numberWithInt:count]];
+	}
+	
+	[self.tableView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -61,6 +88,10 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return [_sectionArray objectAtIndex:section];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [[_rowCountArray objectAtIndex:section] integerValue];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -108,17 +139,17 @@
             [array addObject:trait];
         }
     }
-    
+
 	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
 
 	[cell setTextWithTrait:trait];
+
 	return cell;
 }
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController {
     [self.navigationController popToRootViewControllerAnimated:NO];
-    [self.tableView reloadData];
-    [self reloadFavItems];
+	[self reloadFavItems];
 }
 @end
