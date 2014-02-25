@@ -26,7 +26,6 @@
 	{
 		_searchController.displaysSearchBarInNavigationBar = YES;
 	}
-    _searchItems = [NSMutableArray array];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
 	backButton.title = @"Back";
 	[self.navigationItem setBackBarButtonItem:backButton];
@@ -45,40 +44,6 @@
 	[_searchController.searchResultsTableView reloadData];
 }
 
-
-#pragma mark UITableView
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        return [_searchItems count];
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"customCell";
-    
-    CustomTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-										  reuseIdentifier:CellIdentifier];
-    }
-    
-    if(tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        const LiveInfoTrait *trait = [_searchItems objectAtIndex:indexPath.row];
-        [cell setTextWithTrait:trait];
-    }
-    
-    return cell;
-}
-
 - (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString
 {
     BOOL ret = YES; //検索結果を更新するときはYESを返す
@@ -86,7 +51,7 @@
  
     NSLog(@"%@", searchString);
     
-    [_searchItems removeAllObjects];
+	NSMutableArray *searchItems = [NSMutableArray array];
     
     for( const LiveInfoTrait *trait in [LiveInfoTrait traitList] )
     {
@@ -103,16 +68,36 @@
             }
         }
         
-        [_searchItems addObject:trait];
+        [searchItems addObject:trait];
     }
+	self.items = searchItems;
+	[super reloadItems];
     
     return ret; 
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	self.items = [NSArray array];
+	[super reloadItems];
 }
 
 // =============================================================================
 #pragma mark - BaseViewController
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	LiveInfoTrait *trait = _searchItems[indexPath.row];
+	NSString *sectionName = [self.sectionArray objectAtIndex:indexPath.section];
+	
+    NSMutableArray *array = [NSMutableArray array];
+    for( const LiveInfoTrait *trait in self.items )
+    {
+        NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+        if( [date isEqualToString:sectionName] )
+        {
+            [array addObject:trait];
+        }
+    }
+	
+	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
 	
 	//詳細view表示
 	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait baseController:self];

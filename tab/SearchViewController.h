@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "TabBarController.h"
-#import "BaseViewController.h"
+#import "SectionBaseViewController.h"
 
-@interface SearchViewController : BaseViewController<UISearchDisplayDelegate,UISearchBarDelegate>
+@interface SearchViewController : SectionBaseViewController<UISearchDisplayDelegate,UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-
-@property NSMutableArray *searchItems;
 
 @end

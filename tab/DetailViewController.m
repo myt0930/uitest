@@ -26,7 +26,7 @@
     {
         _liveTrait = trait;
 		_baseController = baseController;
-		[self setTitle:@"2014/02/18 (Wed)"];
+		[self setTitle:[NSString stringWithDateFormat:@"yyyy/MM/dd(E)" date:_liveTrait.liveDate]];
     }
     return self;
 }
