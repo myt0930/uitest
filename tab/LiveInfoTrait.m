@@ -12,6 +12,8 @@
 #import "Common.h"
 
 static NSMutableArray* traitList;
+static NSDate *minDate;
+static NSDate *maxDate;
 
 @implementation LiveInfoTrait
 
@@ -73,10 +75,30 @@ static NSMutableArray* traitList;
 	return nil;
 }
 
++(NSDate *)minLiveDate
+{
+    if( !minDate )
+    {
+        return [NSDate date];
+    }
+    return minDate;
+}
++(NSDate *)maxLiveDate
+{
+    if( !maxDate )
+    {
+        return [NSDate date];
+    }
+    return maxDate;
+}
+
 + (void)loadMast:(LoadData*)data
 {
 	//ライブ一覧をクリア
 	[self removeAllMast];
+    
+    minDate = nil;
+    maxDate = nil;
 	
 	int masterCount = [data getInt16];
 	
@@ -133,6 +155,15 @@ static NSMutableArray* traitList;
         _uniqueID		= [NSString stringWithFormat:@"%@%d%03d", [NSString stringWithDateFormat:@"yyyyMMdd" date:_liveDate], _subNo, _liveHouseNo];
         
         _dayOfWeek      = [NSString stringWithDateFormat:@"E" date:_liveDate];
+        
+        if( !minDate || [minDate timeIntervalSinceDate:_liveDate] > 0 )
+        {
+            minDate = _liveDate;
+        }
+        if( !maxDate || [maxDate timeIntervalSinceDate:_liveDate] < 0 )
+        {
+            maxDate = _liveDate;
+        }
 	}
 	return self;
 }
@@ -147,6 +178,8 @@ static NSMutableArray* traitList;
 	int date = 20140201;
 	
 	[traitList removeAllObjects];
+    minDate = nil;
+    maxDate = nil;
 	
 	LiveInfoTrait *trait = nil;
 	
@@ -161,6 +194,7 @@ static NSMutableArray* traitList;
 										 advanceTicket:2000
 										   todayTicket:2500];
 	[traitList addObject:trait];
+    
 	
 	trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:1
 											  liveDate:[NSString stringWithFormat:@"%d", date++]

@@ -2,6 +2,7 @@
 #import "CKViewController.h"
 #import "CKCalendarView.h"
 #import "HomeViewController.h"
+#import "LiveInfoTrait.h"
 
 @interface CKViewController () <CKCalendarDelegate>
 
@@ -94,7 +95,6 @@
 #pragma mark - CKCalendarDelegate
 
 - (void)calendar:(CKCalendarView *)calendar configureDateItem:(CKDateItem *)dateItem forDate:(NSDate *)date {
-    // TODO: play with the coloring if we want to...
 //    if ([self dateIsDisabled:date]) {
 //        dateItem.backgroundColor = [UIColor redColor];
 //        dateItem.textColor = [UIColor whiteColor];

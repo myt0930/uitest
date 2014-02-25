@@ -48,3 +48,8 @@
 @interface NSDateFormatter(Ex)
 - (id)initWithGregorianCalendar;
 @end
+
+@interface NSDate(Ex)
+- (BOOL)smallerThanDate:(NSDate*)date;
+- (BOOL)largerThanDate:(NSDate*)date;
+@end

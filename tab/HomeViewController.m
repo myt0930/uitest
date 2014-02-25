@@ -49,7 +49,25 @@
 - (void)changeDate:(NSDate*)date
 {
     _currentDate = date;
-    self.items = [LiveInfoTrait traitListWithDate:_currentDate];
+    
+    //お気に入り登録されているライブを最上段に表示
+    NSMutableArray *liveList = [NSMutableArray arrayWithArray:[LiveInfoTrait traitListWithDate:_currentDate]];
+    NSMutableArray *favList = [NSMutableArray array];
+    for( const LiveInfoTrait *trait in liveList )
+    {
+        if( [trait isFavorite] )
+        {
+            [favList addObject:trait];
+        }
+    }
+    for( const LiveInfoTrait *trait in [favList reverseObjectEnumerator] )
+    {
+        //先頭に移動
+        [liveList removeObject:trait];
+        [liveList insertObject:trait atIndex:0];
+    }
+    
+    self.items = liveList;
     self.navigationItem.title = [NSString stringWithDateFormat:@"yyyy/MM/dd (E)" date:_currentDate];
     [self reloadTable];
 }

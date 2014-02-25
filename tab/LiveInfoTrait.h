@@ -29,6 +29,8 @@
 +(NSArray *)traitListWithDate:(NSDate *)date;
 +(NSArray *)traitListWithLiveHouseNo:(int)liveHouseNo;
 +(id)traitOfUniqueID:(NSString *)uniqueID;
++(NSDate *)minLiveDate;
++(NSDate *)maxLiveDate;
 
 //debug method
 +(void)addTestLiveInfo;

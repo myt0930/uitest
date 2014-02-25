@@ -20,6 +20,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CKCalendarView.h"
 #import "Common.h"
+#import "LiveInfoTrait.h"
 
 #define BUTTON_MARGIN 4
 #define CALENDAR_MARGIN 5
@@ -223,6 +224,7 @@
 
     // initialize the thing
     self.monthShowing = _currentDate;
+    [self _changeMonthButtonHidden];
     [self _setDefaultStyle];
     
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
@@ -448,6 +450,7 @@
         return;
     } else {
         self.monthShowing = newMonth;
+        [self _changeMonthButtonHidden];
         if ([self.delegate respondsToSelector:@selector(calendar:didChangeToMonth:)] ) {
             [self.delegate calendar:self didChangeToMonth:self.monthShowing];
         }
@@ -462,6 +465,7 @@
         return;
     } else {
         self.monthShowing = newMonth;
+        [self _changeMonthButtonHidden];
         if ([self.delegate respondsToSelector:@selector(calendar:didChangeToMonth:)] ) {
             [self.delegate calendar:self didChangeToMonth:self.monthShowing];
         }
@@ -484,6 +488,20 @@
     [self selectDate:date makeVisible:YES];
     [self.delegate calendar:self didSelectDate:date];
     [self setNeedsLayout];
+}
+
+- (void)_changeMonthButtonHidden
+{
+    NSDate *min = [LiveInfoTrait minLiveDate];
+    NSDate *max = [LiveInfoTrait maxLiveDate];
+
+    NSDateComponents* comps = [[NSDateComponents alloc] init];
+    [comps setMonth:1];
+    NSDate *newMonth = [self.calendar dateByAddingComponents:comps toDate:self.monthShowing options:0];
+    //翌月以降のデータがなければボタンを非表示
+    self.nextButton.hidden = [max smallerThanDate:newMonth];
+    //前月以前のデータがなければボタンを非表示
+    self.prevButton.hidden = ![min smallerThanDate:self.monthShowing];
 }
 
 #pragma mark - Theming getters/setters

@@ -121,3 +121,18 @@
 	return self;
 }
 @end
+
+
+#pragma mark -
+@implementation NSDate(Ex)
+
+- (BOOL)smallerThanDate:(NSDate*)date
+{
+    return [self timeIntervalSinceDate:date] < 0;
+}
+- (BOOL)largerThanDate:(NSDate*)date
+{
+    return [self timeIntervalSinceDate:date] > 0;
+}
+
+@end
