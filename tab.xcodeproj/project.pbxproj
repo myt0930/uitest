@@ -39,6 +39,19 @@
 		3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */; };
 		3537595E18B5A23B00CC5894 /* star_64_f5f5f5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */; };
 		35AB078D18BEE708002115A2 /* master.bin in Resources */ = {isa = PBXBuildFile; fileRef = 35AB078C18BEE708002115A2 /* master.bin */; };
+		35AB07C618BF45BE002115A2 /* SSDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07B418BF45BE002115A2 /* SSDialogView.m */; };
+		35AB07C718BF45BE002115A2 /* SSGentleAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07B618BF45BE002115A2 /* SSGentleAlertView.m */; };
+		35AB07C818BF45BE002115A2 /* SSGentleAlertButtonBlack.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07B818BF45BE002115A2 /* SSGentleAlertButtonBlack.xib */; };
+		35AB07C918BF45BE002115A2 /* SSGentleAlertViewBlack.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07B918BF45BE002115A2 /* SSGentleAlertViewBlack.bundle */; };
+		35AB07CA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07BA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib */; };
+		35AB07CB18BF45BE002115A2 /* SSGentleAlertButtonDefault.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07BC18BF45BE002115A2 /* SSGentleAlertButtonDefault.xib */; };
+		35AB07CC18BF45BE002115A2 /* SSGentleAlertViewDefault.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07BD18BF45BE002115A2 /* SSGentleAlertViewDefault.bundle */; };
+		35AB07CD18BF45BE002115A2 /* SSGentleAlertViewDefault.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07BE18BF45BE002115A2 /* SSGentleAlertViewDefault.xib */; };
+		35AB07CE18BF45BE002115A2 /* SSGentleAlertButtonNative.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07C018BF45BE002115A2 /* SSGentleAlertButtonNative.xib */; };
+		35AB07CF18BF45BE002115A2 /* SSGentleAlertViewNative.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07C118BF45BE002115A2 /* SSGentleAlertViewNative.bundle */; };
+		35AB07D018BF45BE002115A2 /* SSGentleAlertViewNative.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07C218BF45BE002115A2 /* SSGentleAlertViewNative.xib */; };
+		35AB07D118BF45BE002115A2 /* SSOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07C518BF45BE002115A2 /* SSOverlayWindow.m */; };
+		35AB07D418BF495F002115A2 /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07D318BF495F002115A2 /* AlertView.m */; };
 		35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F718B3436A00DB2627 /* music_64.png */; };
 		35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F818B3436A00DB2627 /* search_64@2x.png */; };
 		35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F918B3436A00DB2627 /* home_64@2x.png */; };
@@ -120,6 +133,24 @@
 		3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseTrait.m; sourceTree = "<group>"; };
 		3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_64_f5f5f5@2x.png"; path = "iconbeast lite - png/star_64_f5f5f5@2x.png"; sourceTree = SOURCE_ROOT; };
 		35AB078C18BEE708002115A2 /* master.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = master.bin; path = "iconbeast lite - png/master.bin"; sourceTree = SOURCE_ROOT; };
+		35AB07B318BF45BE002115A2 /* SSDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSDialogView.h; sourceTree = "<group>"; };
+		35AB07B418BF45BE002115A2 /* SSDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSDialogView.m; sourceTree = "<group>"; };
+		35AB07B518BF45BE002115A2 /* SSGentleAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGentleAlertView.h; sourceTree = "<group>"; };
+		35AB07B618BF45BE002115A2 /* SSGentleAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGentleAlertView.m; sourceTree = "<group>"; };
+		35AB07B818BF45BE002115A2 /* SSGentleAlertButtonBlack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertButtonBlack.xib; sourceTree = "<group>"; };
+		35AB07B918BF45BE002115A2 /* SSGentleAlertViewBlack.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SSGentleAlertViewBlack.bundle; sourceTree = "<group>"; };
+		35AB07BA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertViewBlack.xib; sourceTree = "<group>"; };
+		35AB07BC18BF45BE002115A2 /* SSGentleAlertButtonDefault.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertButtonDefault.xib; sourceTree = "<group>"; };
+		35AB07BD18BF45BE002115A2 /* SSGentleAlertViewDefault.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SSGentleAlertViewDefault.bundle; sourceTree = "<group>"; };
+		35AB07BE18BF45BE002115A2 /* SSGentleAlertViewDefault.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertViewDefault.xib; sourceTree = "<group>"; };
+		35AB07C018BF45BE002115A2 /* SSGentleAlertButtonNative.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertButtonNative.xib; sourceTree = "<group>"; };
+		35AB07C118BF45BE002115A2 /* SSGentleAlertViewNative.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SSGentleAlertViewNative.bundle; sourceTree = "<group>"; };
+		35AB07C218BF45BE002115A2 /* SSGentleAlertViewNative.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSGentleAlertViewNative.xib; sourceTree = "<group>"; };
+		35AB07C318BF45BE002115A2 /* SSGentleAlertViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGentleAlertViewStyle.h; sourceTree = "<group>"; };
+		35AB07C418BF45BE002115A2 /* SSOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSOverlayWindow.h; sourceTree = "<group>"; };
+		35AB07C518BF45BE002115A2 /* SSOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSOverlayWindow.m; sourceTree = "<group>"; };
+		35AB07D218BF495F002115A2 /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
+		35AB07D318BF495F002115A2 /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
 		35BAE2F718B3436A00DB2627 /* music_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = music_64.png; path = "iconbeast lite - png/music_64.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F818B3436A00DB2627 /* search_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search_64@2x.png"; path = "iconbeast lite - png/search_64@2x.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F918B3436A00DB2627 /* home_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home_64@2x.png"; path = "iconbeast lite - png/home_64@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -288,6 +319,7 @@
 		3534E31C18A4D7B300BFA91B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				35AB07B218BF45BE002115A2 /* SSGentleAlertView */,
 				35BAE30D18B357EF00DB2627 /* MainMenu */,
 				5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */,
 				5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */,
@@ -309,8 +341,57 @@
 				35318F2418AB24FF00602C70 /* TabBarController.h */,
 				35318F2518AB24FF00602C70 /* TabBarController.m */,
 				35318F2618AB24FF00602C70 /* TabBarController.xib */,
+				35AB07D218BF495F002115A2 /* AlertView.h */,
+				35AB07D318BF495F002115A2 /* AlertView.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		35AB07B218BF45BE002115A2 /* SSGentleAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				35AB07B318BF45BE002115A2 /* SSDialogView.h */,
+				35AB07B418BF45BE002115A2 /* SSDialogView.m */,
+				35AB07B518BF45BE002115A2 /* SSGentleAlertView.h */,
+				35AB07B618BF45BE002115A2 /* SSGentleAlertView.m */,
+				35AB07B718BF45BE002115A2 /* SSGentleAlertViewBlack */,
+				35AB07BB18BF45BE002115A2 /* SSGentleAlertViewDefault */,
+				35AB07BF18BF45BE002115A2 /* SSGentleAlertViewNative */,
+				35AB07C318BF45BE002115A2 /* SSGentleAlertViewStyle.h */,
+				35AB07C418BF45BE002115A2 /* SSOverlayWindow.h */,
+				35AB07C518BF45BE002115A2 /* SSOverlayWindow.m */,
+			);
+			path = SSGentleAlertView;
+			sourceTree = "<group>";
+		};
+		35AB07B718BF45BE002115A2 /* SSGentleAlertViewBlack */ = {
+			isa = PBXGroup;
+			children = (
+				35AB07B818BF45BE002115A2 /* SSGentleAlertButtonBlack.xib */,
+				35AB07B918BF45BE002115A2 /* SSGentleAlertViewBlack.bundle */,
+				35AB07BA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib */,
+			);
+			path = SSGentleAlertViewBlack;
+			sourceTree = "<group>";
+		};
+		35AB07BB18BF45BE002115A2 /* SSGentleAlertViewDefault */ = {
+			isa = PBXGroup;
+			children = (
+				35AB07BC18BF45BE002115A2 /* SSGentleAlertButtonDefault.xib */,
+				35AB07BD18BF45BE002115A2 /* SSGentleAlertViewDefault.bundle */,
+				35AB07BE18BF45BE002115A2 /* SSGentleAlertViewDefault.xib */,
+			);
+			path = SSGentleAlertViewDefault;
+			sourceTree = "<group>";
+		};
+		35AB07BF18BF45BE002115A2 /* SSGentleAlertViewNative */ = {
+			isa = PBXGroup;
+			children = (
+				35AB07C018BF45BE002115A2 /* SSGentleAlertButtonNative.xib */,
+				35AB07C118BF45BE002115A2 /* SSGentleAlertViewNative.bundle */,
+				35AB07C218BF45BE002115A2 /* SSGentleAlertViewNative.xib */,
+			);
+			path = SSGentleAlertViewNative;
 			sourceTree = "<group>";
 		};
 		35BAE30D18B357EF00DB2627 /* MainMenu */ = {
@@ -411,9 +492,12 @@
 				35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */,
 				353198D418A2147E00EBBC82 /* Images.xcassets in Resources */,
 				35318F2818AB24FF00602C70 /* TabBarController.xib in Resources */,
+				35AB07CE18BF45BE002115A2 /* SSGentleAlertButtonNative.xib in Resources */,
+				35AB07CC18BF45BE002115A2 /* SSGentleAlertViewDefault.bundle in Resources */,
 				5C7E3FE018AE3F2E00AAC68B /* home.png in Resources */,
 				353198C318A2147E00EBBC82 /* InfoPlist.strings in Resources */,
 				35BAE30218B3464200DB2627 /* star_outline_64@2x.png in Resources */,
+				35AB07CD18BF45BE002115A2 /* SSGentleAlertViewDefault.xib in Resources */,
 				352A074718BC43AC00A880FA /* left_arrow@2x.png in Resources */,
 				35BAE30C18B3522A00DB2627 /* LiveListViewController.xib in Resources */,
 				35AB078D18BEE708002115A2 /* master.bin in Resources */,
@@ -424,13 +508,19 @@
 				5C7E3FDE18AE3EC700AAC68B /* search.png in Resources */,
 				35BAE30418B348BC00DB2627 /* calendar_64@2x.png in Resources */,
 				35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */,
+				35AB07CF18BF45BE002115A2 /* SSGentleAlertViewNative.bundle in Resources */,
 				5C7E3FE818AE3FD100AAC68B /* gear.png in Resources */,
 				5C7E3FE618AE3F9B00AAC68B /* music.png in Resources */,
+				35AB07D018BF45BE002115A2 /* SSGentleAlertViewNative.xib in Resources */,
 				5C7E3FE418AE3F7E00AAC68B /* shield-round.png in Resources */,
 				35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */,
 				35318F2318AB1CDB00602C70 /* DetailViewController.xib in Resources */,
 				5C7E3FDC18AE3EBC00AAC68B /* star.png in Resources */,
+				35AB07CB18BF45BE002115A2 /* SSGentleAlertButtonDefault.xib in Resources */,
+				35AB07C818BF45BE002115A2 /* SSGentleAlertButtonBlack.xib in Resources */,
+				35AB07C918BF45BE002115A2 /* SSGentleAlertViewBlack.bundle in Resources */,
 				353198FB18A2251C00EBBC82 /* CustomTableViewCell.xib in Resources */,
+				35AB07CA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib in Resources */,
 				352A074618BC43AC00A880FA /* left_arrow.png in Resources */,
 				353198CC18A2147E00EBBC82 /* Main.storyboard in Resources */,
 				5C7E3FE218AE3F7000AAC68B /* ticket.png in Resources */,
@@ -463,11 +553,15 @@
 				35318F2718AB24FF00602C70 /* TabBarController.m in Sources */,
 				5C174A7218BA0C6C003F59C6 /* CKCalendarView.m in Sources */,
 				35318F2218AB1CDB00602C70 /* DetailViewController.m in Sources */,
+				35AB07D418BF495F002115A2 /* AlertView.m in Sources */,
 				35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
+				35AB07C718BF45BE002115A2 /* SSGentleAlertView.m in Sources */,
 				353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */,
+				35AB07C618BF45BE002115A2 /* SSDialogView.m in Sources */,
 				352A074C18BC684300A880FA /* SectionBaseViewController.m in Sources */,
 				5C174A7318BA0C6C003F59C6 /* CKViewController.m in Sources */,
+				35AB07D118BF45BE002115A2 /* SSOverlayWindow.m in Sources */,
 				5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */,
 				353198C518A2147E00EBBC82 /* main.m in Sources */,
 				353198FD18A2251C00EBBC82 /* LoadData.m in Sources */,
