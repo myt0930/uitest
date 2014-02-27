@@ -38,6 +38,7 @@
 		353198FD18A2251C00EBBC82 /* LoadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198F818A2251C00EBBC82 /* LoadData.m */; };
 		3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */; };
 		3537595E18B5A23B00CC5894 /* star_64_f5f5f5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */; };
+		35AB078D18BEE708002115A2 /* master.bin in Resources */ = {isa = PBXBuildFile; fileRef = 35AB078C18BEE708002115A2 /* master.bin */; };
 		35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F718B3436A00DB2627 /* music_64.png */; };
 		35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F818B3436A00DB2627 /* search_64@2x.png */; };
 		35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F918B3436A00DB2627 /* home_64@2x.png */; };
@@ -118,6 +119,7 @@
 		3534E31818A4CD5200BFA91B /* LiveHouseTrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseTrait.h; sourceTree = "<group>"; };
 		3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseTrait.m; sourceTree = "<group>"; };
 		3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_64_f5f5f5@2x.png"; path = "iconbeast lite - png/star_64_f5f5f5@2x.png"; sourceTree = SOURCE_ROOT; };
+		35AB078C18BEE708002115A2 /* master.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = master.bin; path = "iconbeast lite - png/master.bin"; sourceTree = SOURCE_ROOT; };
 		35BAE2F718B3436A00DB2627 /* music_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = music_64.png; path = "iconbeast lite - png/music_64.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F818B3436A00DB2627 /* search_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search_64@2x.png"; path = "iconbeast lite - png/search_64@2x.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F918B3436A00DB2627 /* home_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home_64@2x.png"; path = "iconbeast lite - png/home_64@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -226,6 +228,7 @@
 		353198BF18A2147E00EBBC82 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				35AB078C18BEE708002115A2 /* master.bin */,
 				3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */,
 				35BAE30318B348BC00DB2627 /* calendar_64@2x.png */,
 				35BAE30118B3464200DB2627 /* star_outline_64@2x.png */,
@@ -413,6 +416,7 @@
 				35BAE30218B3464200DB2627 /* star_outline_64@2x.png in Resources */,
 				352A074718BC43AC00A880FA /* left_arrow@2x.png in Resources */,
 				35BAE30C18B3522A00DB2627 /* LiveListViewController.xib in Resources */,
+				35AB078D18BEE708002115A2 /* master.bin in Resources */,
 				35BAE30018B3436A00DB2627 /* settings_64@2x.png in Resources */,
 				352A074818BC43AC00A880FA /* right_arrow.png in Resources */,
 				352A074918BC43AC00A880FA /* right_arrow@2x.png in Resources */,

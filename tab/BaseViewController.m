@@ -102,8 +102,11 @@
     [self.navigationController popToRootViewControllerAnimated:NO];
     
     NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
-	[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:YES];
-	[_tableView reloadData];
+	if( _items && _items.count > 0 )
+	{
+		[_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionNone animated:YES];
+		[_tableView reloadData];
+	}
 }
 
 

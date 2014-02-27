@@ -45,7 +45,7 @@
 
 - (void)reloadItems
 {
-	[LiveInfoTrait addTestLiveInfo];
+//	[LiveInfoTrait addTestLiveInfo];
 	self.items = [LiveInfoTrait traitList];
 	
 	[super reloadItems];

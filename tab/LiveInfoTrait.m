@@ -105,7 +105,7 @@ static NSDate *maxDate;
 	for( int i = 0;i < masterCount;i++ )
 	{
 		int liveHouseNo		= [data getInt16];
-		NSString *liveDate	= [data getString16];
+		NSString *liveDate	= [NSString stringWithFormat:@"%d", [data getInt32]];
 		int subNo			= [data getInt16];
 		NSString *title		= [data getString16];
 		NSString *act		= [data getString16];
