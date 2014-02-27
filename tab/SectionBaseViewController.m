@@ -71,6 +71,17 @@
 	[self.tableView reloadData];
 }
 
+- (void)clearItems
+{
+	if( _rowCountArray )
+	{
+		[_rowCountArray removeAllObjects];
+	}
+	self.items = [NSArray array];
+	
+	[self.tableView reloadData];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [_sectionArray count];
@@ -119,23 +130,30 @@
         
         
     }
-	NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
-	
-    NSMutableArray *array = [NSMutableArray array];
-    for( const LiveInfoTrait *trait in self.items )
-    {
-        NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
-        if( [date isEqualToString:sectionName] )
-        {
-            [array addObject:trait];
-        }
-    }
-	
-	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
-	
-	[cell setTextWithTrait:trait];
 	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	CustomTableViewCell *customcell = (CustomTableViewCell*)cell;
+	
+	NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
+	
+	NSMutableArray *array = [NSMutableArray array];
+	for( const LiveInfoTrait *trait in self.items )
+	{
+		NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+		if( [date isEqualToString:sectionName] )
+		{
+			[array addObject:trait];
+		}
+	}
+	
+	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
+	[customcell setTextWithTrait:trait];
+	
+	[customcell updateConstraints];
 }
 
 @end

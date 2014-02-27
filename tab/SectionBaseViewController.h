@@ -13,4 +13,5 @@
 @property NSMutableArray *rowCountArray;
 
 - (void)reloadItems;
+- (void)clearItems;
 @end

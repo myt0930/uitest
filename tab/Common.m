@@ -168,3 +168,17 @@
 }
 
 @end
+
+@implementation NSObject (Ex)
+
+- (void)performBlockInBackground:(VoidBlock)block {
+	[self performSelectorInBackground:@selector(executeBlockInAutoReleasePool:) withObject:[block copy]];
+}
+
+- (void)executeBlockInAutoReleasePool:(VoidBlock)block {
+	@autoreleasepool {
+		block();
+	}
+}
+
+@end

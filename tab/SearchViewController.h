@@ -13,5 +13,6 @@
 @interface SearchViewController : SectionBaseViewController<UISearchDisplayDelegate,UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property UIActivityIndicatorView *indicator;
 
 @end

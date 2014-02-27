@@ -21,24 +21,23 @@
 {
     [super viewDidLoad];
 	
-//	[LiveInfoTrait addTestLiveInfo];
+	[LiveInfoTrait addTestLiveInfo];
 	
-	NSString *homeDir = NSHomeDirectory();
-	
-	// 書き込みたいファイルのパスを作成
-	NSString *filePath = [homeDir stringByAppendingPathComponent:@"/Users/JP10733/uitest/iconbeast lite - png/master.bin"];
-	
-	NSData* data = [[NSData alloc] initWithContentsOfFile:@"/Users/JP10733/uitest/iconbeast lite - png/master.bin"];
-	if( data  )
-	{
-	
-	LoadData* load = [[LoadData alloc] initWithData:data];
-	//マスターの数,タイプを読み飛ばす
-	[load getInt16];
-	[load getInt16];
-	[LiveInfoTrait loadMast:load];
-		
-	}
+//	NSString *homeDir = NSHomeDirectory();
+//	
+//	// 書き込みたいファイルのパスを作成
+//	NSString *filePath = [homeDir stringByAppendingPathComponent:@"/Users/JP10733/uitest/iconbeast lite - png/master.bin"];
+//	
+//	NSData* data = [[NSData alloc] initWithContentsOfFile:@"/Users/JP10733/uitest/iconbeast lite - png/master.bin"];
+//	if( data  )
+//	{
+//		LoadData* load = [[LoadData alloc] initWithData:data];
+//		//マスターの数,タイプを読み飛ばす
+//		[load getInt16];
+//		[load getInt16];
+//		[LiveInfoTrait loadMast:load];
+//		
+//	}
     _currentDate = [NSDate date];
 	self.items = [LiveInfoTrait traitListWithDate:_currentDate];
 	

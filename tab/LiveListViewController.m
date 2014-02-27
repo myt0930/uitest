@@ -23,7 +23,6 @@
 	{
 		_trait = trait;
 		[self setTitle:_trait.name];
-		[self reloadItems];
 	}
 	return self;
 }
@@ -41,14 +40,19 @@
 	}
 	self.tableView.contentInset				= UIEdgeInsetsMake(0, 0, height, 0);
 	self.tableView.scrollIndicatorInsets	= UIEdgeInsetsMake(0, 0, height, 0);
-}
-
-- (void)reloadItems
-{
-//	[LiveInfoTrait addTestLiveInfo];
-	self.items = [LiveInfoTrait traitList];
 	
-	[super reloadItems];
+	// UIActivityIndicatorViewのインスタンス化
+	_indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+	_indicator.center = self.view.center;
+	_indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+	[self.view addSubview:_indicator];
+	
+	[_indicator startAnimating];
+	[self performBlockInBackground:^{
+		self.items = [LiveInfoTrait traitList];
+		[super reloadItems];
+		[_indicator stopAnimating];
+	}];
 }
 
 - (void)didReceiveMemoryWarning

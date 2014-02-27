@@ -27,6 +27,12 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
 	backButton.title = @"Back";
 	[self.navigationItem setBackBarButtonItem:backButton];
+	
+	// UIActivityIndicatorViewのインスタンス化
+	_indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+	_indicator.center = CGPointMake(160,200);
+	_indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+	[self.searchDisplayController.searchResultsTableView addSubview:_indicator];
     
 	[LiveInfoTrait addTestLiveInfo];
 }
@@ -44,40 +50,46 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString
 {
-    BOOL ret = YES; //検索結果を更新するときはYESを返す
-    searchString = [searchString lowercaseString];
- 
-    NSLog(@"%@", searchString);
-    
-	NSMutableArray *searchItems = [NSMutableArray array];
-    
-    for( const LiveInfoTrait *trait in [LiveInfoTrait traitList] )
-    {
-        //出演者名検索
-        NSString *act = [trait.act lowercaseString];
-        if( [act rangeOfString:searchString].location == NSNotFound )
-        {
-            //イベント名検索
-            NSString *title = [trait.eventTitle lowercaseString];
-            if( [title rangeOfString:searchString].location == NSNotFound )
-            {
-                //イベント名、出演者名に含まれない時はcontinue
-                continue;
-            }
-        }
-        
-        [searchItems addObject:trait];
-    }
-	self.items = searchItems;
-	[super reloadItems];
-    
-    return ret; 
+	searchString = [searchString lowercaseString];
+	
+	//インジケーターON
+	[_indicator startAnimating];
+	
+	//バックグラウンドで検索結果の更新処理
+	[self performBlockInBackground:^{
+		NSMutableArray *searchItems = [NSMutableArray array];
+		
+		for( const LiveInfoTrait *trait in [LiveInfoTrait traitList] )
+		{
+			//出演者名検索
+			NSString *act = [trait.act lowercaseString];
+			if( [act rangeOfString:searchString].location == NSNotFound )
+			{
+				//イベント名検索
+				NSString *title = [trait.eventTitle lowercaseString];
+				if( [title rangeOfString:searchString].location == NSNotFound )
+				{
+					//イベント名、出演者名に含まれない時はcontinue
+					continue;
+				}
+			}
+			
+			[searchItems addObject:trait];
+		}
+		self.items = searchItems;
+		[super reloadItems];
+		
+		[_searchController.searchResultsTableView reloadData];
+		
+		//インジケーターOFF
+		[_indicator stopAnimating];
+	}];
+	return NO;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-	self.items = [NSArray array];
-	[super reloadItems];
+	[self clearItems];
 }
 
 // =============================================================================

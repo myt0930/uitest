@@ -57,3 +57,10 @@
 - (BOOL)smallerThanDate:(NSDate*)date;
 - (BOOL)largerThanDate:(NSDate*)date;
 @end
+
+@interface NSObject (Ex)
+
+typedef void (^VoidBlock)(void);
+- (void)performBlockInBackground:(VoidBlock)block;
+
+@end

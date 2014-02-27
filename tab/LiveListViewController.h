@@ -11,6 +11,7 @@
 
 @interface LiveListViewController : SectionBaseViewController
 @property const LiveHouseTrait *trait;
+@property UIActivityIndicatorView *indicator;
 
 - (id)initWithTrait:(const LiveHouseTrait *)trait;
 @end
