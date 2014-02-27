@@ -376,7 +376,7 @@
 				ORGANIZATIONNAME = "MIYATA Wataru";
 				TargetAttributes = {
 					353198B418A2147E00EBBC82 = {
-						DevelopmentTeam = 7ATEHMWAS4;
+						DevelopmentTeam = V859Q9B43N;
 					};
 					353198D818A2147E00EBBC82 = {
 						TestTargetID = 353198B418A2147E00EBBC82;

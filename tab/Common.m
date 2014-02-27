@@ -8,6 +8,38 @@
 
 #import "Common.h"
 
+@implementation Common
+//-<NHN>--------------------------------------------------------------------------------------------
+// Function : documentDir
+// Explain  :
+//--------------------------------------------------------------------------------------------<NHN>-
++ (NSString*)documentDir
+{
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	return [paths objectAtIndex:0];
+}
+
+//-<NHN>--------------------------------------------------------------------------------------------
+// Function : libraryCachesDir
+// Explain  :
+//--------------------------------------------------------------------------------------------<NHN>-
++ (NSString*)libraryCachesDir
+{
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+	return [paths objectAtIndex:0];
+}
+
+//-<NHN>--------------------------------------------------------------------------------------------
+// Function : tempDir
+// Explain  :
+//--------------------------------------------------------------------------------------------<NHN>-
++ (NSString*)tempDir
+{
+	return NSTemporaryDirectory();
+}
+
+@end
+
 @implementation UILabel(Ex)
 + (id)labelWithFontName:(UIFont *)font color:(UIColor *)color
 {
