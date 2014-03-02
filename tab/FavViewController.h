@@ -8,6 +8,8 @@
 
 #import "SectionBaseViewController.h"
 
+@class TlsAlertView;
+
 @interface FavViewController : SectionBaseViewController
 
 @end

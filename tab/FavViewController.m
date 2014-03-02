@@ -9,7 +9,7 @@
 #import "FavViewController.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
-#import "AlertView.h"
+#import "SSGentleAlertView.h"
 
 @interface FavViewController ()
 
@@ -49,7 +49,5 @@
 - (void) didSelect:(TabBarController *)tabBarController {
     [self.navigationController popToRootViewControllerAnimated:NO];
 	[self reloadFavItems];
-	
-	//ここでアラートを読んでみる
 }
 @end

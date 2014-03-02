@@ -51,7 +51,7 @@
 		35AB07CF18BF45BE002115A2 /* SSGentleAlertViewNative.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07C118BF45BE002115A2 /* SSGentleAlertViewNative.bundle */; };
 		35AB07D018BF45BE002115A2 /* SSGentleAlertViewNative.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AB07C218BF45BE002115A2 /* SSGentleAlertViewNative.xib */; };
 		35AB07D118BF45BE002115A2 /* SSOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07C518BF45BE002115A2 /* SSOverlayWindow.m */; };
-		35AB07D418BF495F002115A2 /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07D318BF495F002115A2 /* AlertView.m */; };
+		35AB07D418BF495F002115A2 /* TlsAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07D318BF495F002115A2 /* TlsAlertView.m */; };
 		35BAE2FC18B3436A00DB2627 /* music_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F718B3436A00DB2627 /* music_64.png */; };
 		35BAE2FD18B3436A00DB2627 /* search_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F818B3436A00DB2627 /* search_64@2x.png */; };
 		35BAE2FE18B3436A00DB2627 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BAE2F918B3436A00DB2627 /* home_64@2x.png */; };
@@ -149,8 +149,8 @@
 		35AB07C318BF45BE002115A2 /* SSGentleAlertViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGentleAlertViewStyle.h; sourceTree = "<group>"; };
 		35AB07C418BF45BE002115A2 /* SSOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSOverlayWindow.h; sourceTree = "<group>"; };
 		35AB07C518BF45BE002115A2 /* SSOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSOverlayWindow.m; sourceTree = "<group>"; };
-		35AB07D218BF495F002115A2 /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
-		35AB07D318BF495F002115A2 /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
+		35AB07D218BF495F002115A2 /* TlsAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TlsAlertView.h; sourceTree = "<group>"; };
+		35AB07D318BF495F002115A2 /* TlsAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TlsAlertView.m; sourceTree = "<group>"; };
 		35BAE2F718B3436A00DB2627 /* music_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = music_64.png; path = "iconbeast lite - png/music_64.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F818B3436A00DB2627 /* search_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search_64@2x.png"; path = "iconbeast lite - png/search_64@2x.png"; sourceTree = SOURCE_ROOT; };
 		35BAE2F918B3436A00DB2627 /* home_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home_64@2x.png"; path = "iconbeast lite - png/home_64@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -341,8 +341,8 @@
 				35318F2418AB24FF00602C70 /* TabBarController.h */,
 				35318F2518AB24FF00602C70 /* TabBarController.m */,
 				35318F2618AB24FF00602C70 /* TabBarController.xib */,
-				35AB07D218BF495F002115A2 /* AlertView.h */,
-				35AB07D318BF495F002115A2 /* AlertView.m */,
+				35AB07D218BF495F002115A2 /* TlsAlertView.h */,
+				35AB07D318BF495F002115A2 /* TlsAlertView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -457,7 +457,7 @@
 				ORGANIZATIONNAME = "MIYATA Wataru";
 				TargetAttributes = {
 					353198B418A2147E00EBBC82 = {
-						DevelopmentTeam = V859Q9B43N;
+						DevelopmentTeam = 7ATEHMWAS4;
 					};
 					353198D818A2147E00EBBC82 = {
 						TestTargetID = 353198B418A2147E00EBBC82;
@@ -553,7 +553,7 @@
 				35318F2718AB24FF00602C70 /* TabBarController.m in Sources */,
 				5C174A7218BA0C6C003F59C6 /* CKCalendarView.m in Sources */,
 				35318F2218AB1CDB00602C70 /* DetailViewController.m in Sources */,
-				35AB07D418BF495F002115A2 /* AlertView.m in Sources */,
+				35AB07D418BF495F002115A2 /* TlsAlertView.m in Sources */,
 				35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
 				35AB07C718BF45BE002115A2 /* SSGentleAlertView.m in Sources */,

@@ -47,32 +47,33 @@
   return self;
 }
 
-- (id)initWithTitle:(NSString*)title message:(NSString*)message delegate:(id)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...
+- (id)initWithTitle:(NSString*)title message:(NSString*)message block:(void(^)(NSInteger))block cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...
 {
   va_list args;
   va_start(args, otherButtonTitles);
-  if ((self = [self initWithStyle:SSGentleAlertViewStyleDefault title:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitle:otherButtonTitles args:args])) {
+  if ((self = [self initWithStyle:SSGentleAlertViewStyleDefault title:title message:message block:(void(^)(NSInteger))block cancelButtonTitle:cancelButtonTitle otherButtonTitle:otherButtonTitles args:args])) {
   }
   va_end(args);
   return self;
 }
 
-- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message delegate:(id)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...
+- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message block:(void(^)(NSInteger))block cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...
 {
   va_list args;
   va_start(args, otherButtonTitles);
-  if ((self = [self initWithStyle:style title:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitle:otherButtonTitles args:args])) {
+  if ((self = [self initWithStyle:style title:title message:message block:(void(^)(NSInteger))block cancelButtonTitle:cancelButtonTitle otherButtonTitle:otherButtonTitles args:args])) {
   }
   va_end(args);
   return self;
 }
 
-- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message delegate:(id)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitle:(NSString*)otherButtonTitle args:(va_list)args
+- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message block:(void(^)(NSInteger))block cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitle:(NSString*)otherButtonTitle args:(va_list)args
 {
   if ((self = [self initWithStyle:style])) {
     self.title = title;
     self.message = message;
-    self.delegate = delegate;
+//    self.delegate = delegate;
+      self.blocks = block;
     if (nil != cancelButtonTitle) {
       self.cancelButtonIndex = 0;
       [self addButtonWithTitle:cancelButtonTitle];
@@ -223,17 +224,12 @@
 
 - (void)removeByButtonIndex:(NSInteger)buttonIndex
 {
-  if ([self.delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
-    [self.delegate alertView:(UIAlertView*)self clickedButtonAtIndex:buttonIndex];
-  }
-
-  if ([self.delegate respondsToSelector:@selector(alertView:willDismissWithButtonIndex:)]) {
-    [self.delegate alertView:(UIAlertView*)self willDismissWithButtonIndex:buttonIndex];
+  if( _blocks )
+  {
+      _blocks(buttonIndex);
+      _blocks = nil;
   }
   [self remove];
-  if ([self.delegate respondsToSelector:@selector(alertView:didDismissWithButtonIndex:)]) {
-    [self.delegate alertView:(UIAlertView*)self didDismissWithButtonIndex:buttonIndex];
-  }
 }
 
 - (void)backgroundDidTap

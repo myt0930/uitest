@@ -16,10 +16,11 @@
 @property (nonatomic, readonly) NSInteger numberOfButtons;
 
 @property (nonatomic) BOOL disappearWhenBackgroundClicked;
+@property (nonatomic, strong, readwrite) void(^blocks)(NSInteger);
 
 - (id)initWithStyle:(SSGentleAlertViewStyle)style;
-- (id)initWithTitle:(NSString*)title message:(NSString*)message delegate:(id)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...;
-- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message delegate:(id)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...;
+- (id)initWithTitle:(NSString*)title message:(NSString*)message block:(void(^)(NSInteger))block cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...;
+- (id)initWithStyle:(SSGentleAlertViewStyle)style title:(NSString*)title message:(NSString*)message block:(void(^)(NSInteger))block cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ...;
 
 - (void)show;
 - (NSInteger)addButtonWithTitle:(NSString*)title;
