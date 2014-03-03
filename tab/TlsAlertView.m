@@ -8,6 +8,8 @@
 
 #import "TlsAlertView.h"
 #import "SSGentleAlertView.h"
+#import "Common.h"
+#import "NetworkDownload.h"
 
 enum UPDATE_STATE
 {
@@ -34,7 +36,7 @@ enum UPDATE_STATE
         [alertView showRetryUpdateDialog:^(NSInteger index) {
             if( index == 1 )
             {
-                [alertView showDoneUpdateDialog];
+                [NetworkDownload downloadFile:^(BOOL isDownload){}];
             }
         }];
     }];
