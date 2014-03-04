@@ -36,7 +36,7 @@ enum UPDATE_STATE
         [alertView showRetryUpdateDialog:^(NSInteger index) {
             if( index == 1 )
             {
-                [NetworkDownload downloadFile:^(BOOL isDownload){}];
+                //[NetworkDownload downloadFile:^(BOOL isDownload){}];
             }
         }];
     }];
@@ -55,12 +55,20 @@ enum UPDATE_STATE
 
 - (void)showRetryUpdateDialog:(void(^)(NSInteger))block
 {
+	//TODO: 初回起動か判定
+	BOOL isFirstLaunch = NO;
+	
+	NSString *message = isFirstLaunch ?
+						@"ライブ情報の更新に失敗しました。ネットワーク環境の良い場所でリトライして下さい。" :
+						@"ライブ情報の更新に失敗しました。\nリトライしますか？\n(ネットワーク環境の良い場所で行ってください。)";
+	
+	
     SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
                                                                       title:@"データ更新"
-                                                                    message:@"ライブ情報の更新に失敗しました。\nリトライしますか？\n(ネットワーク環境の良い場所で行ってください。)"
+                                                                    message:message
                                                                       block:block
-                                                          cancelButtonTitle:@"いいえ"
-                                                          otherButtonTitles:@"はい", nil];
+                                                          cancelButtonTitle:isFirstLaunch ? nil : @"後で"
+                                                          otherButtonTitles:@"リトライ", nil];
     [alertView show];
 }
 

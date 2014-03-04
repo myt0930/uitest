@@ -77,6 +77,10 @@
 	{
 		[_rowCountArray removeAllObjects];
 	}
+	if( _sectionArray )
+	{
+		_sectionArray = nil;
+	}
 	self.items = [NSArray array];
 	
 	[self.tableView reloadData];

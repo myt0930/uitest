@@ -15,8 +15,10 @@
 
 @implementation NetworkDownload
 
-+ (void)downloadFile:(void(^)(BOOL))block
++ (void)downloadFile:(void(^)(NSError*,NSData*))block
 {
+	//まだマスターダウンロードをしていなければ強制DL
+	
     NSURL *url = [NSURL URLWithString:@"https://s3-ap-northeast-1.amazonaws.com/tokyolive/version.bin"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	
@@ -38,7 +40,7 @@
 		[[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:&error];
         if (error)
 		{
-			block(NO);
+			block(error, nil);
         }
 		else
 		{
@@ -47,13 +49,13 @@
 			NSData *data4 = [data subdataWithRange:NSMakeRange(0, 4)];
 			int version = CFSwapInt32LittleToHost(*(int*)([data4 bytes]));
 			
-			block(YES);
+			block(nil, data);
         }
 		
 		
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"ERR: %@", [error description]);
-		block(NO);
+		block(error, nil);
     }];
 	
     [operation start];

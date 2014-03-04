@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NetworkDownload : NSObject
-+ (void)downloadFile:(void(^)(BOOL))block;
++ (void)downloadFile:(void(^)(NSError*,NSData*))block;
 @end

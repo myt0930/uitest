@@ -48,6 +48,7 @@
 		3546B3D418C47917004DCF51 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3546B3CA18C47917004DCF51 /* AFURLResponseSerialization.m */; };
 		3546B3D518C47917004DCF51 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3546B3CC18C47917004DCF51 /* AFURLSessionManager.m */; };
 		3546B3D818C488A2004DCF51 /* NetworkDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3546B3D718C488A2004DCF51 /* NetworkDownload.m */; };
+		3553A3B818C59FAD008CCFAE /* TlsIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3553A3B718C59FAD008CCFAE /* TlsIndicatorView.m */; };
 		35AB078D18BEE708002115A2 /* master.bin in Resources */ = {isa = PBXBuildFile; fileRef = 35AB078C18BEE708002115A2 /* master.bin */; };
 		35AB07C618BF45BE002115A2 /* SSDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07B418BF45BE002115A2 /* SSDialogView.m */; };
 		35AB07C718BF45BE002115A2 /* SSGentleAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AB07B618BF45BE002115A2 /* SSGentleAlertView.m */; };
@@ -163,6 +164,8 @@
 		3546B3CC18C47917004DCF51 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		3546B3D618C488A2004DCF51 /* NetworkDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDownload.h; sourceTree = "<group>"; };
 		3546B3D718C488A2004DCF51 /* NetworkDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkDownload.m; sourceTree = "<group>"; };
+		3553A3B618C59FAD008CCFAE /* TlsIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TlsIndicatorView.h; sourceTree = "<group>"; };
+		3553A3B718C59FAD008CCFAE /* TlsIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TlsIndicatorView.m; sourceTree = "<group>"; };
 		35AB078C18BEE708002115A2 /* master.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = master.bin; path = "iconbeast lite - png/master.bin"; sourceTree = SOURCE_ROOT; };
 		35AB07B318BF45BE002115A2 /* SSDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSDialogView.h; sourceTree = "<group>"; };
 		35AB07B418BF45BE002115A2 /* SSDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSDialogView.m; sourceTree = "<group>"; };
@@ -377,6 +380,8 @@
 				35318F2618AB24FF00602C70 /* TabBarController.xib */,
 				35AB07D218BF495F002115A2 /* TlsAlertView.h */,
 				35AB07D318BF495F002115A2 /* TlsAlertView.m */,
+				3553A3B618C59FAD008CCFAE /* TlsIndicatorView.h */,
+				3553A3B718C59FAD008CCFAE /* TlsIndicatorView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 				35BAE30B18B3522A00DB2627 /* LiveListViewController.m in Sources */,
 				353198F918A2251C00EBBC82 /* Common.m in Sources */,
 				35AB07C718BF45BE002115A2 /* SSGentleAlertView.m in Sources */,
+				3553A3B818C59FAD008CCFAE /* TlsIndicatorView.m in Sources */,
 				3546B3D818C488A2004DCF51 /* NetworkDownload.m in Sources */,
 				353198CF18A2147E00EBBC82 /* HomeViewController.m in Sources */,
 				35AB07C618BF45BE002115A2 /* SSDialogView.m in Sources */,
