@@ -11,7 +11,6 @@
 #import "SSGentleAlertView.h"
 #import "TlsAlertView.h"
 #import "TlsIndicatorView.h"
-#import "SVProgressHUD.h"
 
 @implementation AppDelegate
 
@@ -38,6 +37,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+	//
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
 	[_indicator startAnimating];
 	[self performSelector:@selector(test:) withObject:nil afterDelay:5.0];

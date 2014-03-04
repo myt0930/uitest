@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+enum MASTER_UPDATE_STATE
+{
+	MASTER_UPDATE_NETWORK_ERROR = -1,	//通信エラー
+	MASTER_UPDATE_NONE = 0,				//アップデートなし
+	MASTER_UPDATE_NEED,					//アップデートあり
+	MASTER_UPDATE_CONSTRAINT,			//強制アップデート
+};
+
 @interface NetworkDownload : NSObject
 + (void)downloadFile:(void(^)(NSError*,NSData*))block;
 @end
