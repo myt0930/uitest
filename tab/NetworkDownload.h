@@ -17,5 +17,5 @@ enum MASTER_UPDATE_STATE
 };
 
 @interface NetworkDownload : NSObject
-+ (void)downloadFile:(void(^)(NSError*,NSData*))block;
++ (void)downloadFile:(NSString*)fileName saveTo:(NSString*)saveTo block:(void(^)(NSError*,NSData*))block;
 @end
