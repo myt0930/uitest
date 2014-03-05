@@ -32,17 +32,17 @@ enum UPDATE_STATE
 {
     TlsAlertView *alertView = [[TlsAlertView alloc] init];
     
-    [alertView showNeedUpdateDialog:^(NSInteger index) {
-        [alertView showRetryUpdateDialog:^(NSInteger index) {
-            if( index == 1 )
-            {
-                //[NetworkDownload downloadFile:^(BOOL isDownload){}];
-            }
-        }];
-    }];
+//    [alertView showNeedUpdateDialog:^(NSInteger index) {
+//        [alertView showRetryUpdateDialog:^(NSInteger index) {
+//            if( index == 1 )
+//            {
+//                //[NetworkDownload downloadFile:^(BOOL isDownload){}];
+//            }
+//        }];
+//    }];
 }
 
-- (void)showNeedUpdateDialog:(void(^)(NSInteger))block
++ (void)showNeedUpdateDialog:(void(^)(NSInteger))block
 {
     SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
                                                                       title:@"データ更新"
@@ -53,11 +53,8 @@ enum UPDATE_STATE
     [alertView show];
 }
 
-- (void)showRetryUpdateDialog:(void(^)(NSInteger))block
++ (void)showRetryUpdateDialog:(BOOL)isFirstLaunch block:(void(^)(NSInteger))block
 {
-	//TODO: 初回起動か判定
-	BOOL isFirstLaunch = NO;
-	
 	NSString *message = isFirstLaunch ?
 						@"ライブ情報の更新に失敗しました。ネットワーク環境の良い場所でリトライして下さい。" :
 						@"ライブ情報の更新に失敗しました。\nリトライしますか？\n(ネットワーク環境の良い場所で行ってください。)";
@@ -72,12 +69,12 @@ enum UPDATE_STATE
     [alertView show];
 }
 
-- (void)showDoneUpdateDialog
++ (void)showDoneUpdateDialog:(void(^)(NSInteger))block
 {
     SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
                                                                       title:@"データ更新"
                                                                     message:@"ライブ情報の更新が完了しました。"
-                                                                      block:nil
+                                                                      block:block
                                                           cancelButtonTitle:nil
                                                           otherButtonTitles:@"OK", nil];
     [alertView show];
