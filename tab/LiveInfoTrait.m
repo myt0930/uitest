@@ -40,7 +40,7 @@ static NSDate *maxDate;
 	for( LiveInfoTrait *trait in traitList )
 	{
         NSString *date2 = [NSString stringWithDateFormat:@"yyyyMMdd" date:trait.liveDate];
-		if( [date1 isEqualToString:date2] )
+        if( [date1 isEqualToString:date2] )
 		{
 			[liveList addObject:trait];
 		}
@@ -94,6 +94,7 @@ static NSDate *maxDate;
 
 + (void)loadMast:(LoadData*)data
 {
+    NSDate *startDate = [NSDate date];
 	//ライブ一覧をクリア
 	[self removeAllMast];
     
@@ -113,6 +114,9 @@ static NSDate *maxDate;
 		NSString *start		= [data getString16];
 		int advanceTicket	= [data getInt16];
 		int todayTicket		= [data getInt16];
+        
+        NSDate *end = [NSDate date];
+//        NSLog(@"loadMast1 : %lf", [end timeIntervalSinceDate:startDate] );
 		
 		LiveInfoTrait *trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:liveHouseNo
 																 liveDate:liveDate
@@ -124,7 +128,11 @@ static NSDate *maxDate;
 															advanceTicket:advanceTicket
 															  todayTicket:todayTicket];
 		[traitList addObject:trait];
+        end = [NSDate date];
+//        NSLog(@"loadMast2 : %lf", [end timeIntervalSinceDate:startDate] );
 	}
+    NSDate *end = [NSDate date];
+    NSLog(@"loadMast : %lf", [end timeIntervalSinceDate:startDate]);
 }
 
 -(id)initWithLiveHouseNo:(int)liveHouseNo
@@ -148,13 +156,13 @@ static NSDate *maxDate;
 		_advanceTicket	= advanceTicket;
 		_todayTicket	= todayTicket;
         
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
+        NSDateFormatter *formatter = [Common dateFormatter];
         [formatter setDateFormat:@"yyyyMMdd"];
         _liveDate = [formatter dateFromString:liveDate];
         
         _uniqueID		= [NSString stringWithFormat:@"%@%d%03d", [NSString stringWithDateFormat:@"yyyyMMdd" date:_liveDate], _subNo, _liveHouseNo];
         
-        _dayOfWeek      = [NSString stringWithDateFormat:@"E" date:_liveDate];
+        _dayOfWeek      = [_liveDate weekDay];// [NSString stringWithDateFormat:@"E" date:_liveDate];
         
         if( !minDate || [minDate timeIntervalSinceDate:_liveDate] > 0 )
         {

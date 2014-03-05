@@ -46,15 +46,18 @@
 		NSString *section = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
 		if( ![array containsObject:section] )
 		{
-			[array addObject:section];
+            if( ![section isEqualToString:@""] )
+            {
+                [array addObject:section];
+            }
 		}
     }
-	_sectionArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+	NSArray *sectionArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [obj1 compare:obj2];
 	}];
 	
 	[_rowCountArray removeAllObjects];
-	for( NSString *sectionName in _sectionArray )
+	for( NSString *sectionName in sectionArray )
 	{
 		int count = 0;
 		for( const LiveInfoTrait *trait in self.items )
@@ -67,6 +70,8 @@
 		}
 		[_rowCountArray addObject:[NSNumber numberWithInt:count]];
 	}
+    
+    _sectionArray = sectionArray;
 	
 	[self.tableView reloadData];
 }
@@ -97,6 +102,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if( _rowCountArray.count <= section )return 0;
     return [[_rowCountArray objectAtIndex:section] integerValue];
 }
 

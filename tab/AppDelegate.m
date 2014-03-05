@@ -14,6 +14,7 @@
 #import "Appirater.h"
 #import "Common.h"
 #import "LoadData.h"
+#import "TabBarController.h"
 
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
@@ -149,7 +150,9 @@
 		[loadData getInt16];
 		[LiveInfoTrait loadMast:loadData];
 	}
-	
+    
+    TabBarController *tabBarController = (TabBarController*)self.window.rootViewController;
+	[tabBarController setSelectedIndex:0];
 	[self endIndicator];
 }
 @end

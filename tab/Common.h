@@ -37,6 +37,7 @@
 + (NSString*)documentDir;
 + (NSString*)libraryCachesDir;
 + (NSString*)tempDir;
++ (NSDateFormatter*)dateFormatter;
 @end
 
 @interface UILabel(Ex)
@@ -52,7 +53,6 @@
 @end
 
 @interface NSString(Ex)
-+ (NSString*)stringWithDateFormat:(NSString*)format timeZone:(NSTimeZone*)timeZone date:(NSDate*)date;
 + (NSString*)stringWithDateFormat:(NSString*)format date:(NSDate*)date;
 @end
 
@@ -63,6 +63,7 @@
 @interface NSDate(Ex)
 - (BOOL)smallerThanDate:(NSDate*)date;
 - (BOOL)largerThanDate:(NSDate*)date;
+- (NSString*)weekDay;
 @end
 
 @interface NSObject (Ex)

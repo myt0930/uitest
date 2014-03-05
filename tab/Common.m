@@ -9,6 +9,25 @@
 #import "Common.h"
 
 @implementation Common
+static NSDateFormatter *_dateFormatter;
++ (void)initialize
+{
+    if( !_dateFormatter )
+    {
+        _dateFormatter = [[NSDateFormatter alloc] initWithGregorianCalendar];
+        [_dateFormatter setLocale:[NSLocale currentLocale]];
+        [_dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
+    }
+}
+
++ (NSDateFormatter*)dateFormatter
+{
+//    if( ![_dateFormatter.dateFormat isEqualToString:format] )
+//    {
+//        _dateFormatter.dateFormat = format;
+//    }
+    return _dateFormatter;
+}
 //-<NHN>--------------------------------------------------------------------------------------------
 // Function : documentDir
 // Explain  :
@@ -118,25 +137,22 @@
 
 #pragma mark -
 @implementation NSString(Ex)
+
 //-<NHN>--------------------------------------------------------------------------------------------
 // Function : stringWithDateFormat: date:
 // Explain  : カレンダー設定が和暦でも正しくフォーマットしてNSStringを返す
 //--------------------------------------------------------------------------------------------<NHN>-
-+ (NSString*)stringWithDateFormat:(NSString*)format timeZone:(NSTimeZone*)timeZone date:(NSDate*)date
++ (NSString*)stringWithDateFormat:(NSString*)format date:(NSDate*)date
 {
 	if( format == nil || date == nil ){ return @""; }
     
-	NSDateFormatter* df = [[NSDateFormatter alloc] initWithGregorianCalendar];
-	[df setLocale:[NSLocale currentLocale]];
-	[df setTimeZone:timeZone];
-	df.dateFormat  = format;
-	NSString* str = [df stringFromDate:date];
-    
+    NSDateFormatter *df = [Common dateFormatter];
+    if( ![df.dateFormat isEqualToString:format] )
+    {
+        df.dateFormat = format;
+    }
+	NSString* str = [_dateFormatter stringFromDate:date];
 	return str;
-}
-+ (NSString*)stringWithDateFormat:(NSString*)format date:(NSDate*)date
-{
-	return [NSString stringWithDateFormat:format timeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"] date:date];
 }
 
 @end
@@ -165,6 +181,14 @@
 - (BOOL)largerThanDate:(NSDate*)date
 {
     return [self timeIntervalSinceDate:date] > 0;
+}
+
+- (NSString*)weekDay
+{
+    NSString* array[] = {nil, @"日", @"月", @"火", @"水", @"木", @"金", @"土"};
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents* comps = [calendar components:NSWeekdayCalendarUnit fromDate:self];
+    return array[comps.weekday];
 }
 
 @end
