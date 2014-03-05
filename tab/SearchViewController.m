@@ -34,7 +34,7 @@
 	_indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 	[self.searchDisplayController.searchResultsTableView addSubview:_indicator];
     
-	[LiveInfoTrait addTestLiveInfo];
+//	[LiveInfoTrait addTestLiveInfo];
 }
 
 - (void)didReceiveMemoryWarning

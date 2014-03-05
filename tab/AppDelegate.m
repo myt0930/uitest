@@ -8,11 +8,15 @@
 
 #import "AppDelegate.h"
 #import "SettingData.h"
-#import "SSGentleAlertView.h"
 #import "TlsAlertView.h"
 #import "TlsIndicatorView.h"
 #import "NetworkDownload.h"
 #import "Appirater.h"
+#import "Common.h"
+#import "LoadData.h"
+
+#import "LiveHouseTrait.h"
+#import "LiveInfoTrait.h"
 
 @implementation AppDelegate
 
@@ -91,6 +95,7 @@
 		
 		if( state == MASTER_UPDATE_NONE )
 		{
+			[self loadMaster];
 			return;	//更新無し
 		}
 		//「更新がある」ダイアログ
@@ -110,10 +115,7 @@
 		{
 			//更新完了ダイアログ
 			[TlsAlertView showDoneUpdateDialog:^(NSInteger index) {
-				[self startIndicator];
-				//マスターダウンロード後処理
-				[self didMasterDownload];
-				[self endIndicator];
+				[self loadMaster];
 			}];
 			return;
 		}
@@ -123,6 +125,7 @@
 			if( !isContraintDL && index == 0 )
 			{
 				//「閉じる」を選択した時は何もせずに終了
+				[self loadMaster];
 				return;
 			}
 			
@@ -132,9 +135,21 @@
 	}];
 }
 
-- (void)didMasterDownload
+- (void)loadMaster
 {
-	//マスターリロード
-	//画面再生成
+	[self startIndicator];
+	
+	NSString *filePath			= [CACHE_FOLDER stringByAppendingPathComponent:MASTER_FILE];
+	NSFileHandle *fileHandle	= [NSFileHandle fileHandleForReadingAtPath:filePath];
+	if (fileHandle)
+	{
+		NSData *masterData		= [fileHandle readDataToEndOfFile];
+		LoadData *loadData		= [[LoadData alloc] initWithData:masterData];
+		[loadData getInt16];
+		[loadData getInt16];
+		[LiveInfoTrait loadMast:loadData];
+	}
+	
+	[self endIndicator];
 }
 @end

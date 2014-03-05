@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
 	
-	[LiveInfoTrait addTestLiveInfo];
+//	[LiveInfoTrait addTestLiveInfo];
 	
 //	NSString *homeDir = NSHomeDirectory();
 //	
@@ -92,6 +92,16 @@
 {
 	[super didSelect:tabBarController];
 	
+	NSData* data = [[NSData alloc] initWithContentsOfFile:@"/Users/JP10733/uitest/iconbeast lite - png/master.bin"];
+	if( data  )
+	{
+		LoadData* load = [[LoadData alloc] initWithData:data];
+		//マスターの数,タイプを読み飛ばす
+		[load getInt16];
+		[load getInt16];
+		[LiveInfoTrait loadMast:load];
+
+	}
 	//タブを押された時今日の予定を表示
 	[self changeDate:[NSDate date]];
 }

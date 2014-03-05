@@ -10,13 +10,6 @@
 #import "AFHTTPRequestOperation.h"
 #import "Common.h"
 
-#define SERVER_URL			@"https://s3-ap-northeast-1.amazonaws.com/tokyolive/"
-#define VERSION_FILE		@"version.bin"
-#define MASTER_FILE			@"master.bin"
-
-#define CACHE_FOLDER		[Common libraryCachesDir]
-#define TEMP_FOLDER			[Common tempDir]
-
 @implementation NetworkDownload
 
 + (void)isNeedUpdateMaster:(void(^)(enum MASTER_UPDATE_STATE))isNeedUpdate
