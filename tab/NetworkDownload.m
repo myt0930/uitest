@@ -21,7 +21,7 @@
 
 + (void)isNeedUpdateMaster:(void(^)(enum MASTER_UPDATE_STATE))isNeedUpdate
 {
-	NSString *filePath			= [[Common libraryCachesDir] stringByAppendingPathComponent:VERSION_FILE];
+	NSString *filePath			= [CACHE_FOLDER stringByAppendingPathComponent:VERSION_FILE];
 	NSFileHandle *fileHandle	= [NSFileHandle fileHandleForReadingAtPath:filePath];
 	if (!fileHandle)
 	{
@@ -35,13 +35,21 @@
 	
 	[NetworkDownload downloadFile:VERSION_FILE
 						   saveTo:TEMP_FOLDER
-							block:^(NSError *error, NSData *responseData) {
+							block:^(NSError *error) {
 								if( error )
 								{
 									isNeedUpdate(MASTER_UPDATE_NETWORK_ERROR);	//通信エラー
 									return;
 								}
-								int version	= CFSwapInt32LittleToHost(*(int*)([responseData bytes]));
+								NSString *downloadFilePath = [TEMP_FOLDER stringByAppendingPathComponent:VERSION_FILE];
+								NSFileHandle *fileHandle	= [NSFileHandle fileHandleForReadingAtPath:downloadFilePath];
+								if (!fileHandle)
+								{
+									isNeedUpdate(MASTER_UPDATE_NETWORK_ERROR);
+									return;
+								}
+								NSData *data = [fileHandle readDataToEndOfFile];
+								int version	= CFSwapInt32LittleToHost(*(int*)([data bytes]));
 		
 								if( localVersion < version )
 								{
@@ -61,7 +69,7 @@
 		//強制DLの時はversion.binを所持していないのでDLしてから実行
 		[NetworkDownload downloadFile:VERSION_FILE
 							   saveTo:TEMP_FOLDER
-								block:^(NSError *error, NSData *responseData) {
+								block:^(NSError *error) {
 									if( error )
 									{
 										block(NO);	//DL失敗
@@ -83,7 +91,7 @@
 	//マスターDL
 	[NetworkDownload downloadFile:MASTER_FILE
 						   saveTo:CACHE_FOLDER
-							block:^(NSError *error, NSData *responseData) {
+							block:^(NSError *error) {
 								if( error )
 								{
 									//DL失敗
@@ -97,7 +105,7 @@
 							}];
 }
 
-+ (void)downloadFile:(NSString*)fileName saveTo:(NSString*)saveTo block:(void(^)(NSError*,NSData*))block
++ (void)downloadFile:(NSString*)fileName saveTo:(NSString*)saveTo block:(void(^)(NSError*))block
 {
 	//まだマスターダウンロードをしていなければ強制DL
 	
@@ -113,16 +121,16 @@
         if (error)
 		{
 			//DL失敗
-			block(error, nil);
+			block(error);
 			return;
         }
 		//DL成功
-		block(nil, operation.responseData);
+		block(nil);
 		
 		NSLog(@"RES: %@", [[[operation response] allHeaderFields] description]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		//DL失敗
-		block(error, nil);
+		block(error);
 		
 		NSLog(@"ERR: %@", [error description]);
     }];
