@@ -12,6 +12,7 @@
 @property UIView *loadingView;
 @property UIActivityIndicatorView *indicator;
 
++ (id)instance;
 - (void)startAnimating;
 - (void)stopAnimating;
 @end

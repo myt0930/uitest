@@ -13,6 +13,9 @@
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
 #import "BaseViewController.h"
+#import <Social/Social.h>
+#import "TlsAlertView.h"
+#import "TlsIndicatorView.h"
 
 @interface DetailViewController ()
 
@@ -185,6 +188,8 @@
 	// 描画を終了
 	UIGraphicsEndImageContext();
 	
+	[[TlsIndicatorView instance] startAnimating];
+	
 	//画像保存完了時のセレクタ指定
 	SEL selector = @selector(onCompleteCapture:didFinishSavingWithError:contextInfo:);
 	//画像を保存する
@@ -195,23 +200,42 @@
 - (void)onCompleteCapture:(UIImage *)screenImage
  didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
+	[[TlsIndicatorView instance] stopAnimating];
 	if (error)
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: nil
-														message: @"画像の保存に失敗しました"
-													   delegate: nil
-											  cancelButtonTitle: @"閉じる"
-											  otherButtonTitles: nil];
-		[alert show];
+		[TlsAlertView dialogWithTitle:nil
+							  message:@"画像の保存に失敗しました"
+						   buttonType:ALERT_BUTTON_OK
+								block:^(NSInteger index) {}];
 	}
 	else
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: nil
-														message: @"画像を保存しました。\n画像を添付してtwitterに投稿することが出来ます。\n投稿画面を表示しますか？"
-													   delegate: nil
-											  cancelButtonTitle: @"いいえ"
-											  otherButtonTitles: @"はい", nil];
-		[alert show];
+		[TlsAlertView dialogWithTitle:nil
+							  message:@"画像を保存しました。\n画像を添付してtwitterに投稿することが出来ます。\n投稿画面を表示しますか？"
+						   buttonType:ALERT_BUTTON_YESNO
+								block:^(NSInteger index) {
+									if( index == 1)
+									{
+										//twitter投稿
+										SLComposeViewController *composeCtl = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+										composeCtl.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+										[composeCtl setInitialText:@"\n\ntwitter投稿テスト"];
+										[composeCtl addImage:screenImage];
+										
+										[composeCtl setCompletionHandler:^(SLComposeViewControllerResult result) {
+											if (result == SLComposeViewControllerResultDone) {
+												//投稿成功時の処理
+												NSLog(@"投稿完了");
+											}
+											else if( result == SLComposeViewControllerResultCancelled )
+											{
+												[self dismissViewControllerAnimated:YES completion: nil];
+											}
+										}];
+										[self presentViewController:composeCtl animated:YES completion:nil];
+										
+									}
+								}];
 	}
 }
 										  

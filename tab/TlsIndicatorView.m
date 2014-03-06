@@ -11,6 +11,16 @@
 
 @implementation TlsIndicatorView
 
++ (id)instance
+{
+	static TlsIndicatorView *instance_;
+	if( instance_ == nil )
+	{
+		instance_ = [[self alloc] init];
+	}
+	return instance_;
+}
+
 - (id)init
 {
 	CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -35,12 +45,14 @@
 {
 	self.hidden = NO;
 	[_indicator startAnimating];
+	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
 }
 
 - (void)stopAnimating
 {
 	self.hidden = YES;
 	[_indicator stopAnimating];
+	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
 }
 
 @end

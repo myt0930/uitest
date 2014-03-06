@@ -26,7 +26,7 @@
     //お気に入りをロード
     [[SettingData instance] loadData];
 	
-	_indicator = [[TlsIndicatorView alloc] init];
+	_indicator = [TlsIndicatorView instance];
 	[self.window.rootViewController.view addSubview:_indicator];
 	
 	[self performSelectorInBackground:@selector(checkUpdateMaster) withObject:nil];
@@ -79,12 +79,10 @@
 
 - (void)startIndicator
 {
-	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
 	[_indicator startAnimating];
 }
 - (void)endIndicator
 {
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
 	[_indicator stopAnimating];
 }
 
