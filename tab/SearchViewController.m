@@ -16,6 +16,8 @@
 {
     [super viewDidLoad];
 	
+	NSLog(@"%lf %lf",(float)self.tableView.contentInset.bottom, (float)self.tableView.contentInset.top);
+	
 	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
 	{
 		self.tableView.tableHeaderView = _searchBar;
@@ -35,6 +37,16 @@
 	[self.searchDisplayController.searchResultsTableView addSubview:_indicator];
     
 //	[LiveInfoTrait addTestLiveInfo];
+}
+
+- (void)viewDidLayoutSubviews
+{
+	[super viewDidLayoutSubviews];
+	
+	NSLog(@"%lf %lf",(float)_searchController.searchResultsTableView.contentInset.bottom, (float)_searchController.searchResultsTableView.contentInset.top);
+	
+	_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(0, 0, -100, 0);
+	_searchController.searchResultsTableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, -100, 0);
 }
 
 - (void)didReceiveMemoryWarning

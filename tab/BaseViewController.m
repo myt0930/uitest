@@ -26,6 +26,9 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
 	backButton.title = @"Back";
 	[self.navigationItem setBackBarButtonItem:backButton];
+	
+	self.tableView.contentInset				= UIEdgeInsetsMake(0, 0, 50, 0);
+	self.tableView.scrollIndicatorInsets	= UIEdgeInsetsMake(0, 0, 50, 0);
 }
 
 - (void)didReceiveMemoryWarning
