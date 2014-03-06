@@ -105,8 +105,9 @@
     NSURL *url				= [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVER_URL, fileName]];
 	NSString *fullPath		= [saveTo stringByAppendingPathComponent:fileName];
 	
-    NSURLRequest *request				= [NSURLRequest requestWithURL:url];
+    NSURLRequest *request				= [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0];
     AFHTTPRequestOperation *operation	= [[AFHTTPRequestOperation alloc] initWithRequest:request];
+
     [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -127,13 +128,7 @@
 		
 		NSLog(@"ERR: %@", [error description]);
     }];
-	
-//	[operation setDownloadProgressBlock:^(NSUInteger bytesRead,
-//										  NSInteger totalBytesRead,
-//										  NSInteger totalBytesExpectedToRead) {
-//        NSLog(@"bytesRead: %u, totalBytesRead: %d, totalBytesExpectedToRead: %d", bytesRead, totalBytesRead, totalBytesExpectedToRead);
-//    }];
-	
+
     [operation start];
 }
 
