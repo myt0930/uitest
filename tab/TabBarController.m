@@ -29,7 +29,21 @@
    
 	self.delegate = self;
 	
+	int advertisementPosY = self.tabBar.frame.origin.y;
+
+	self.tabBar.frame = CGRectMake(0, advertisementPosY - 50, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
+	
+	UIView *adView = [[UIView alloc] initWithFrame:CGRectMake(0, advertisementPosY, 320, 50)];
+	adView.backgroundColor = [UIColor blackColor];
+	[self.view addSubview:adView];
+	
+	UILabel *uiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    uiLabel.text = @"--------広告エリア--------";
+    uiLabel.textAlignment = NSTextAlignmentCenter;
+    uiLabel.textColor = [UIColor whiteColor];
+	[adView addSubview:uiLabel];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
