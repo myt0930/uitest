@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "353198B418A2147E00EBBC82"
-               BuildableName = "tab.app"
+               BuildableName = "TokyoLiveScheduler.app"
                BlueprintName = "TokyoLiveScheduler"
                ReferencedContainer = "container:tab.xcodeproj">
             </BuildableReference>
@@ -28,22 +28,12 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "353198D818A2147E00EBBC82"
-               BuildableName = "tabTests.xctest"
-               BlueprintName = "tabTests"
-               ReferencedContainer = "container:tab.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
@@ -62,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
@@ -80,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
