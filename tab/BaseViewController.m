@@ -29,6 +29,11 @@
 	
 	self.tableView.contentInset				= UIEdgeInsetsMake(0, 0, 50, 0);
 	self.tableView.scrollIndicatorInsets	= UIEdgeInsetsMake(0, 0, 50, 0);
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(didLoadMast)
+												 name:NOTICE_FINISH_LOADMAST
+											   object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,6 +45,11 @@
 - (void)reloadTable
 {
 	[_tableView reloadData];
+}
+
+- (void)didLoadMast
+{
+	
 }
 
 // =============================================================================

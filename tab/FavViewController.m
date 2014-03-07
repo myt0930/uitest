@@ -50,4 +50,9 @@
     [self.navigationController popToRootViewControllerAnimated:NO];
 	[self reloadFavItems];
 }
+
+- (void)didLoadMast
+{
+	[self reloadFavItems];
+}
 @end

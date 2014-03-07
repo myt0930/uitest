@@ -78,4 +78,9 @@
 	//タブを押された時今日の予定を表示
 	[self changeDate:[NSDate date]];
 }
+
+- (void)didLoadMast
+{
+	[self changeDate:_currentDate];
+}
 @end

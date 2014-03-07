@@ -51,12 +51,10 @@
 {
 	[self checkUpdateMaster];
 	[Appirater appEnteredForeground:YES];
-}
-
-- (void)test:(id)id
-{
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
-	[_indicator stopAnimating];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_FINISH_LOADMAST
+														object:self
+													  userInfo:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -148,9 +146,12 @@
 		[loadData getInt16];
 		[LiveInfoTrait loadMast:loadData];
 	}
-    
-    TabBarController *tabBarController = (TabBarController*)self.window.rootViewController;
-	[tabBarController setSelectedIndex:0];
+	
+	// 通知先にデータを渡す場合はuserInfoにデータを指定
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_FINISH_LOADMAST
+														object:self
+													  userInfo:nil];
+	
 	[self endIndicator];
 }
 @end

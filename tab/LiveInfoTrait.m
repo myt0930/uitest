@@ -114,9 +114,8 @@ static NSDate *maxDate;
 		NSString *start		= [data getString16];
 		int advanceTicket	= [data getInt16];
 		int todayTicket		= [data getInt16];
-        
-        NSDate *end = [NSDate date];
-//        NSLog(@"loadMast1 : %lf", [end timeIntervalSinceDate:startDate] );
+		
+		NSLog(@"%@", liveDate);
 		
 		LiveInfoTrait *trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:liveHouseNo
 																 liveDate:liveDate
@@ -128,11 +127,7 @@ static NSDate *maxDate;
 															advanceTicket:advanceTicket
 															  todayTicket:todayTicket];
 		[traitList addObject:trait];
-        end = [NSDate date];
-//        NSLog(@"loadMast2 : %lf", [end timeIntervalSinceDate:startDate] );
 	}
-    NSDate *end = [NSDate date];
-    NSLog(@"loadMast : %lf", [end timeIntervalSinceDate:startDate]);
 }
 
 -(id)initWithLiveHouseNo:(int)liveHouseNo

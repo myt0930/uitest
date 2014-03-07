@@ -33,6 +33,8 @@
 #define CACHE_FOLDER		[Common libraryCachesDir]
 #define TEMP_FOLDER			[Common tempDir]
 
+#define NOTICE_FINISH_LOADMAST	@"finishLoadMast"
+
 @interface Common : NSObject
 + (NSString*)documentDir;
 + (NSString*)libraryCachesDir;

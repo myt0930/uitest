@@ -10,11 +10,9 @@
 
 @interface TabBarController : UITabBarController<UITabBarControllerDelegate>
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;
-- (void) reloadCellItems;
 @end
 
 @protocol MyTabBarControllerDelegate
 
 - (void) didSelect:(TabBarController*) tabBarController;
-- (void) reloadCellItems;
 @end

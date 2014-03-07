@@ -40,6 +40,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)didLoadMast
+{
+	self.items = [LiveHouseTrait traitList];
+	[super reloadTable];
+}
+
 // =============================================================================
 #pragma mark - UITableViewDataSource
 

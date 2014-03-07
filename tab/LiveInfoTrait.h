@@ -33,7 +33,7 @@
 +(NSDate *)maxLiveDate;
 
 //debug method
-+(void)addTestLiveInfo;
+//+(void)addTestLiveInfo;
 
 - (BOOL)isFavorite;
 @end

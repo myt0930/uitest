@@ -14,4 +14,5 @@
 @property (strong, readwrite) NSArray *items;
 
 - (void)reloadTable;
+- (void)didLoadMast;//:(id)notification;
 @end

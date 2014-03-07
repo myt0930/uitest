@@ -49,7 +49,13 @@
 - (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString
 {
 	searchString = [searchString lowercaseString];
+	[self doSearch:searchString];
 	
+	return NO;
+}
+
+- (void)doSearch:(NSString*)searchString
+{
 	//インジケーターON
 	[_indicator startAnimating];
 	
@@ -74,7 +80,7 @@
 			
 			[searchItems addObject:trait];
 		}
-
+		
 		self.items = searchItems;
 		[super reloadItems];
 		
@@ -89,7 +95,6 @@
 		//インジケーターOFF
 		[_indicator stopAnimating];
 	}];
-	return NO;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -133,7 +138,12 @@
     return [super numberOfSectionsInTableView:tableView];
 }
 
-
+- (void)didLoadMast
+{
+	_searchController.searchBar.text = @"";
+	[_searchController.searchBar resignFirstResponder];
+	[super clearItems];
+}
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController
