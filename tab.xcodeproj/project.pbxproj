@@ -46,6 +46,7 @@
 		353198FC18A2251C00EBBC82 /* LiveInfoTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198F618A2251C00EBBC82 /* LiveInfoTrait.m */; };
 		353198FD18A2251C00EBBC82 /* LoadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 353198F818A2251C00EBBC82 /* LoadData.m */; };
 		3533436D18C84B3A0011D7DC /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3533436C18C84B3A0011D7DC /* Social.framework */; };
+		3533436F18C881560011D7DC /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3533436E18C881560011D7DC /* iAd.framework */; };
 		3534E31A18A4CD5200BFA91B /* LiveHouseTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */; };
 		3537595E18B5A23B00CC5894 /* star_64_f5f5f5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */; };
 		3546B3CD18C47917004DCF51 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3546B3BB18C47917004DCF51 /* AFHTTPRequestOperation.m */; };
@@ -163,6 +164,7 @@
 		353198F718A2251C00EBBC82 /* LoadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadData.h; sourceTree = "<group>"; };
 		353198F818A2251C00EBBC82 /* LoadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadData.m; sourceTree = "<group>"; };
 		3533436C18C84B3A0011D7DC /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3533436E18C881560011D7DC /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		3534E31818A4CD5200BFA91B /* LiveHouseTrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseTrait.h; sourceTree = "<group>"; };
 		3534E31918A4CD5200BFA91B /* LiveHouseTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseTrait.m; sourceTree = "<group>"; };
 		3537595D18B5A23B00CC5894 /* star_64_f5f5f5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_64_f5f5f5@2x.png"; path = "iconbeast lite - png/star_64_f5f5f5@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -244,6 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3533436F18C881560011D7DC /* iAd.framework in Frameworks */,
 				3533436D18C84B3A0011D7DC /* Social.framework in Frameworks */,
 				352EF68518C71BF6001908AA /* StoreKit.framework in Frameworks */,
 				352EF68318C71BF0001908AA /* SystemConfiguration.framework in Frameworks */,
@@ -304,6 +307,7 @@
 		353198B718A2147E00EBBC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3533436E18C881560011D7DC /* iAd.framework */,
 				3533436C18C84B3A0011D7DC /* Social.framework */,
 				352EF68418C71BF6001908AA /* StoreKit.framework */,
 				352EF68218C71BF0001908AA /* SystemConfiguration.framework */,

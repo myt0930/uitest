@@ -16,8 +16,6 @@
 {
     [super viewDidLoad];
 	
-	NSLog(@"%lf %lf",(float)self.tableView.contentInset.bottom, (float)self.tableView.contentInset.top);
-	
 	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
 	{
 		self.tableView.tableHeaderView = _searchBar;
@@ -35,18 +33,6 @@
 	_indicator.center = CGPointMake(160,200);
 	_indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 	[self.searchDisplayController.searchResultsTableView addSubview:_indicator];
-    
-//	[LiveInfoTrait addTestLiveInfo];
-}
-
-- (void)viewDidLayoutSubviews
-{
-	[super viewDidLayoutSubviews];
-	
-	NSLog(@"%lf %lf",(float)_searchController.searchResultsTableView.contentInset.bottom, (float)_searchController.searchResultsTableView.contentInset.top);
-	
-	_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(0, 0, -100, 0);
-	_searchController.searchResultsTableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, -100, 0);
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,6 +78,12 @@
 		[super reloadItems];
 		
 		[_searchController.searchResultsTableView reloadData];
+		[_searchController.searchResultsTableView reloadSectionIndexTitles];
+		
+		//スクロール調整
+		UIEdgeInsets insets = _searchController.searchResultsTableView.contentInset;
+		_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+25, insets.right);
+		_searchController.searchResultsTableView.scrollIndicatorInsets  = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+25, insets.right);
 		
 		//インジケーターOFF
 		[_indicator stopAnimating];
