@@ -74,6 +74,7 @@
 			
 			[searchItems addObject:trait];
 		}
+
 		self.items = searchItems;
 		[super reloadItems];
 		
@@ -120,6 +121,19 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	if( tableView == self.tableView )
+	{
+		//テーブルビュー側のセクションは表示しない。
+		//※検索の方法をしっかり調査すれば、やる必要ないはず
+		return 0;
+	}
+    return [super numberOfSectionsInTableView:tableView];
+}
+
+
 
 #pragma mark - MyTabBarControllerDelegate
 - (void) didSelect:(TabBarController *)tabBarController
