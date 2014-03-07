@@ -160,6 +160,18 @@
 								action:@selector(screenShot:)];
 		self.navigationItem.rightBarButtonItem = btn;
 	}
+	
+	if( ![SettingData instance].isShowDetailDialog )
+	{
+		//初めて詳細画面に遷移した時に、「お気に入り」「キャプチャ」の説明をする
+		[TlsAlertView dialogWithTitle:@""
+							  message:@"・右上の☆マークをタップするとライブ情報を「お気に入り」に登録することができます。\n\n"
+										"・「カメラマーク」をタップするとライブ情報を画像としてカメラロールに保存できます。作成した画像を添付してtwitterに投稿する事もできます。"
+						   buttonType:ALERT_BUTTON_OK
+								block:^(NSInteger index) {
+									[[SettingData instance] setShowDetailDialog:YES];
+								}];
+	}
 }
 
 - (void)didReceiveMemoryWarning

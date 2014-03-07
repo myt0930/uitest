@@ -2,6 +2,7 @@
 #import "LiveInfoTrait.h"
 
 #define KEY_FAVORITE              (@"KEY_FAVORITE_LIVE")
+#define KEY_SHOW_DETAIL_DIALOG    (@"KEY_SHOW_DETAIL_DIALOG")
 
 @implementation SettingData
 
@@ -35,8 +36,8 @@
 	NSUserDefaults*      userDefaults      = [NSUserDefaults standardUserDefaults];
 	NSMutableDictionary* mutableDictionary = [NSMutableDictionary dictionary];
 
-	[mutableDictionary setObject:_favoriteLiveArray
-                          forKey:KEY_FAVORITE];
+	[mutableDictionary setObject:_favoriteLiveArray				forKey:KEY_FAVORITE];
+	[mutableDictionary setObject:[NSNumber numberWithBool:NO]	forKey:KEY_SHOW_DETAIL_DIALOG];
 
 	[userDefaults registerDefaults:mutableDictionary];
 }
@@ -47,6 +48,7 @@
 
 	NSArray* array			= [userDefaults arrayForKey:  KEY_FAVORITE];
 	_favoriteLiveArray      = [[NSMutableArray alloc] initWithArray:array];
+	_isShowDetailDialog		= [userDefaults boolForKey:KEY_SHOW_DETAIL_DIALOG];
 	
 	return true;
 }
@@ -56,7 +58,8 @@
 {
 	NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
 
-	[userDefaults setObject:_favoriteLiveArray forKey:KEY_FAVORITE];
+	[userDefaults setObject:_favoriteLiveArray								forKey:KEY_FAVORITE];
+	[userDefaults setObject:[NSNumber numberWithBool:_isShowDetailDialog]	forKey:KEY_SHOW_DETAIL_DIALOG];
 
 	return [userDefaults synchronize];
 }
@@ -89,4 +92,9 @@
     return [_favoriteLiveArray containsObject:uniqueId];
 }
 
+- (void)setShowDetailDialog:(BOOL)isShow
+{
+	_isShowDetailDialog = isShow;
+	[self saveData];
+}
 @end

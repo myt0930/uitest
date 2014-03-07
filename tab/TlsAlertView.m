@@ -28,20 +28,6 @@ enum UPDATE_STATE
     return [[TlsAlertView alloc] initWithTitle:title message:message buttonType:type block:block];
 }
 
-+ (void)showMasterUpdateDialog
-{
-    TlsAlertView *alertView = [[TlsAlertView alloc] init];
-    
-//    [alertView showNeedUpdateDialog:^(NSInteger index) {
-//        [alertView showRetryUpdateDialog:^(NSInteger index) {
-//            if( index == 1 )
-//            {
-//                //[NetworkDownload downloadFile:^(BOOL isDownload){}];
-//            }
-//        }];
-//    }];
-}
-
 + (void)showNeedUpdateDialog:(void(^)(NSInteger))block
 {
     SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
@@ -81,7 +67,7 @@ enum UPDATE_STATE
 }
 
 - (id)initWithTitle:(NSString *)title
-			  message:(NSString *)message
+			message:(NSString *)message
          buttonType:(enum ALERT_BUTTON_TYPE)type
               block:(void(^)(NSInteger))block
 {
@@ -102,11 +88,11 @@ enum UPDATE_STATE
         }
         
         _alert = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
-                                                                      title:title
-                                                                    message:message
-                                                                   block:(void(^)(NSInteger))block
-                                                          cancelButtonTitle:cancelButton
-                                                          otherButtonTitles:otherButton, nil];
+													title:title
+												  message:message
+													block:(void(^)(NSInteger))block
+										cancelButtonTitle:cancelButton
+										otherButtonTitles:otherButton, nil];
         _alert.cancelButtonIndex = 0;
         [_alert show];
     }

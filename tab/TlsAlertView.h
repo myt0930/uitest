@@ -23,7 +23,6 @@ enum ALERT_BUTTON_TYPE
               message:(NSString *)message
            buttonType:(enum ALERT_BUTTON_TYPE)type
                 block:(void(^)(NSInteger))block;
-+ (void)showMasterUpdateDialog;
 
 + (void)showNeedUpdateDialog:(void(^)(NSInteger))block;
 + (void)showRetryUpdateDialog:(BOOL)isFirstLaunch block:(void(^)(NSInteger))block;
