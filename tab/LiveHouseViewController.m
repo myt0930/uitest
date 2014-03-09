@@ -22,11 +22,6 @@
 {
     [super viewDidLoad];
 	
-	//お気に入りを追加
-#if 1
-    [LiveHouseTrait addTestLiveHouseTrait];
-#endif
-	
 	self.items = [LiveHouseTrait traitList];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];

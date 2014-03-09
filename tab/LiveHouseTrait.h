@@ -19,7 +19,5 @@
 +(void)loadMast:(LoadData *)data;
 +(NSString *)liveHouseName:(int)liveHouseNo;
 
-- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name;
-
-+ (void)addTestLiveHouseTrait;
+- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info;
 @end

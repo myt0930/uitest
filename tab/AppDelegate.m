@@ -142,9 +142,25 @@
 	{
 		NSData *masterData		= [fileHandle readDataToEndOfFile];
 		LoadData *loadData		= [[LoadData alloc] initWithData:masterData];
-		[loadData getInt16];
-		[loadData getInt16];
-		[LiveInfoTrait loadMast:loadData];
+        //プログラムバージョン
+		[loadData getInt32];
+        
+		int masterCount = [loadData getInt16];
+        for( int i = 0;i < masterCount;i++ )
+        {
+            int masterType = [loadData getInt16];
+            switch (masterType) {
+                case MASTER_TYPE_LIVEINFO:
+                    [LiveInfoTrait loadMast:loadData];
+                    break;
+                case MASTER_TYPE_LIVEHOUSE:
+                    [LiveHouseTrait loadMast:loadData];
+                    break;
+                default:
+                    break;
+            }
+        }
+		
 	}
 	
 	// 通知先にデータを渡す場合はuserInfoにデータを指定

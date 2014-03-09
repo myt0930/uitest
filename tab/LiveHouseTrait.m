@@ -39,9 +39,11 @@ static NSMutableArray* traitList;
 	{
 		int liveHouseNo		= [data getInt16];
 		NSString *name		= [data getString16];
+        NSString *info      = [data getString16];
 		
 		LiveHouseTrait *trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:liveHouseNo
-																	   name:name];
+																	   name:name
+                                                                       info:info];
 		[traitList addObject:trait];
 	}
 }
@@ -58,52 +60,14 @@ static NSMutableArray* traitList;
 	return nil;
 }
 
-- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name
+- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info
 {
 	if( (self = [super init] ) )
 	{
 		_liveHouseNo	= liveHouseNo;
 		_name			= name;
+        _info           = info;
 	}
 	return self;
-}
-
-+ (void)addTestLiveHouseTrait
-{
-	[traitList removeAllObjects];
-	LiveHouseTrait *trait = nil;
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:1 name:@"新宿Motion"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:2 name:@"秋葉原GOODMAN"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:3 name:@"下北沢BASEMENT BAR"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:4 name:@"下北沢THREE"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:5 name:@"下北沢DAISY BAR"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:6 name:@"下北沢SHELTER"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:7 name:@"下北沢QUE"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:8 name:@"下北沢251"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:9 name:@"下北沢251"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:10 name:@"下北沢251"];
-	[traitList addObject:trait];
-	
-	trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:11 name:@"下北沢251"];
-	[traitList addObject:trait];
 }
 @end

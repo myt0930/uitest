@@ -4,6 +4,7 @@ import java.nio.ByteOrder;
 
 public class MakeTlsMaster{
 	static final int MASTER_LIVE = 1;
+    static final int MASTER_LIVEHOUSE = 2;
 
    public static void main(String[]args){
 	   MakeTlsMaster mast = new MakeTlsMaster();
@@ -18,6 +19,9 @@ public class MakeTlsMaster{
 
 		   //マスターバージョン
 		   int version = mast.putInt32(in, out);
+		   
+		   //プログラムバージョン
+		   mast.putInt32(in, out);
 
 		   int masterCount = mast.putInt16(in, out);
 
@@ -27,9 +31,12 @@ public class MakeTlsMaster{
 
 			   switch(masterType)
 			   {
-			   case MASTER_LIVE:
-				   mast.outputLineMessageMast(in, out);
+                case MASTER_LIVE:
+				   mast.outputLiveInfoMast(in, out);
 				   break;
+                case MASTER_LIVEHOUSE:
+                	mast.outputLiveHouseMast(in, out);
+                	break;
 			   default:
 				   break;
 			   }
@@ -86,7 +93,7 @@ public class MakeTlsMaster{
 
    }
 
-   private void outputLineMessageMast(DataInputStream in, DataOutputStream out)
+   private void outputLiveInfoMast(DataInputStream in, DataOutputStream out)
    {
 	   try{
 		   int masterCount = this.putInt16(in, out); 	//masterCount
@@ -108,6 +115,23 @@ public class MakeTlsMaster{
 		   System.out.println("変換中にエラーが発生しました。");
 	   }
    }
+    
+    private void outputLiveHouseMast(DataInputStream in, DataOutputStream out)
+    {
+        try{
+            int masterCount = this.putInt16(in, out); 	//masterCount
+            
+            for(int i = 0;i < masterCount;i++ )
+            {
+                this.putInt16(in, out);
+                this.putString16(in, out);
+                this.putString16(in, out);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("変換中にエラーが発生しました。");
+        }
+    }
    
    private short putInt16(DataInputStream in, DataOutputStream out)
    {

@@ -49,7 +49,7 @@
 	
 	[_indicator startAnimating];
 	[self performBlockInBackground:^{
-		self.items = [LiveInfoTrait traitList];
+		self.items = [LiveInfoTrait traitListWithLiveHouseNo:_trait.liveHouseNo];
 		[super reloadItems];
 		[_indicator stopAnimating];
 	}];

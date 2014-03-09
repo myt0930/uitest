@@ -36,6 +36,13 @@
 
 #define NOTICE_FINISH_LOADMAST	@"finishLoadMast"
 
+enum MASTER_TYPE
+{
+    MASTER_TYPE_LIVEINFO = 1,
+    MASTER_TYPE_LIVEHOUSE,
+};
+
+
 @interface Common : NSObject
 + (NSString*)documentDir;
 + (NSString*)libraryCachesDir;
