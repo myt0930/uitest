@@ -16,6 +16,7 @@
 @property NSString  *info;
 
 +(NSArray *)traitList;
++ (id)traitOfLiveHouseNo:(int)liveHouseNo;
 +(void)loadMast:(LoadData *)data;
 +(NSString *)liveHouseName:(int)liveHouseNo;
 

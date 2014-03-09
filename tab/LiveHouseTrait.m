@@ -50,11 +50,21 @@ static NSMutableArray* traitList;
 
 +(NSString *)liveHouseName:(int)liveHouseNo
 {
-	for( const LiveHouseTrait *trait in traitList )
+    const LiveHouseTrait *trait = [LiveHouseTrait traitOfLiveHouseNo:liveHouseNo];
+    if( trait )
+    {
+        return trait.name;
+    }
+    return nil;
+}
+
++ (id)traitOfLiveHouseNo:(int)liveHouseNo
+{
+    for( const LiveHouseTrait *trait in traitList )
 	{
 		if( trait.liveHouseNo == liveHouseNo )
 		{
-			return trait.name;
+			return trait;
 		}
 	}
 	return nil;

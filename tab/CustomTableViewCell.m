@@ -117,8 +117,10 @@
         _date.textColor = BLACK_COLOR;
         _day.textColor	= BLACK_COLOR;
     }
+    
+    const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:trait.liveHouseNo];
 	
-	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:@"新宿Motion"
+	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:liveHouseTrait.name
                                                                     lineSpace:2.0f];
 	_title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
                                                                     lineSpace:2.0f];

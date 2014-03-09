@@ -38,7 +38,7 @@
 	[self.view addSubview:adView];
 	
 	UILabel *uiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    uiLabel.text = @"--------広告エリア--------";
+    uiLabel.text = @"";//@"--------広告エリア--------";
     uiLabel.textAlignment = NSTextAlignmentCenter;
     uiLabel.textColor = [UIColor whiteColor];
 	[adView addSubview:uiLabel];
