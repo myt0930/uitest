@@ -115,8 +115,6 @@ static NSDate *maxDate;
 		int advanceTicket	= [data getInt16];
 		int todayTicket		= [data getInt16];
 		
-		NSLog(@"%@", liveDate);
-		
 		LiveInfoTrait *trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:liveHouseNo
 																 liveDate:liveDate
 																	subNo:subNo

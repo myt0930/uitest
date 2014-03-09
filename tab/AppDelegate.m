@@ -70,7 +70,7 @@
 // Optional UITabBarControllerDelegate method
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
 	
-	NSLog(@"%@",viewController.class);
+
 }
 
 //----------------------------
@@ -90,7 +90,7 @@
 	[NetworkDownload isNeedUpdateMaster:^(enum MASTER_UPDATE_STATE state) {
 		[self endIndicator];
 		
-		if( state == MASTER_UPDATE_NONE && state == MASTER_UPDATE_NETWORK_ERROR )
+		if( state == MASTER_UPDATE_NONE || state == MASTER_UPDATE_NETWORK_ERROR )
 		{
 			[self loadMaster];
 			return;	//更新無し

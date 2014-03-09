@@ -121,12 +121,12 @@
 		//DL成功
 		block(nil);
 		
-		NSLog(@"RES: %@", [[[operation response] allHeaderFields] description]);
+//		NSLog(@"RES: %@", [[[operation response] allHeaderFields] description]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		//DL失敗
 		block(error);
 		
-		NSLog(@"ERR: %@", [error description]);
+//		NSLog(@"ERR: %@", [error description]);
     }];
 
     [operation start];
