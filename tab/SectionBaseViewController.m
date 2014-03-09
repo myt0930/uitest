@@ -120,7 +120,7 @@
 	
 	UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 20.0f)];
 	sectionLabel.textColor = WHITE_COLOR;
-	sectionLabel.backgroundColor = BLACK_COLOR;
+	sectionLabel.backgroundColor = LIST_SECTION_COLOR;
 	sectionLabel.text = _sectionArray[section];
 	sectionLabel.font =  MAKE_HIRAGINO_BOLD_FONT(14);
 	[sectionView addSubview:sectionLabel];

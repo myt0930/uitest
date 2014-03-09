@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "353198B418A2147E00EBBC82"
-               BuildableName = "tab.app"
+               BuildableName = "TokyoLiveScheduler.app"
                BlueprintName = "TokyoLiveScheduler"
                ReferencedContainer = "container:tab.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "tab.app"
+            BuildableName = "TokyoLiveScheduler.app"
             BlueprintName = "TokyoLiveScheduler"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
