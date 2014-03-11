@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
-                <outlet property="act" destination="0EB-Du-hHz" id="f1G-z2-GUd"/>
+                <outlet property="act" destination="0EB-Du-hHz" id="6dC-jy-veJ"/>
                 <outlet property="childView" destination="CGt-HK-VOM" id="1QS-Lt-01F"/>
                 <outlet property="eventTitle" destination="oHf-N0-w86" id="JXo-Nd-NI8"/>
                 <outlet property="liveHouseInfo" destination="iVC-vx-zEX" id="24o-7Q-iyK"/>
+                <outlet property="other" destination="S0B-xv-I5r" id="V0t-vF-uNF"/>
                 <outlet property="place" destination="DQh-cB-PXx" id="Wiv-2v-Xsm"/>
                 <outlet property="scrollView" destination="flD-Cn-JmN" id="4DR-tC-opY"/>
-                <outlet property="startTime" destination="S0B-xv-I5r" id="tyM-h7-dxz"/>
-                <outlet property="ticket" destination="vvf-b9-yDs" id="jCy-Tm-EVz"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -44,14 +43,8 @@
                                     <fontDescription key="fontDescription" name="HiraKakuProN-W6" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S0B-xv-I5r">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="other" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S0B-xv-I5r">
                                     <rect key="frame" x="20" y="116" width="280" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vvf-b9-yDs">
-                                    <rect key="frame" x="20" y="145" width="280" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                     <nil key="highlightedColor"/>
@@ -63,7 +56,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="liveHouseInfo" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iVC-vx-zEX">
-                                    <rect key="frame" x="20" y="174" width="280" height="21"/>
+                                    <rect key="frame" x="20" y="145" width="280" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="12"/>
                                     <nil key="highlightedColor"/>

@@ -21,8 +21,7 @@
 @property IBOutlet UILabel *place;
 @property IBOutlet UILabel *eventTitle;
 @property IBOutlet UILabel *act;
-@property IBOutlet UILabel *ticket;
-@property IBOutlet UILabel *startTime;
+@property IBOutlet UILabel *other;
 @property IBOutlet UILabel *liveHouseInfo;
 @property BaseViewController *baseController;
 

@@ -124,7 +124,7 @@
                                                                     lineSpace:2.0f];
 	_title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
                                                                     lineSpace:2.0f];
-	_act.attributedText		= [NSAttributedString tlsAttributedStringWithString:trait.act
+	_act.attributedText		= [NSAttributedString tlsAttributedStringWithString:[trait.act stringByReplacingOccurrencesOfString:@"\n" withString:@" / "]
                                                                    lineSpace:2.0f];
 	
 //	[_day	sizeToFit];

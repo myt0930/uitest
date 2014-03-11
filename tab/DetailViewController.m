@@ -87,34 +87,16 @@
     
     //時刻
 	{
-        CGRect rect = _startTime.frame;
-        _startTime.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
+        CGRect rect = _other.frame;
+        _other.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
         
-		_startTime.textColor           = BLACK_COLOR;
-		_startTime.backgroundColor     = WHITE_COLOR;
-        _startTime.attributedText      = [NSAttributedString tlsAttributedStringWithString:[NSString stringWithFormat:@"OPEN/START %@/%@",
-                                                                                            _liveTrait.openTime,
-                                                                                            _liveTrait.startTime]
+		_other.textColor           = BLACK_COLOR;
+		_other.backgroundColor     = WHITE_COLOR;
+        _other.attributedText      = [NSAttributedString tlsAttributedStringWithString:_liveTrait.otherInfo
                                                                                  lineSpace:2.0f];
-        [_startTime sizeToFit];
+        [_other sizeToFit];
         
-        labelHeight += _startTime.frame.size.height + 2;
-	}
-    
-    //チケット
-	{
-        CGRect rect = _ticket.frame;
-        _ticket.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
-        
-		_ticket.textColor           = BLACK_COLOR;
-		_ticket.backgroundColor     = WHITE_COLOR;
-        _ticket.attributedText      = [NSAttributedString tlsAttributedStringWithString:[NSString stringWithFormat:@"前売/当日      ¥%d/¥%d",
-                                                                                         _liveTrait.advanceTicket,
-                                                                                         _liveTrait.todayTicket]
-                                                                              lineSpace:2.0f];
-        [_ticket sizeToFit];
-        
-        labelHeight += _ticket.frame.size.height + 10;
+        labelHeight += _other.frame.size.height + 10;
 	}
     
     //ライブハウス情報
@@ -127,18 +109,19 @@
         
         _liveHouseInfo.textColor        = BLACK_COLOR;
 		_liveHouseInfo.backgroundColor	= WHITE_COLOR;
-        _liveHouseInfo.attributedText   = [NSAttributedString tlsAttributedStringWithString:liveHouseInfo lineSpace:2.0f];//最後の行に\n\nを入れると調度良いスクロールサイズになる
+        _liveHouseInfo.attributedText   = [NSAttributedString tlsAttributedStringWithString:liveHouseInfo lineSpace:2.0f];
 		[_liveHouseInfo sizeToFit];
         
-        labelHeight += _liveHouseInfo.frame.size.height;
+        labelHeight += _liveHouseInfo.frame.size.height + 70;
 	}
 	
 	//画面サイズからヘッダー、フッダーの高さを引いたサイズ
-	int appFrameHeight = [UIScreen mainScreen].applicationFrame.size.height - 44 - 49 + 1;
+	int appFrameHeight = [UIScreen mainScreen].applicationFrame.size.height - 44 - 48;
 	if( labelHeight < appFrameHeight )
 	{
 		labelHeight = appFrameHeight;
 	}
+    
     
 	[_scrollView setContentSize:CGSizeMake(_childView.bounds.size.width, labelHeight)];
 	

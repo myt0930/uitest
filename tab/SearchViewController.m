@@ -86,8 +86,13 @@
 			
 			[searchItems addObject:trait];
 		}
+        
+        NSArray *sortedArray = [searchItems sortedArrayUsingComparator:^NSComparisonResult(const LiveInfoTrait *obj1,
+                                                                                        const LiveInfoTrait *obj2) {
+            return [obj1.uniqueID compare:obj2.uniqueID];
+        }];
 		
-		self.items = searchItems;
+		self.items = sortedArray;
 		[super reloadItems];
 
 		[_searchController.searchResultsTableView reloadData];
@@ -95,8 +100,8 @@
 
 		//スクロール調整
 		UIEdgeInsets insets = _searchController.searchResultsTableView.contentInset;
-		_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+25, insets.right);
-		_searchController.searchResultsTableView.scrollIndicatorInsets  = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+25, insets.right);
+		_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+50, insets.right);
+		_searchController.searchResultsTableView.scrollIndicatorInsets  = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+50, insets.right);
 		
 		//インジケーターOFF
 		[_indicator stopAnimating];

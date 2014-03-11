@@ -32,11 +32,11 @@
     [super viewDidLoad];
 	
 	CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
-	int height = 540 - screenFrame.size.height;
+	int height = 540 - screenFrame.size.height + 58;
 	if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
 	{
 		//ios6スクロール調整
-		height += 150;
+		height += 100;
 	}
 	self.tableView.contentInset				= UIEdgeInsetsMake(0, 0, height, 0);
 	self.tableView.scrollIndicatorInsets	= UIEdgeInsetsMake(0, 0, height, 0);

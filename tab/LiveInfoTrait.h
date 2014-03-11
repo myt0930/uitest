@@ -16,10 +16,7 @@
 @property int		subNo;			//サブNo
 @property NSString  *eventTitle;		//タイトル
 @property NSString  *act;			//出演者
-@property NSString  *openTime;		//開場時間
-@property NSString  *startTime;		//開始時間
-@property int		advanceTicket;	//前売価格
-@property int		todayTicket;	//当日価格
+@property NSString  *otherInfo;		//その他の情報
 @property NSString  *uniqueID;		//ユニークID
 @property NSString  *dayOfWeek;     //曜日
 @property int		sortNo;

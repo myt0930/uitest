@@ -40,12 +40,23 @@ static NSMutableArray* traitList;
 		int liveHouseNo		= [data getInt16];
 		NSString *name		= [data getString16];
         NSString *info      = [data getString16];
+        int sortNo          = [data getInt16];
 		
 		LiveHouseTrait *trait = [[LiveHouseTrait alloc] initWithLiveHouseNo:liveHouseNo
 																	   name:name
-                                                                       info:info];
+                                                                       info:info
+                                                                     sortNo:sortNo];
 		[traitList addObject:trait];
 	}
+    
+    //ソート順でソート
+	traitList = [NSMutableArray arrayWithArray:
+                 [traitList sortedArrayUsingComparator:^NSComparisonResult(const LiveHouseTrait *obj1,
+                                                                           const LiveHouseTrait *obj2)
+                  {
+                      return [[NSNumber numberWithInt:obj1.sortNo] compare:[NSNumber numberWithInt:obj2.sortNo]];
+                  }]
+                 ];
 }
 
 +(NSString *)liveHouseName:(int)liveHouseNo
@@ -70,14 +81,14 @@ static NSMutableArray* traitList;
 	return nil;
 }
 
-- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info
+- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info sortNo:(int)sortNo
 {
 	if( (self = [super init] ) )
 	{
 		_liveHouseNo	= liveHouseNo;
 		_name			= name;
         _info           = info;
-		_sortNo			= liveHouseNo; //TODO: 仮
+		_sortNo			= sortNo;
 	}
 	return self;
 }

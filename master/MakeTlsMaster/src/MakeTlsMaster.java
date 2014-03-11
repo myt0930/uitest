@@ -106,9 +106,6 @@ public class MakeTlsMaster{
 			   this.putString16(in, out);
 			   this.putString16(in, out);
 			   this.putString16(in, out);
-			   this.putString16(in, out);
-			   this.putInt16(in, out);
-			   this.putInt16(in, out);
 		   }
 	   } catch (Exception e) {
 		   e.printStackTrace();
@@ -126,6 +123,7 @@ public class MakeTlsMaster{
                 this.putInt16(in, out);
                 this.putString16(in, out);
                 this.putString16(in, out);
+                this.putInt16(in, out);
             }
         } catch (Exception e) {
             e.printStackTrace();

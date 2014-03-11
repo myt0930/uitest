@@ -120,20 +120,14 @@ static NSDate *maxDate;
 		int subNo			= [data getInt16];
 		NSString *title		= [data getString16];
 		NSString *act		= [data getString16];
-		NSString *open		= [data getString16];
-		NSString *start		= [data getString16];
-		int advanceTicket	= [data getInt16];
-		int todayTicket		= [data getInt16];
+		NSString *otherInfo	= [data getString16];
 		
 		LiveInfoTrait *trait = [[LiveInfoTrait alloc] initWithLiveHouseNo:liveHouseNo
 																 liveDate:liveDate
 																	subNo:subNo
 															   eventTitle:title
 																	  act:act
-																 openTime:open
-																startTime:start
-															advanceTicket:advanceTicket
-															  todayTicket:todayTicket];
+                                                                otherInfo:otherInfo];
 		[traitList addObject:trait];
 	}
 }
@@ -143,10 +137,7 @@ static NSDate *maxDate;
 				   subNo:(int)subNo
 			  eventTitle:(NSString *)eventTitle
 					 act:(NSString *)act
-				openTime:(NSString *)openTime
-			   startTime:(NSString *)startTime
-		   advanceTicket:(int)advanceTicket
-			 todayTicket:(int)todayTicket
+               otherInfo:(NSString *)otherInfo
 {
 	if( (self = [super init] ) )
 	{
@@ -154,11 +145,7 @@ static NSDate *maxDate;
 		_subNo			= subNo;
 		_eventTitle		= eventTitle;
 		_act			= act;
-		_openTime		= openTime;
-		_startTime		= startTime;
-		_advanceTicket	= advanceTicket;
-		_todayTicket	= todayTicket;
-		_sortNo			= liveHouseNo;
+		_otherInfo		= otherInfo;
         
         NSDateFormatter *formatter = [Common dateFormatter];
         [formatter setDateFormat:@"yyyyMMdd"];

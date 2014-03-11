@@ -21,5 +21,5 @@
 +(void)loadMast:(LoadData *)data;
 +(NSString *)liveHouseName:(int)liveHouseNo;
 
-- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info;
+- (id)initWithLiveHouseNo:(int)liveHouseNo name:(NSString *)name info:(NSString *)info sortNo:(int)sortNo;
 @end
