@@ -11,7 +11,7 @@
 #import "TlsAlertView.h"
 #import "TlsIndicatorView.h"
 #import "NetworkDownload.h"
-#import "Appirater.h"
+//#import "Appirater.h"
 #import "Common.h"
 #import "LoadData.h"
 #import "TabBarController.h"
