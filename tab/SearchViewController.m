@@ -83,10 +83,10 @@
 		
 		self.items = searchItems;
 		[super reloadItems];
-		
+
 		[_searchController.searchResultsTableView reloadData];
-		[_searchController.searchResultsTableView reloadSectionIndexTitles];
 		
+
 		//スクロール調整
 		UIEdgeInsets insets = _searchController.searchResultsTableView.contentInset;
 		_searchController.searchResultsTableView.contentInset = UIEdgeInsetsMake(insets.top, insets.left, insets.bottom+25, insets.right);

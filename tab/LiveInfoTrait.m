@@ -94,7 +94,6 @@ static NSDate *maxDate;
 
 + (void)loadMast:(LoadData*)data
 {
-    NSDate *startDate = [NSDate date];
 	//ライブ一覧をクリア
 	[self removeAllMast];
     

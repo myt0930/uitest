@@ -93,6 +93,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+	NSLog(@"sectionCount :: %d",[_sectionArray count]);
     return [_sectionArray count];
 }
 
@@ -102,12 +103,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if( _rowCountArray.count <= section )return 0;
     return [[_rowCountArray objectAtIndex:section] integerValue];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	
     if( SYSTEM_VERSION_LESS_THAN(@"7.0") )
     {
         // iOS7.0より前の端末ではデフォルトのセクションを表示
@@ -137,8 +136,6 @@
         
         cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
 										  reuseIdentifier:CellIdentifier];
-        
-        
     }
 	
 	return cell;
