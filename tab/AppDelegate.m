@@ -146,7 +146,7 @@
         //プログラムバージョン
 		int programVersion		= [loadData getInt32];
         
-		if( programVersion+1 > PROGRAM_VERSION )
+		if( programVersion > PROGRAM_VERSION )
 		{
 			[self endIndicator];
 			//アプリを更新させる
