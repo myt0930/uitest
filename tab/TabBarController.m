@@ -48,12 +48,6 @@
     _bannerView.frame = frame;
     [self.view addSubview:_bannerView];
     [_bannerView loadRequest:[GADRequest request]];
-	
-//	UILabel *uiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-//    uiLabel.text = @"";//@"--------広告エリア--------";
-//    uiLabel.textAlignment = NSTextAlignmentCenter;
-//    uiLabel.textColor = [UIColor whiteColor];
-//	[adView addSubview:uiLabel];
 }
 
 

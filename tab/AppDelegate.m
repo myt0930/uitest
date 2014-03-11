@@ -32,8 +32,8 @@
 	[self performSelectorInBackground:@selector(checkUpdateMaster) withObject:nil];
 	
 	//TODO: AppIdをセット
-	[Appirater setAppId:@"000000"];
-	[Appirater appLaunched:YES];
+//	[Appirater setAppId:@"000000"];
+//	[Appirater appLaunched:YES];
     return YES;
 }
 							
@@ -50,7 +50,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
 	[self checkUpdateMaster];
-	[Appirater appEnteredForeground:YES];
+//	[Appirater appEnteredForeground:YES];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_FINISH_LOADMAST
 														object:self

@@ -1082,7 +1082,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/miyata/uitest/tab/Ad/imobile,
+					"$(SRCROOT)/tab/Ad/imobile",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1090,11 +1090,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/miyata/uitest/tab/Ad/AdMob,
-					/Users/miyata/uitest/tab/Ad/AdMob_iAdAdapter,
-					/Users/miyata/uitest/tab/Ad/imobile/libAdapterIMobile,
-					/Users/miyata/uitest/tab/Ad/Nend/AdMobMediationAdapter,
-					/Users/miyata/uitest/tab/Ad/Nend/Nend/NendAd,
+					"$(SRCROOT)/tab/Ad/AdMob",
+					"$(SRCROOT)/tab/Ad/AdMob_iAdAdapter",
+					"$(SRCROOT)/tab/Ad/imobile/libAdapterIMobile",
+					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
+					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1113,7 +1113,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/miyata/uitest/tab/Ad/imobile,
+					"$(SRCROOT)/tab/Ad/imobile",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1121,11 +1121,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/miyata/uitest/tab/Ad/AdMob,
-					/Users/miyata/uitest/tab/Ad/AdMob_iAdAdapter,
-					/Users/miyata/uitest/tab/Ad/imobile/libAdapterIMobile,
-					/Users/miyata/uitest/tab/Ad/Nend/AdMobMediationAdapter,
-					/Users/miyata/uitest/tab/Ad/Nend/Nend/NendAd,
+					"$(SRCROOT)/tab/Ad/AdMob",
+					"$(SRCROOT)/tab/Ad/AdMob_iAdAdapter",
+					"$(SRCROOT)/tab/Ad/imobile/libAdapterIMobile",
+					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
+					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
