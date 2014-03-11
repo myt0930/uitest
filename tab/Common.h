@@ -36,6 +36,8 @@
 
 #define NOTICE_FINISH_LOADMAST	@"finishLoadMast"
 
+#define PROGRAM_VERSION 1	//アプリのマスターフォーマットが変わった時などにアプリ更新画面へ遷移させる
+
 enum MASTER_TYPE
 {
     MASTER_TYPE_LIVEINFO = 1,

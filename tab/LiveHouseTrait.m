@@ -77,6 +77,7 @@ static NSMutableArray* traitList;
 		_liveHouseNo	= liveHouseNo;
 		_name			= name;
         _info           = info;
+		_sortNo			= liveHouseNo; //TODO: 仮
 	}
 	return self;
 }

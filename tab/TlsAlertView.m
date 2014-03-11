@@ -66,6 +66,17 @@ enum UPDATE_STATE
     [alertView show];
 }
 
++ (void)showAppUpdateDialog:(void(^)(NSInteger))block
+{
+    SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
+                                                                      title:@"アプリ更新"
+                                                                    message:@"最新のアプリに更新して下さい。AppStoreを開きます。"
+                                                                      block:block
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"OK", nil];
+    [alertView show];
+}
+
 - (id)initWithTitle:(NSString *)title
 			message:(NSString *)message
          buttonType:(enum ALERT_BUTTON_TYPE)type

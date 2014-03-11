@@ -27,4 +27,5 @@ enum ALERT_BUTTON_TYPE
 + (void)showNeedUpdateDialog:(void(^)(NSInteger))block;
 + (void)showRetryUpdateDialog:(BOOL)isFirstLaunch block:(void(^)(NSInteger))block;
 + (void)showDoneUpdateDialog:(void(^)(NSInteger))block;
++ (void)showAppUpdateDialog:(void(^)(NSInteger))block;
 @end

@@ -22,6 +22,7 @@
 @property int		todayTicket;	//当日価格
 @property NSString  *uniqueID;		//ユニークID
 @property NSString  *dayOfWeek;     //曜日
+@property int		sortNo;
 
 +(void)loadMast:(LoadData *)data;
 

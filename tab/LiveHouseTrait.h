@@ -14,6 +14,7 @@
 @property int		liveHouseNo;
 @property NSString	*name;
 @property NSString  *info;
+@property int		sortNo;
 
 +(NSArray *)traitList;
 + (id)traitOfLiveHouseNo:(int)liveHouseNo;

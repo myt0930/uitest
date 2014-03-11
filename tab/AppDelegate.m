@@ -111,7 +111,8 @@
 		if( isSuccess )
 		{
 			//更新完了ダイアログ
-			[TlsAlertView showDoneUpdateDialog:^(NSInteger index) {
+			[TlsAlertView showDoneUpdateDialog:^(NSInteger index)
+			{
 				[self loadMaster];
 			}];
 			return;
@@ -143,8 +144,19 @@
 		NSData *masterData		= [fileHandle readDataToEndOfFile];
 		LoadData *loadData		= [[LoadData alloc] initWithData:masterData];
         //プログラムバージョン
-		[loadData getInt32];
+		int programVersion		= [loadData getInt32];
         
+		if( programVersion+1 > PROGRAM_VERSION )
+		{
+			[self endIndicator];
+			//アプリを更新させる
+			[TlsAlertView showAppUpdateDialog:^(NSInteger index) {
+				NSURL* url = [NSURL URLWithString:@"http://www.google.co.jp/"]; //TODO: 要修正
+				[[UIApplication sharedApplication] openURL:url];
+			}];
+			return;
+		}
+		
 		int masterCount = [loadData getInt16];
         for( int i = 0;i < masterCount;i++ )
         {
@@ -160,7 +172,6 @@
                     break;
             }
         }
-		
 	}
 	
 	// 通知先にデータを渡す場合はuserInfoにデータを指定
