@@ -65,6 +65,12 @@
 		
 		for( const LiveInfoTrait *trait in [LiveInfoTrait traitList] )
 		{
+			if( [trait isPastLive] )
+			{
+				//過去のライブは検索にひっかからないようにする
+				continue;
+			}
+			
 			//出演者名検索
 			NSString *act = [trait.act lowercaseString];
 			if( [act rangeOfString:searchString].location == NSNotFound )

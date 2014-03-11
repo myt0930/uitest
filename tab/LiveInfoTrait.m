@@ -57,12 +57,17 @@ static NSDate *maxDate;
 
 +(NSArray *)traitListWithLiveHouseNo:(int)liveHouseNo
 {
+	NSString *current = [NSString stringWithDateFormat:@"yyyyMM" date:[NSDate date]];
 	NSMutableArray *liveList = [NSMutableArray array];
 	for( LiveInfoTrait *trait in traitList )
 	{
 		if( trait.liveHouseNo == liveHouseNo )
 		{
-			[liveList addObject:trait];
+			NSString *liveDate = [NSString stringWithDateFormat:@"yyyyMM" date:trait.liveDate];
+			if( [liveDate compare:current] != NSOrderedAscending )
+			{
+				[liveList addObject:trait];
+			}
 		}
 	}
 	
@@ -178,6 +183,17 @@ static NSDate *maxDate;
 - (BOOL)isFavorite
 {
 	return [[SettingData instance] isContainsFavoriteUniqueId:_uniqueID];
+}
+
+- (BOOL)isPastLive
+{
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-24 * 60 * 60];//１日前
+	
+	if( [_liveDate timeIntervalSinceDate:date] < 0 )
+	{
+		return YES;
+	}
+	return NO;
 }
 
 @end

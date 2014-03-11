@@ -37,4 +37,5 @@
 //+(void)addTestLiveInfo;
 
 - (BOOL)isFavorite;
+- (BOOL)isPastLive;
 @end
