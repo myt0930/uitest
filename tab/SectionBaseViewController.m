@@ -144,7 +144,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CustomTableViewCell *customcell = (CustomTableViewCell*)cell;
-	
+	cell.backgroundColor = WHITE_COLOR;
 	NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
 	
 	NSMutableArray *array = [NSMutableArray array];

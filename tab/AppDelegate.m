@@ -150,10 +150,7 @@
 		{
 			[self endIndicator];
 			//アプリを更新させる
-			[TlsAlertView showAppUpdateDialog:^(NSInteger index) {
-				NSURL* url = [NSURL URLWithString:@"http://www.google.co.jp/"]; //TODO: 要修正
-				[[UIApplication sharedApplication] openURL:url];
-			}];
+			[TlsAlertView showAppUpdateDialog:^(NSInteger index) {}];
 			return;
 		}
 		
