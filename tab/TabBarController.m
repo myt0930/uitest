@@ -39,15 +39,15 @@
 	adView.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:adView];
     
-    _bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    _bannerView.adUnitID = @"ca-app-pub-1765913310078571/1222145443";
-    _bannerView.rootViewController = self;
-    
-    CGRect frame = _bannerView.frame;
-    frame.origin.y = advertisementPosY;
-    _bannerView.frame = frame;
-    [self.view addSubview:_bannerView];
-    [_bannerView loadRequest:[GADRequest request]];
+//    _bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+//    _bannerView.adUnitID = @"ca-app-pub-1765913310078571/1222145443";
+//    _bannerView.rootViewController = self;
+//    
+//    CGRect frame = _bannerView.frame;
+//    frame.origin.y = advertisementPosY;
+//    _bannerView.frame = frame;
+//    [self.view addSubview:_bannerView];
+//    [_bannerView loadRequest:[GADRequest request]];
 }
 
 

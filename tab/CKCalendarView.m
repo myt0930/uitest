@@ -24,9 +24,10 @@
 
 #define BUTTON_MARGIN 4
 #define CALENDAR_MARGIN 5
-#define TOP_HEIGHT 44
-#define DAYS_HEADER_HEIGHT 32
+#define TOP_HEIGHT 34
+#define DAYS_HEADER_HEIGHT 22
 #define DEFAULT_CELL_WIDTH 49
+#define DEFAULT_CELL_HEIGHT 40
 #define CELL_BORDER_WIDTH 1
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -257,7 +258,7 @@
     CGRect newFrame = self.frame;
     if( SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
-        newFrame.origin.y = 80;
+        newFrame.origin.y = 70;
     }
     newFrame.size.height = containerHeight + CALENDAR_MARGIN + TOP_HEIGHT;
     self.frame = newFrame;
@@ -323,7 +324,7 @@
         }
 
         dateButton.frame = [self _calculateDayCellFrame:date];
-
+        NSLog(@"%lf",dateButton.frame.size.height);
         [self.calendarContainer addSubview:dateButton];
 
         date = [self _nextDay:date];
