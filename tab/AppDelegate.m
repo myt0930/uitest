@@ -56,6 +56,8 @@
 {
 	[self checkUpdateMaster];
 //	[Appirater appEnteredForeground:YES];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = -1;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_FINISH_LOADMAST
 														object:self
