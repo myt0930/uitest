@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "353198B418A2147E00EBBC82"
-               BuildableName = "TokyoLiveScheduler.app"
-               BlueprintName = "TokyoLiveScheduler"
+               BuildableName = "LiveHouseSchedule.app"
+               BlueprintName = "LiveHouseSchedule"
                ReferencedContainer = "container:tab.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,23 +28,13 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "353198D818A2147E00EBBC82"
-               BuildableName = "tabTests.xctest"
-               BlueprintName = "tabTests"
-               ReferencedContainer = "container:tab.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BuildableName = "LiveHouseSchedule.app"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -62,8 +52,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BuildableName = "LiveHouseSchedule.app"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,8 +70,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
-            BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BuildableName = "LiveHouseSchedule.app"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

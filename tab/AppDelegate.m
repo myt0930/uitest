@@ -19,6 +19,8 @@
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
 
+
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -31,6 +33,9 @@
 	
 	[self performSelectorInBackground:@selector(checkUpdateMaster) withObject:nil];
 	
+    NSString* appId = @"10562";
+    [KonectNotificationsAPI initialize:self launchOptions:launchOptions appId:appId];
+    
 	//TODO: AppIdをセット
 //	[Appirater setAppId:@"000000"];
 //	[Appirater appLaunched:YES];
@@ -178,4 +183,24 @@
 	
 	[self endIndicator];
 }
+
+// デバイストークンを受信した際の処理
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
+{
+    [KonectNotificationsAPI setupNotifications:devToken];
+}
+
+// プッシュ通知を受信した際の処理
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    // 渡ってきたuserInfoを渡す
+    [KonectNotificationsAPI processNotifications:userInfo];
+}
+
+// このメソッドで、プッシュ通知からの起動後の処理を行うことが出来る
+- (void)onLaunchFromNotification:(NSString *)notificationsId message:(NSString *)message extra:(NSDictionary *)extra
+{
+    NSLog(@"ここでextraの中身にひもづいたインセンティブの付与などを行うことが出来ます");
+}
+
 @end

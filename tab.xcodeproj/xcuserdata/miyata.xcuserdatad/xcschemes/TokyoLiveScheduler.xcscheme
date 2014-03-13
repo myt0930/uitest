@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "353198B418A2147E00EBBC82"
                BuildableName = "TokyoLiveScheduler.app"
-               BlueprintName = "TokyoLiveScheduler"
+               BlueprintName = "LiveHouseSchedule"
                ReferencedContainer = "container:tab.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
             BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -53,7 +53,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
             BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,7 +71,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "353198B418A2147E00EBBC82"
             BuildableName = "TokyoLiveScheduler.app"
-            BlueprintName = "TokyoLiveScheduler"
+            BlueprintName = "LiveHouseSchedule"
             ReferencedContainer = "container:tab.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -89,6 +89,8 @@
 		5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */; };
 		5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FED18AF1BF600AAC68B /* FavViewController.m */; };
 		5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */; };
+		5C8A31BF18D1E2BE002D548A /* FelloPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8A31BD18D1E2BE002D548A /* FelloPush.framework */; };
+		5C8A31C118D1E30E002D548A /* FelloPush.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C8A31C018D1E30E002D548A /* FelloPush.bundle */; };
 		5CBD701A18B502440078C409 /* SettingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD701918B502440078C409 /* SettingData.m */; };
 		5CF66CDC18CC987A00A55497 /* calendar_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CBE18CC987A00A55497 /* calendar_64@2x.png */; };
 		5CF66CDD18CC987A00A55497 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CBF18CC987A00A55497 /* home_64@2x.png */; };
@@ -143,7 +145,7 @@
 		35318F2418AB24FF00602C70 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		35318F2518AB24FF00602C70 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
 		35318F2618AB24FF00602C70 /* TabBarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabBarController.xib; sourceTree = "<group>"; };
-		353198B518A2147E00EBBC82 /* TokyoLiveScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TokyoLiveScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		353198B518A2147E00EBBC82 /* LiveHouseSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveHouseSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		353198B818A2147E00EBBC82 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		353198BA18A2147E00EBBC82 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		353198BC18A2147E00EBBC82 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -271,6 +273,8 @@
 		5C7E3FED18AF1BF600AAC68B /* FavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavViewController.m; sourceTree = "<group>"; };
 		5C7E3FEF18AF227100AAC68B /* LiveHouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveHouseViewController.h; sourceTree = "<group>"; };
 		5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveHouseViewController.m; sourceTree = "<group>"; };
+		5C8A31BD18D1E2BE002D548A /* FelloPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FelloPush.framework; path = ../Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release/FelloPush.framework; sourceTree = "<group>"; };
+		5C8A31C018D1E30E002D548A /* FelloPush.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FelloPush.bundle; path = tab/FelloPush.bundle; sourceTree = "<group>"; };
 		5CBD701818B502440078C409 /* SettingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingData.h; sourceTree = "<group>"; };
 		5CBD701918B502440078C409 /* SettingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingData.m; sourceTree = "<group>"; };
 		5CF66CBE18CC987A00A55497 /* calendar_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar_64@2x.png"; path = "resource/calendar_64@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -327,6 +331,7 @@
 				5C0559AE18CD22840080A0D7 /* libAdapterNend.a in Frameworks */,
 				5C0559A718CD22840080A0D7 /* libGoogleAdMobAds.a in Frameworks */,
 				3533436D18C84B3A0011D7DC /* Social.framework in Frameworks */,
+				5C8A31BF18D1E2BE002D548A /* FelloPush.framework in Frameworks */,
 				5C0559AA18CD22840080A0D7 /* ASIHTTPRequest.framework in Frameworks */,
 				5C0559AB18CD22840080A0D7 /* imobileAds.framework in Frameworks */,
 				5C0559AD18CD22840080A0D7 /* libAdapterIMobile.a in Frameworks */,
@@ -363,7 +368,7 @@
 		353198B618A2147E00EBBC82 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				353198B518A2147E00EBBC82 /* TokyoLiveScheduler.app */,
+				353198B518A2147E00EBBC82 /* LiveHouseSchedule.app */,
 				353198D918A2147E00EBBC82 /* tabTests.xctest */,
 			);
 			name = Products;
@@ -372,6 +377,8 @@
 		353198B718A2147E00EBBC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C8A31C018D1E30E002D548A /* FelloPush.bundle */,
+				5C8A31BD18D1E2BE002D548A /* FelloPush.framework */,
 				5C0559D818CD23990080A0D7 /* MobileCoreServices.framework */,
 				5C0559D618CD23910080A0D7 /* libz.dylib */,
 				5C0559D418CD23770080A0D7 /* Security.framework */,
@@ -721,9 +728,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		353198B418A2147E00EBBC82 /* TokyoLiveScheduler */ = {
+		353198B418A2147E00EBBC82 /* LiveHouseSchedule */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 353198EA18A2147E00EBBC82 /* Build configuration list for PBXNativeTarget "TokyoLiveScheduler" */;
+			buildConfigurationList = 353198EA18A2147E00EBBC82 /* Build configuration list for PBXNativeTarget "LiveHouseSchedule" */;
 			buildPhases = (
 				353198B118A2147E00EBBC82 /* Sources */,
 				353198B218A2147E00EBBC82 /* Frameworks */,
@@ -733,9 +740,9 @@
 			);
 			dependencies = (
 			);
-			name = TokyoLiveScheduler;
+			name = LiveHouseSchedule;
 			productName = tab;
-			productReference = 353198B518A2147E00EBBC82 /* TokyoLiveScheduler.app */;
+			productReference = 353198B518A2147E00EBBC82 /* LiveHouseSchedule.app */;
 			productType = "com.apple.product-type.application";
 		};
 		353198D818A2147E00EBBC82 /* tabTests */ = {
@@ -792,7 +799,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				353198B418A2147E00EBBC82 /* TokyoLiveScheduler */,
+				353198B418A2147E00EBBC82 /* LiveHouseSchedule */,
 				353198D818A2147E00EBBC82 /* tabTests */,
 			);
 		};
@@ -849,6 +856,7 @@
 				353198FB18A2251C00EBBC82 /* CustomTableViewCell.xib in Resources */,
 				35AB07CA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib in Resources */,
 				353198CC18A2147E00EBBC82 /* Main.storyboard in Resources */,
+				5C8A31C118D1E30E002D548A /* FelloPush.bundle in Resources */,
 				5CF66CE118CC987A00A55497 /* Icon-60@2x.png in Resources */,
 				5CF66CEF18CC987A00A55497 /* launch320x480.png in Resources */,
 				5C0559B218CD22840080A0D7 /* nendSDKiOS2.3.3_manual.pdf in Resources */,
@@ -921,7 +929,7 @@
 /* Begin PBXTargetDependency section */
 		353198DF18A2147E00EBBC82 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 353198B418A2147E00EBBC82 /* TokyoLiveScheduler */;
+			target = 353198B418A2147E00EBBC82 /* LiveHouseSchedule */;
 			targetProxy = 353198DE18A2147E00EBBC82 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1037,6 +1045,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/tab/Ad/imobile",
+					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
+					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1050,7 +1060,11 @@
 					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
 					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					FelloPush,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1068,6 +1082,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/tab/Ad/imobile",
+					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
+					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1081,7 +1097,11 @@
 					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
 					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					FelloPush,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1142,7 +1162,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		353198EA18A2147E00EBBC82 /* Build configuration list for PBXNativeTarget "TokyoLiveScheduler" */ = {
+		353198EA18A2147E00EBBC82 /* Build configuration list for PBXNativeTarget "LiveHouseSchedule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				353198EB18A2147E00EBBC82 /* Debug */,

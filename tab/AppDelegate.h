@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FelloPush/KonectNotificationsAPI.h>
 
 @class TlsIndicatorView;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,IKonectNotificationsCallback>
 
 @property (strong, nonatomic) UIWindow *window;
 @property TlsIndicatorView *indicator;
