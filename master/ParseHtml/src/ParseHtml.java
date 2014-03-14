@@ -15,9 +15,13 @@ public class ParseHtml
 	public static void main(String[] args) throws IOException 
 	{
 		//2. 新宿Marble
-		parseHtml.outShinjukuMarble();
+//		parseHtml.outShinjukuMarble();
 		//3. 新宿Marz
-		parseHtml.outShinjukuMarz();
+//		parseHtml.outShinjukuMarz();
+		//4. 新宿LOFT
+//		parseHtml.outShinjukuLoft();
+		//5. 秋葉原GOODMAN
+		parseHtml.outAkihabaraGoodman();
 	}
 	
 	private void outShinjukuMarble() 
@@ -82,9 +86,9 @@ public class ParseHtml
 			
 			final String weekday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-			for( org.jsoup.nodes.Element element : baseElements)
+			for( Element element : baseElements)
 			{
-				for( org.jsoup.nodes.Element e : element.getAllElements())
+				for( Element e : element.getAllElements())
 				{
 					String className = e.className();
 					if( className.equals("img") )
@@ -111,6 +115,89 @@ public class ParseHtml
 			
 		}
 	}
+	
+	private void outShinjukuLoft() 
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/03").get();
+			Elements baseElements = doc.body().select("tr tr");
+			
+			//URLを取得
+			//loft/date/2014/03/01などにアクセスし、内容を引っ張って来る
+			
+			System.out.println(baseElements);
+			for( Element element : baseElements)
+			{
+				for( Element e : element.getAllElements())
+				{
+					//System.out.println(e);
+					String className = e.className();
+					if( className.equals("day") )
+					{						
+					//	System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+					else if( className.equals("month_content") )
+					{
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+					else if( className.equals("time_text") || className.equals("ticket") )
+					{
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+				}
+					
+			}
+		} catch(Exception e){
+			
+		}
+	}
+	
+	private void outAkihabaraGoodman() 
+	{
+		try{
+			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-3.html").get();
+			Elements baseElements = doc.body().select("table tbody tr[class!=head_line]");// getElementsByTag("tr");
+			
+			System.out.println(baseElements);
+			for( Element element : baseElements)
+			{
+				Elements elements =element.getElementsByTag("tr");
+				//System.out.println(elements);
+				if( element.attr("class") != "")
+				{
+					continue;
+				}
+	//			System.out.println(element);
+//				System.out.println("---------------------");
+				for( Element e : element.getAllElements())
+				{
+					String className = e.className();
+					if( className.equals("head_line"))
+					{
+						continue;
+					}
+					
+					if( className.equals("day") )
+					{						
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+					else if( className.equals("month_content") )
+					{
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+					else if( className.equals("time_text") || className.equals("ticket") )
+					{
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+					}
+				}
+					
+			}
+		} catch(Exception e){
+			
+		}
+	}
+	
+	
 	
 	private String stringReplaceLineBreakAndRemoveTag(Element e)
 	{
