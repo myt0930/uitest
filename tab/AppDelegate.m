@@ -11,7 +11,7 @@
 #import "TlsAlertView.h"
 #import "TlsIndicatorView.h"
 #import "NetworkDownload.h"
-//#import "Appirater.h"
+#import "Appirater.h"
 #import "Common.h"
 #import "LoadData.h"
 #import "TabBarController.h"
@@ -37,8 +37,8 @@
     [KonectNotificationsAPI initialize:self launchOptions:launchOptions appId:appId];
     
 	//TODO: AppIdをセット
-//	[Appirater setAppId:@"000000"];
-//	[Appirater appLaunched:YES];
+	[Appirater setAppId:@"840221818"];
+    [Appirater appLaunched:YES];
     return YES;
 }
 							
@@ -55,7 +55,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
 	[self checkUpdateMaster];
-//	[Appirater appEnteredForeground:YES];
+	[Appirater appEnteredForeground:YES];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = -1;
 	
