@@ -1,8 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attribute;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
@@ -14,17 +15,24 @@ public class ParseHtml
 	
 	public static void main(String[] args) throws IOException 
 	{
+		//出力先を作成する
+        FileWriter fw = new FileWriter("out.csv", false);
+        PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
+        int month = 3;
+        
 		//2. 新宿Marble
-//		parseHtml.outShinjukuMarble();
+		parseHtml.outShinjukuMarble(pw,month);
 		//3. 新宿Marz
-//		parseHtml.outShinjukuMarz();
+		parseHtml.outShinjukuMarz(pw,month);
 		//4. 新宿LOFT
-//		parseHtml.outShinjukuLoft();
+		parseHtml.outShinjukuLoft(pw,month);
 		//5. 秋葉原GOODMAN
-		parseHtml.outAkihabaraGoodman();
+		parseHtml.outAkihabaraGoodman(pw,month);
+		
+		pw.close();
 	}
 	
-	private void outShinjukuMarble() 
+	private void outShinjukuMarble(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule1403.html").get();
@@ -55,20 +63,20 @@ public class ParseHtml
 						{
 							title += splits[i];
 						}
-						System.out.println(date);
-						System.out.println(title);
+						pw.println();
+						pw.print(date + "\t");
+						pw.print(title + "\t");
 					}
 					else if( className.equals("linehi_10") )
 					{
 						if( isAct )
 						{
-							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
-							System.out.println("----------------------");
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
 							isAct = false;
 						}
 						else
 						{
-							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
 						}
 					}
 				}
@@ -76,9 +84,10 @@ public class ParseHtml
 		} catch(Exception e){
 			
 		}
+		pw.println();
 	}
 	
-	private void outShinjukuMarz() 
+	private void outShinjukuMarz(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/03/").get();
@@ -91,6 +100,7 @@ public class ParseHtml
 				for( Element e : element.getAllElements())
 				{
 					String className = e.className();
+					System.out.println(className);
 					if( className.equals("img") )
 					{						
 						String elementStr = e.html();
@@ -99,15 +109,16 @@ public class ParseHtml
 						{
 							elementStr = elementStr.replaceAll(str, "");
 						}
-						System.out.println(Jsoup.parse(elementStr).text());
+						pw.print(Jsoup.parse(elementStr).text() + "\t");
 					}
 					else if( className.equals("entrybody") )
 					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
 					}
 					else if( className.equals("entryex") )
 					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.println();
 					}
 				}
 			}
@@ -116,7 +127,7 @@ public class ParseHtml
 		}
 	}
 	
-	private void outShinjukuLoft() 
+	private void outShinjukuLoft(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/03").get();
@@ -145,52 +156,42 @@ public class ParseHtml
 						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
 					}
 				}
-					
 			}
 		} catch(Exception e){
 			
 		}
 	}
 	
-	private void outAkihabaraGoodman() 
+	private void outAkihabaraGoodman(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-3.html").get();
 			Elements baseElements = doc.body().select("table tbody tr[class!=head_line]");// getElementsByTag("tr");
 			
-			System.out.println(baseElements);
 			for( Element element : baseElements)
 			{
-				Elements elements =element.getElementsByTag("tr");
-				//System.out.println(elements);
-				if( element.attr("class") != "")
-				{
-					continue;
-				}
-	//			System.out.println(element);
-//				System.out.println("---------------------");
 				for( Element e : element.getAllElements())
 				{
 					String className = e.className();
-					if( className.equals("head_line"))
-					{
-						continue;
-					}
-					
-					if( className.equals("day") )
+					if( className.equals("date") || 
+						className.equals("saturday_date") || 
+						className.equals("sunday_date") )
+						
 					{						
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+						String str = stringReplaceLineBreakAndRemoveTag(e);
+						pw.print(String.format("%02d%02d", month, Integer.valueOf(str)) + "\t");
 					}
-					else if( className.equals("month_content") )
+					else if( className.equals("event") ||
+							className.equals("o-s") )
 					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
 					}
-					else if( className.equals("time_text") || className.equals("ticket") )
+					else if( className.equals("price") )
 					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.println();
 					}
-				}
-					
+				}	
 			}
 		} catch(Exception e){
 			
@@ -203,7 +204,7 @@ public class ParseHtml
 	{
 		String html = e.html();
 		String text = Jsoup.parse(html.replaceAll("(?i)<br[^>]*>", "br2n")).text();
-		text = text.replaceAll("br2n", "\n");
+		//text = text.replaceAll("br2n", "\n");
 		return text;
 	}
 }

@@ -36,7 +36,6 @@
     NSString* appId = @"10562";
     [KonectNotificationsAPI initialize:self launchOptions:launchOptions appId:appId];
     
-	//TODO: AppIdをセット
 	[Appirater setAppId:@"840221818"];
     [Appirater appLaunched:YES];
     return YES;
