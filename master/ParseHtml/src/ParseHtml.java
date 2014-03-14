@@ -1,7 +1,9 @@
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
 
@@ -13,7 +15,7 @@ public class ParseHtml
 	public static void main(String[] args) throws IOException 
 	{
 		//2. 新宿Marble
-		//parseHtml.outShinjukuMarble();
+		parseHtml.outShinjukuMarble();
 		//3. 新宿Marz
 		parseHtml.outShinjukuMarz();
 	}
@@ -22,11 +24,11 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule1403.html").get();
-			Elements ele = doc.body().select("tbody td tr td");
+			Elements elements = doc.body().select("tbody td tr td");
 			
 			final String weekday[] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
 			boolean isAct = true;
-			for( org.jsoup.nodes.Element element : ele)
+			for( Element element : elements)
 			{
 				if(element.ownText().length() > 0)
 				{		
@@ -42,7 +44,7 @@ public class ParseHtml
 							elementStr = elementStr.replaceAll(str, "");
 						}
 						
-						String[] splits = elementStr.split(" ");	//marbleはスペース二つで切り分けられる
+						String[] splits = elementStr.split(" ");	//marbleはスペースで切り分けられる
 						String date = splits[0];
 						String title = "";
 						for( int i = 1; i < splits.length;i++ )
@@ -56,21 +58,13 @@ public class ParseHtml
 					{
 						if( isAct )
 						{
-							String elementStr = element.html();
-							for( String str : lineBreakCode )
-							{
-								elementStr = elementStr.replaceAll(str, "\n");
-							}
-							System.out.println(elementStr);
-							
+							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
+							System.out.println("----------------------");
 							isAct = false;
 						}
 						else
 						{
-							String elementStr = element.text();
-							elementStr = elementStr.replaceAll("■", "\n■");
-							
-							System.out.println(elementStr);
+							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
 						}
 					}
 				}
@@ -84,42 +78,45 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/03/").get();
-			Elements ele = doc.body().select("article");
+			Elements baseElements = doc.body().select("article");
 			
-			final String weekday[] = {"sun", "mon", "tue", "wed", "thu", "fri", "sat"};
-			boolean isAct = true;
-			System.out.println(ele);
-			for( org.jsoup.nodes.Element element : ele)
+			final String weekday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+			for( org.jsoup.nodes.Element element : baseElements)
 			{
-				if(element.ownText().length() > 0)
-				{		
-					String className = element.className();
+				for( org.jsoup.nodes.Element e : element.getAllElements())
+				{
+					String className = e.className();
 					if( className.equals("img") )
-					{
-						isAct = true;
-						
-						String elementStr = element.text();
+					{						
+						String elementStr = e.html();
 						//不要な曜日データを削る
 						for( String str : weekday)
 						{
 							elementStr = elementStr.replaceAll(str, "");
 						}
-						System.out.println(elementStr);
+						System.out.println(Jsoup.parse(elementStr).text());
 					}
 					else if( className.equals("entrybody") )
 					{
-						String elementStr = element.html();
-						System.out.println(elementStr);
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
 					}
 					else if( className.equals("entryex") )
 					{
-						String elementStr = element.html();
-						System.out.println(elementStr);
+						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
 					}
 				}
 			}
 		} catch(Exception e){
 			
 		}
+	}
+	
+	private String stringReplaceLineBreakAndRemoveTag(Element e)
+	{
+		String html = e.html();
+		String text = Jsoup.parse(html.replaceAll("(?i)<br[^>]*>", "br2n")).text();
+		text = text.replaceAll("br2n", "\n");
+		return text;
 	}
 }
