@@ -7,7 +7,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
-
 public class ParseHtml
 {
 	static ParseHtml parseHtml = new ParseHtml();
@@ -20,6 +19,8 @@ public class ParseHtml
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
         int month = 3;
         
+        //1. 新宿Motion
+        //parseHtml.outShinjukuMotion(pw, month);
 		//2. 新宿Marble
 		parseHtml.outShinjukuMarble(pw,month);
 		//3. 新宿Marz
@@ -28,15 +29,80 @@ public class ParseHtml
 		parseHtml.outShinjukuLoft(pw,month);
 		//5. 秋葉原GOODMAN
 		parseHtml.outAkihabaraGoodman(pw,month);
+		//6. 下北沢BASEMENT BAR
+		parseHtml.outBasementBar(pw, month);
+		//7. 下北沢THREE
+		parseHtml.outShimokitaThree(pw, month);
 		
 		pw.close();
+		
+		System.out.println("done");
+	}
+	
+	private void outShinjukuMotion(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://motion-web.jp/html/201403.html").get();
+			Elements elements = doc.body().select("tbody td tr td");
+			
+			final String weekday[] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
+			boolean isAct = true;
+			for( Element element : elements)
+			{
+				if(element.ownText().length() > 0)
+				{		
+					String className = element.className();
+					if( className.equals("font_bold") )
+					{
+						isAct = true;
+						
+						String elementStr = element.text();
+						//不要な曜日データを削る
+						for( String str : weekday)
+						{
+							elementStr = elementStr.replaceAll(str, "");
+						}
+						
+						String[] splits = elementStr.split(" ");	//motionはスペースで切り分けられる
+						String date = splits[0];
+						String[] dateSplits = date.split("/");
+						date = String.format("%02d%02d", Integer.valueOf(dateSplits[0]), Integer.valueOf(dateSplits[1])); //MMdd形式の文字列に変換
+						String title = "";
+						for( int i = 1; i < splits.length;i++ )
+						{
+							title += splits[i];
+						}
+						
+						pw.println();
+						pw.print("1" + "\t");	//ライブハウスNo
+						pw.print(date + "\t");
+						pw.print(title + "\t");
+					}
+					else if( className.equals("linehi_10") )
+					{
+						if( isAct )
+						{
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
+							isAct = false;
+						}
+						else
+						{
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "br2n");
+						}
+					}
+				}
+			}
+		} catch(Exception e){
+			System.out.println("1.Motion Failure");
+		}
+		pw.println();
 	}
 	
 	private void outShinjukuMarble(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule1403.html").get();
-			Elements elements = doc.body().select("tbody td tr td");
+			Elements elements = doc.body().select("table[width=450]");
 			
 			final String weekday[] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
 			boolean isAct = true;
@@ -58,12 +124,19 @@ public class ParseHtml
 						
 						String[] splits = elementStr.split(" ");	//marbleはスペースで切り分けられる
 						String date = splits[0];
+						String[] dateSplits = date.split("/");
+						date = String.format("%02d%02d", Integer.valueOf(dateSplits[0]), Integer.valueOf(dateSplits[1])); //MMdd形式の文字列に変換
 						String title = "";
 						for( int i = 1; i < splits.length;i++ )
 						{
 							title += splits[i];
 						}
+						
+						System.out.println(date);
+						System.out.println(title);
+						
 						pw.println();
+						pw.print("2" + "\t");	//ライブハウスNo
 						pw.print(date + "\t");
 						pw.print(title + "\t");
 					}
@@ -71,18 +144,20 @@ public class ParseHtml
 					{
 						if( isAct )
 						{
+							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
 							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
 							isAct = false;
 						}
 						else
 						{
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
+							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "br2n");
 						}
 					}
 				}
 			}
 		} catch(Exception e){
-			
+			System.out.println("2.Marble Failure");
 		}
 		pw.println();
 	}
@@ -99,17 +174,25 @@ public class ParseHtml
 			{
 				for( Element e : element.getAllElements())
 				{
+					String tagName = e.tagName();
 					String className = e.className();
-					System.out.println(className);
+					
 					if( className.equals("img") )
-					{						
+					{					
+						pw.print("3" + "\t");	//ライブハウスNo
+						
 						String elementStr = e.html();
 						//不要な曜日データを削る
 						for( String str : weekday)
 						{
 							elementStr = elementStr.replaceAll(str, "");
 						}
+						elementStr = elementStr.replace(".", "");	//.を削除
 						pw.print(Jsoup.parse(elementStr).text() + "\t");
+					}
+					else if( tagName.equals("h1") )
+					{
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
 					}
 					else if( className.equals("entrybody") )
 					{
@@ -117,13 +200,13 @@ public class ParseHtml
 					}
 					else if( className.equals("entryex") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "br2n");
 						pw.println();
 					}
 				}
 			}
 		} catch(Exception e){
-			
+			System.out.println("3.Marz Failure");
 		}
 	}
 	
@@ -158,7 +241,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			
+			System.out.println("4.Loft Failure");
 		}
 	}
 	
@@ -178,13 +261,29 @@ public class ParseHtml
 						className.equals("sunday_date") )
 						
 					{						
+						pw.print("5" + "\t");	//ライブハウスNo
 						String str = stringReplaceLineBreakAndRemoveTag(e);
 						pw.print(String.format("%02d%02d", month, Integer.valueOf(str)) + "\t");
 					}
-					else if( className.equals("event") ||
-							className.equals("o-s") )
+					else if( className.equals("event") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						String event = stringReplaceLineBreakAndRemoveTag(e);
+						String title = "";
+						Elements eventTitle = e.select("span[class=event-title]");
+						if( eventTitle != null && eventTitle.size() > 0 )
+						{
+							title = stringReplaceLineBreakAndRemoveTag(eventTitle.first());
+							event = event.replace(title+"br2n ", "");
+							event = event.replace(title+" br2n", "");
+							event = event.replace(title+"br2n", "");
+							event = event.replace(title, "");
+						}
+						pw.print(title + "\t");
+						pw.print(event + "\t");
+					}
+					else if( className.equals("o-s") )
+					{
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "br2n");
 					}
 					else if( className.equals("price") )
 					{
@@ -194,11 +293,119 @@ public class ParseHtml
 				}	
 			}
 		} catch(Exception e){
-			
+			System.out.println("5.GOODMAN Failure");
 		}
 	}
 	
+	private void outBasementBar(PrintWriter pw, int month) 
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_03.html").get();
+			Elements baseElements = doc.body().select("Table[width=624] tr[valign=middle] td");
+			
+			int count = 0;
+			for( Element element : baseElements)
+			{
+				count++;
+				if( count == 1 )
+				{
+					String date = String.format("%02d%02d", 3, Integer.valueOf(element.text()));
+					pw.print("6" + "\t");
+					pw.print(date + "\t");
+				}
+				else if(count == 2)
+				{
+					//do nothing
+				}
+				else
+				{
+					count = 0;
+					
+					String title = "";
+					String act = "";
+					String other = "";
+					//タイトル
+					for( Element e : element.getElementsByTag("font") )
+					{
+						if(e.text().equals(""))
+						{
+							continue;
+						}
+						String color = e.attr("color");
+						
+						if( color.contains("#000099") )
+						{
+							title += e.text();
+						}
+						else if( color.contains("#006699") )
+						{
+							other += e.text();
+						}
+						else
+						{
+							act += e.text();
+						}
+					}
+					pw.print(title + "\t");
+					pw.print(act + "\t");
+					pw.println(other);	
+				}
+					
+			}
+		} catch(Exception e){
+			System.out.println("6.BASEMENT Failure");
+		}
+	}
 	
+	private void outShimokitaThree(PrintWriter pw, int month) 
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.toos.co.jp/3/3_schedule.html").get(); //TODO: 当月のURLが違う
+			Elements baseElements = doc.body().select("table[width=625][border=0][cellspacing=2][cellpadding=1] tr");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for( Element element : baseElements)
+			{
+				String text = stringReplaceLineBreakAndRemoveTag(element);
+				if( text.equals("") )
+				{
+					continue;
+				}
+				for(Element e : element.select("h1") )
+				{
+					date = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(date, "");
+				}
+				for(Element e : element.select("h2") )
+				{
+					title = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(title, "");
+				}
+				for(Element e : element.select("span[class=style9]") )
+				{
+					if( !e.text().contains("open") && !e.text().contains("start") )
+					{
+						continue;
+					}
+					other = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(other, "");
+				}
+				
+				pw.print("7" + "\t");
+				String[] dateSplits = date.split("\\.");
+				pw.print(dateSplits[1]+dateSplits[2]+ "\t");
+				pw.print(title + "\t");
+				act = text.replace("br2n","");
+				pw.print(act + "\t");
+				pw.println(other + "\t");
+			}
+		} catch(Exception e){
+			System.out.println("7.THREE Failure");
+		}
+	}
 	
 	private String stringReplaceLineBreakAndRemoveTag(Element e)
 	{
