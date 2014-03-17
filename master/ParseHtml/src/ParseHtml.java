@@ -43,6 +43,13 @@ public class ParseHtml
 		parseHtml.outShimokitaQue(pw, month);
 		//11. 下北沢251
 		parseHtml.outShimokita251(pw, month);
+		//12. 下北沢ERA
+		parseHtml.outShimokitaERA(pw, month);
+		
+		
+		
+		
+		
 		pw.close();
 		
 		System.out.println("done");
@@ -576,6 +583,57 @@ public class ParseHtml
 			System.out.println("11.251 Failure");
 		}
 	}
+	
+	private void outShimokitaERA(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://s-era.jp/2014/03/?cat=20").get();
+			Elements baseElements = doc.body().select("div[id=schedule] div[class*=schedule-day]");
+			
+			for(Element element : baseElements)
+			{
+				String date = "";
+				String title = "";
+				String act = "";
+				String other = "";
+				for(Element e : element.select("span[class=d]"))
+				{
+					date = this.stringReplaceLineBreakAndRemoveTag(e);
+					date = this.removeEndSpace(date);
+					date = String.format("%02d%02d", month, Integer.valueOf(date));
+				}
+				for(Element e : element.select("a[class=event-title]"))
+				{
+					title = this.stringReplaceLineBreakAndRemoveTag(e);
+					title = this.removeEndLineBreak(title);
+				}
+				for(Element e : element.select("div[class=schedule-announce]"))
+				{
+					act = this.stringReplaceLineBreakAndRemoveTag(e);
+					act = act.replace(LINE_BREAK, "");	//スラッシュが入っているから要らない
+					act = this.removeEndLineBreak(act);
+				}
+				for(Element e : element.select("div[class=schedule-note]"))
+				{
+					other = this.stringReplaceLineBreakAndRemoveTag(e);
+					String[] split = other.split("予約");
+					other = split[0];
+					other = this.removeEndLineBreak(other);
+					other = other.replace("TICKET", LINE_BREAK + "TICKET");
+				}
+				
+				pw.print("12" + TAB);
+				pw.print(date + TAB);
+				pw.print(title + TAB);
+				pw.print(act + TAB);
+				pw.println(other);
+			}
+		} catch(Exception e){
+			System.out.println("12.ERA Failure");
+		}
+	}
+	
+	
 	
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
