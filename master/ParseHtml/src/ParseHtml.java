@@ -33,7 +33,8 @@ public class ParseHtml
 		parseHtml.outBasementBar(pw, month);
 		//7. 下北沢THREE
 		parseHtml.outShimokitaThree(pw, month);
-		
+		//8. 下北沢DAISY BAR
+		parseHtml.outShimokitaDaisyBar(pw, month);
 		pw.close();
 		
 		System.out.println("done");
@@ -407,11 +408,91 @@ public class ParseHtml
 		}
 	}
 	
+	private void outShimokitaDaisyBar(PrintWriter pw, int month) 
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/1403.html").get();
+			Elements baseElements = doc.body().select("tbody tr td");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for( Element element : baseElements)
+			{
+				String className = element.className();
+				if(className.equals("day"))
+				{
+					date = stringReplaceLineBreakAndRemoveTag(element);
+					date = String.format("%02d%02d", month, Integer.valueOf(date));
+					pw.print("8" + "\t");
+					pw.print(date + "\t");
+				}
+				else if(className.equals("about"))
+				{
+					for(Element e : element.select("h3") )
+					{
+						title = stringReplaceLineBreakAndRemoveTag(e);
+						pw.print(removeEndLineBreak(title) + "\t");
+					}
+					String spanText = "";
+					int count = 0;
+					for(Element e : element.select("li") )
+					{
+						if( count == 0 )
+							act 	= stringReplaceLineBreakAndRemoveTag(e);
+						else
+							other	= stringReplaceLineBreakAndRemoveTag(e);
+						
+						for(Element e2 : e.select("span"))
+						{
+							spanText = stringReplaceLineBreakAndRemoveTag(e2);
+						}
+						act = act.replace(spanText, "");
+						count++;
+					}
+					other += spanText;
+					pw.print(removeEndLineBreak(act) + "\t");
+					pw.println(removeEndLineBreak(other));
+				}
+			}
+		} catch(Exception e){
+			System.out.println("8.DAISY BAR Failure");
+		}
+	}
+	
 	private String stringReplaceLineBreakAndRemoveTag(Element e)
 	{
 		String html = e.html();
 		String text = Jsoup.parse(html.replaceAll("(?i)<br[^>]*>", "br2n")).text();
 		//text = text.replaceAll("br2n", "\n");
 		return text;
+	}
+	
+	private String removeEndLineBreak(String s)
+	{
+		do {
+			if(s.endsWith("br2n"))
+			{
+				s = s.substring(0, s.length()-4);
+			}
+			else if(s.endsWith("br2n "))
+			{
+				s = s.substring(0, s.length()-5);
+			}
+			else if(s.endsWith("br2n  "))
+			{
+				s = s.substring(0, s.length()-6);
+			}
+			else
+			{
+				return s;
+			}
+		}while(true);
+	}
+	
+	private void print(String s)
+	{
+		System.out.println(s);
 	}
 }
