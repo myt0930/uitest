@@ -37,6 +37,8 @@ public class ParseHtml
 		parseHtml.outShimokitaDaisyBar(pw, month);
 		//9. 下北沢SHELTER
 		parseHtml.outShimokitaShelter(pw, month);
+		//10. 下北沢QUE
+		parseHtml.outShimokitaQue(pw, month);
 		
 		pw.close();
 		
@@ -453,6 +455,80 @@ public class ParseHtml
 		}
 	}
 	
+	private void outShimokitaQue(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.ukproject.com/que/schedule/thismonth.html").get();	//TODO:今月、来月っていう取り方しか出来ない
+			Elements baseElements = doc.body().select("tr tr");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			boolean isExistSchedule = true;
+			for( Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String className = e.className();
+					if(className.equals("date") || className.equals("dateSat") || className.equals("dateSun"))
+					{
+						if(!isExistSchedule)
+						{
+							print("■10::" + date + "::schedule NULL");
+						}
+						isExistSchedule = false;
+						
+						date = stringReplaceLineBreakAndRemoveTag(e);
+						String[] split = date.split("br2n");
+						date = removeEndSpace(split[0]);
+						date = date.replace(".", "/");
+						split = date.split("/");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}
+					else if(className.equals("cell"))
+					{
+						for( Element e2 :e.select("h3"))
+						{
+							isExistSchedule = true;
+							
+							pw.print("10" + "\t");
+							pw.print(date + "\t");
+							title = stringReplaceLineBreakAndRemoveTag(e2);
+							pw.print(title + "\t");
+						}
+						for( Element e2 :e.select("p"))
+						{
+							if(e2.className().equals("artists"))
+							{
+								act = stringReplaceLineBreakAndRemoveTag(e2);
+								act = this.removeEndLineBreak(act);
+								pw.print(act + "\t");
+							}
+							else
+							{
+								other = stringReplaceLineBreakAndRemoveTag(e2);
+								if(other.equals(""))
+								{
+									continue;
+								}
+								String[] split = other.split("単日券チケット発売日");
+								other = split[0];
+								split = other.split("チケット発売日");
+								other = split[0];
+								other = this.removeEndLineBreak(other);
+								pw.println(other);
+							}
+						}
+					}
+				}
+			}
+		} catch(Exception e){
+			System.out.println("10.Que Failure");
+		}
+	}
+	
+	
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
 		String date = "";
@@ -542,6 +618,20 @@ public class ParseHtml
 			}
 		}while(true);
 	}
+	private String removeEndSpace(String s)
+	{
+		do {
+			if(s.endsWith(" "))
+			{
+				s = s.substring(0, s.length()-1);
+			}
+			else
+			{
+				return s;
+			}
+		}while(true);
+	}
+	
 	
 	private void print(String s)
 	{
