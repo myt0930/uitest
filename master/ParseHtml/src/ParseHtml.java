@@ -49,7 +49,8 @@ public class ParseHtml
 		parseHtml.outShimokitaGarden(pw, month);
 		//14. 新代田FEVER
 		parseHtml.outShindaitaFever(pw, month);
-		
+		//15. 東高円寺U.F.O.CLUB
+		parseHtml.outKoenjiUFO(pw, month);
 		
 		
 		pw.close();
@@ -743,6 +744,58 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("14.Fever Failure");
+		}
+	}
+	
+	private void outKoenjiUFO(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.ufoclub.jp/schedule/").get();	//TODO: 
+			Elements baseElements = doc.body().select("tbody tr");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					if(className.equals("day"))
+					{
+						other = "";
+						act = "";
+						date = this.stringReplaceLineBreakAndRemoveTag(e);
+						date = String.format("%02d%02d", month,Integer.valueOf(date));
+					}
+					else if(className.equals("td_open") || className.equals("td_charge"))
+					{
+						other += this.stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
+					}
+					else if(tagName.equals("strong"))
+					{
+						title = this.stringReplaceLineBreakAndRemoveTag(e);
+					}
+					else if(tagName.equals("p"))
+					{
+						act += this.stringReplaceLineBreakAndRemoveTag(e);
+						act = act.replace("/LIVE; ", "");
+						act = act.replace(",", " /");
+						
+					}
+				}
+				
+				other = this.removeEndLineBreak(other);
+				pw.print("15" + TAB);
+				pw.print(date + TAB);
+				pw.print(title + TAB);
+				pw.print(act + TAB);
+				pw.println(other);
+			}
+		} catch(Exception e){
+			System.out.println("15.UFO Failure");
 		}
 	}
 	
