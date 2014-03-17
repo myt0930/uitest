@@ -35,6 +35,9 @@ public class ParseHtml
 		parseHtml.outShimokitaThree(pw, month);
 		//8. 下北沢DAISY BAR
 		parseHtml.outShimokitaDaisyBar(pw, month);
+		//9. 下北沢SHELTER
+		parseHtml.outShimokitaShelter(pw, month);
+		
 		pw.close();
 		
 		System.out.println("done");
@@ -215,32 +218,9 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/03").get();
-			Elements baseElements = doc.body().select("tr tr");
+			Elements baseElements = doc.body().select("tr");
 			
-			//URLを取得
-			//loft/date/2014/03/01などにアクセスし、内容を引っ張って来る
-			
-			System.out.println(baseElements);
-			for( Element element : baseElements)
-			{
-				for( Element e : element.getAllElements())
-				{
-					//System.out.println(e);
-					String className = e.className();
-					if( className.equals("day") )
-					{						
-					//	System.out.println(stringReplaceLineBreakAndRemoveTag(e));
-					}
-					else if( className.equals("month_content") )
-					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
-					}
-					else if( className.equals("time_text") || className.equals("ticket") )
-					{
-						System.out.println(stringReplaceLineBreakAndRemoveTag(e));
-					}
-				}
-			}
+			outLoftProject(pw, baseElements, 4, month);
 		} catch(Exception e){
 			System.out.println("4.Loft Failure");
 		}
@@ -458,6 +438,78 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("8.DAISY BAR Failure");
+		}
+	}
+	
+	private void outShimokitaShelter(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/03").get();
+			Elements baseElements = doc.body().select("tr");
+			
+			outLoftProject(pw, baseElements, 9, month);
+		} catch(Exception e){
+			System.out.println("9.Shelter Failure");
+		}
+	}
+	
+	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
+	{
+		String date = "";
+		String title = "";
+		String act = "";
+		String other = "";
+		for( Element element : baseElements)
+		{
+			for(Element e : element.getAllElements())
+			{
+				String className = e.className();
+				if(className.equals("day"))
+				{
+					date = stringReplaceLineBreakAndRemoveTag(e);
+					String[] split = date.split("br2n");
+					date = String.format("%02d", month) + split[0];
+					
+				}
+				else if(className.equals("event clearfix program1") || className.equals("event clearfix program2") || className.equals("event clearfix program3"))
+				{
+					for( Element e2 : e.select("h3") )
+					{
+						title = stringReplaceLineBreakAndRemoveTag(e2);
+						title = removeEndLineBreak(title);
+						
+						pw.print(liveHouseNo + "\t");
+						pw.print(date + "\t");
+						pw.print(title + "\t");
+					}
+					for( Element e2 : e.select("p[class=month_content]") )
+					{
+						act = stringReplaceLineBreakAndRemoveTag(e2);
+						act = removeEndLineBreak(act);
+						pw.print(act + "\t");
+						if( act.contains("..."))
+						{
+							print("■■" + liveHouseNo + "::" + date + "::act Failure");
+						}
+					}
+					for( Element e2 : e.select("p[class=time_text]") )
+					{
+						other = stringReplaceLineBreakAndRemoveTag(e2) + "br2n";
+					}
+					for( Element e2 : e.select("p[class=ticket]") )
+					{
+						other += stringReplaceLineBreakAndRemoveTag(e2);
+						String[] split = other.split("【");
+						other = split[0];
+						other = removeEndLineBreak(other);
+						pw.println(other);
+						if( other.contains("..."))
+						{
+							print("■■" + liveHouseNo + "::" + date + "::other Failure");
+						}
+					}
+				}
+			}
 		}
 	}
 	
