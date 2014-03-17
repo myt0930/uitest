@@ -45,8 +45,10 @@ public class ParseHtml
 		parseHtml.outShimokita251(pw, month);
 		//12. 下北沢ERA
 		parseHtml.outShimokitaERA(pw, month);
-		
-		
+		//13. 下北沢GARDEN
+		parseHtml.outShimokitaGarden(pw, month);
+		//14. 新代田FEVER
+		parseHtml.outShindaitaFever(pw, month);
 		
 		
 		
@@ -633,7 +635,116 @@ public class ParseHtml
 		}
 	}
 	
+	private void outShimokitaGarden(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.gar-den.in/pc/plist.php?m=201403").get();
+			Elements baseElements = doc.body().select("div[class=txt_box_ms] div");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				String className = element.className();
+				if(className.equals("box_left"))
+				{
+					for(Element e : element.getAllElements())
+					{
+						className = e.className();
+						if(className.equals("day"))
+						{
+							other = "";
+							
+							date = this.stringReplaceLineBreakAndRemoveTag(e);
+							date = String.format("%02d", month) + date;
+						}
+						else if(className.equals("m_black") )
+						{
+							other += this.stringReplaceLineBreakAndRemoveTag(e);
+						}
+						else if(className.equals("m_black_txt") )
+						{
+							other += this.stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
+						}
+						
+					}
+				}
+				else if(className.equals("box_right"))
+				{
+					for(Element e : element.select("div[class=title]"))
+					{
+						title = this.stringReplaceLineBreakAndRemoveTag(e);
+					}
+						
+					Element e = element.select("p").first();
+					act = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					pw.print("13" + TAB);
+					pw.print(date + TAB);
+					pw.print(title + TAB);
+					pw.print(act + TAB);
+					pw.println(other);
+				}
+			}
+		} catch(Exception e){
+			System.out.println("13.Garden Failure");
+		}
+	}
 	
+	private void outShindaitaFever(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/03/").get();
+			Elements baseElements = doc.body().select("div[id*=entry-][class=entry-asset asset hentry]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					//print(tagName);
+					
+					if(tagName.equals("h2"))
+					{
+						other = "";
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						date = str.substring(3, 8);
+						date = date.replace(".", "");
+						title = str.substring(15,str.length());
+						title = this.removeEndLineBreak(title);
+					}
+					else if(tagName.equals("h3"))
+					{
+						act = this.stringReplaceLineBreakAndRemoveTag(e);
+						act = this.removeEndLineBreak(act);
+					}
+					else if(tagName.equals("div") && className.equals(""))
+					{
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						if(str.contains("OPEN") || str.contains("ADV"))
+						{
+							other += str;
+						}
+					}
+				}
+				
+				pw.print("14" + TAB);
+				pw.print(date + TAB);
+				pw.print(title + TAB);
+				pw.print(act + TAB);
+				pw.println(other);
+			}
+		} catch(Exception e){
+			System.out.println("14.Fever Failure");
+		}
+	}
 	
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
