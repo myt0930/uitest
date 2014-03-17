@@ -11,6 +11,8 @@ public class ParseHtml
 {
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
+	final static String TAB = "\t";
+	final static String LINE_BREAK = "br2n";
 	
 	public static void main(String[] args) throws IOException 
 	{
@@ -39,7 +41,8 @@ public class ParseHtml
 		parseHtml.outShimokitaShelter(pw, month);
 		//10. 下北沢QUE
 		parseHtml.outShimokitaQue(pw, month);
-		
+		//11. 下北沢251
+		parseHtml.outShimokita251(pw, month);
 		pw.close();
 		
 		System.out.println("done");
@@ -80,20 +83,20 @@ public class ParseHtml
 						}
 						
 						pw.println();
-						pw.print("1" + "\t");	//ライブハウスNo
-						pw.print(date + "\t");
-						pw.print(title + "\t");
+						pw.print("1" + TAB);	//ライブハウスNo
+						pw.print(date + TAB);
+						pw.print(title + TAB);
 					}
 					else if( className.equals("linehi_10") )
 					{
 						if( isAct )
 						{
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + TAB);
 							isAct = false;
 						}
 						else
 						{
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "br2n");
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + LINE_BREAK);
 						}
 					}
 				}
@@ -142,22 +145,22 @@ public class ParseHtml
 						System.out.println(title);
 						
 						pw.println();
-						pw.print("2" + "\t");	//ライブハウスNo
-						pw.print(date + "\t");
-						pw.print(title + "\t");
+						pw.print("2" + TAB);	//ライブハウスNo
+						pw.print(date + TAB);
+						pw.print(title + TAB);
 					}
 					else if( className.equals("linehi_10") )
 					{
 						if( isAct )
 						{
 							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "\t");
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + TAB);
 							isAct = false;
 						}
 						else
 						{
 							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + "br2n");
+							pw.print(stringReplaceLineBreakAndRemoveTag(element) + LINE_BREAK);
 						}
 					}
 				}
@@ -185,7 +188,7 @@ public class ParseHtml
 					
 					if( className.equals("img") )
 					{					
-						pw.print("3" + "\t");	//ライブハウスNo
+						pw.print("3" + TAB);	//ライブハウスNo
 						
 						String elementStr = e.html();
 						//不要な曜日データを削る
@@ -194,19 +197,19 @@ public class ParseHtml
 							elementStr = elementStr.replaceAll(str, "");
 						}
 						elementStr = elementStr.replace(".", "");	//.を削除
-						pw.print(Jsoup.parse(elementStr).text() + "\t");
+						pw.print(Jsoup.parse(elementStr).text() + TAB);
 					}
 					else if( tagName.equals("h1") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
 					}
 					else if( className.equals("entrybody") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
 					}
 					else if( className.equals("entryex") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "br2n");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK);
 						pw.println();
 					}
 				}
@@ -244,9 +247,9 @@ public class ParseHtml
 						className.equals("sunday_date") )
 						
 					{						
-						pw.print("5" + "\t");	//ライブハウスNo
+						pw.print("5" + TAB);	//ライブハウスNo
 						String str = stringReplaceLineBreakAndRemoveTag(e);
-						pw.print(String.format("%02d%02d", month, Integer.valueOf(str)) + "\t");
+						pw.print(String.format("%02d%02d", month, Integer.valueOf(str)) + TAB);
 					}
 					else if( className.equals("event") )
 					{
@@ -258,19 +261,19 @@ public class ParseHtml
 							title = stringReplaceLineBreakAndRemoveTag(eventTitle.first());
 							event = event.replace(title+"br2n ", "");
 							event = event.replace(title+" br2n", "");
-							event = event.replace(title+"br2n", "");
+							event = event.replace(title+LINE_BREAK, "");
 							event = event.replace(title, "");
 						}
-						pw.print(title + "\t");
-						pw.print(event + "\t");
+						pw.print(title + TAB);
+						pw.print(event + TAB);
 					}
 					else if( className.equals("o-s") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "br2n");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK);
 					}
 					else if( className.equals("price") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + "\t");
+						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
 						pw.println();
 					}
 				}	
@@ -293,8 +296,8 @@ public class ParseHtml
 				if( count == 1 )
 				{
 					String date = String.format("%02d%02d", 3, Integer.valueOf(element.text()));
-					pw.print("6" + "\t");
-					pw.print(date + "\t");
+					pw.print("6" + TAB);
+					pw.print(date + TAB);
 				}
 				else if(count == 2)
 				{
@@ -329,8 +332,8 @@ public class ParseHtml
 							act += e.text();
 						}
 					}
-					pw.print(title + "\t");
-					pw.print(act + "\t");
+					pw.print(title + TAB);
+					pw.print(act + TAB);
 					pw.println(other);	
 				}
 					
@@ -377,13 +380,13 @@ public class ParseHtml
 					text = text.replace(other, "");
 				}
 				
-				pw.print("7" + "\t");
+				pw.print("7" + TAB);
 				String[] dateSplits = date.split("\\.");
-				pw.print(dateSplits[1]+dateSplits[2]+ "\t");
-				pw.print(title + "\t");
-				act = text.replace("br2n","");
-				pw.print(act + "\t");
-				pw.println(other + "\t");
+				pw.print(dateSplits[1]+dateSplits[2]+ TAB);
+				pw.print(title + TAB);
+				act = text.replace(LINE_BREAK,"");
+				pw.print(act + TAB);
+				pw.println(other + TAB);
 			}
 		} catch(Exception e){
 			System.out.println("7.THREE Failure");
@@ -407,15 +410,15 @@ public class ParseHtml
 				{
 					date = stringReplaceLineBreakAndRemoveTag(element);
 					date = String.format("%02d%02d", month, Integer.valueOf(date));
-					pw.print("8" + "\t");
-					pw.print(date + "\t");
+					pw.print("8" + TAB);
+					pw.print(date + TAB);
 				}
 				else if(className.equals("about"))
 				{
 					for(Element e : element.select("h3") )
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e);
-						pw.print(removeEndLineBreak(title) + "\t");
+						pw.print(removeEndLineBreak(title) + TAB);
 					}
 					String spanText = "";
 					int count = 0;
@@ -434,7 +437,7 @@ public class ParseHtml
 						count++;
 					}
 					other += spanText;
-					pw.print(removeEndLineBreak(act) + "\t");
+					pw.print(removeEndLineBreak(act) + TAB);
 					pw.println(removeEndLineBreak(other));
 				}
 			}
@@ -480,7 +483,7 @@ public class ParseHtml
 						isExistSchedule = false;
 						
 						date = stringReplaceLineBreakAndRemoveTag(e);
-						String[] split = date.split("br2n");
+						String[] split = date.split(LINE_BREAK);
 						date = removeEndSpace(split[0]);
 						date = date.replace(".", "/");
 						split = date.split("/");
@@ -492,10 +495,10 @@ public class ParseHtml
 						{
 							isExistSchedule = true;
 							
-							pw.print("10" + "\t");
-							pw.print(date + "\t");
+							pw.print("10" + TAB);
+							pw.print(date + TAB);
 							title = stringReplaceLineBreakAndRemoveTag(e2);
-							pw.print(title + "\t");
+							pw.print(title + TAB);
 						}
 						for( Element e2 :e.select("p"))
 						{
@@ -503,7 +506,7 @@ public class ParseHtml
 							{
 								act = stringReplaceLineBreakAndRemoveTag(e2);
 								act = this.removeEndLineBreak(act);
-								pw.print(act + "\t");
+								pw.print(act + TAB);
 							}
 							else
 							{
@@ -528,6 +531,51 @@ public class ParseHtml
 		}
 	}
 	
+	private void outShimokita251(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.club251.com/sche/1403.html").get();
+			Elements baseElements = doc.body().select("div[class=day clearfix]");
+			
+			for(Element element : baseElements)
+			{
+				String date = "";
+				String title = "";
+				String act = "";
+				String other = "";
+				for(Element e : element.select("h4"))
+				{
+					date = this.stringReplaceLineBreakAndRemoveTag(e);
+					String[] split = date.split("\\.");
+					date = split[0];
+					split = date.split("/");
+					date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+				}
+				for(Element e : element.select("h3"))
+				{
+					title = this.stringReplaceLineBreakAndRemoveTag(e);
+					title = this.removeEndLineBreak(title);
+				}
+				for(Element e : element.select("h2"))
+				{
+					act = this.stringReplaceLineBreakAndRemoveTag(e);
+					act = this.removeEndLineBreak(act);
+				}
+				for(Element e : element.select("h5"))
+				{
+					other = this.stringReplaceLineBreakAndRemoveTag(e);
+				}
+				
+				pw.print("11" + TAB);
+				pw.print(date + TAB);
+				pw.print(title + TAB);
+				pw.print(act + TAB);
+				pw.println(other);
+			}
+		} catch(Exception e){
+			System.out.println("11.251 Failure");
+		}
+	}
 	
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
@@ -543,7 +591,7 @@ public class ParseHtml
 				if(className.equals("day"))
 				{
 					date = stringReplaceLineBreakAndRemoveTag(e);
-					String[] split = date.split("br2n");
+					String[] split = date.split(LINE_BREAK);
 					date = String.format("%02d", month) + split[0];
 					
 				}
@@ -554,15 +602,15 @@ public class ParseHtml
 						title = stringReplaceLineBreakAndRemoveTag(e2);
 						title = removeEndLineBreak(title);
 						
-						pw.print(liveHouseNo + "\t");
-						pw.print(date + "\t");
-						pw.print(title + "\t");
+						pw.print(liveHouseNo + TAB);
+						pw.print(date + TAB);
+						pw.print(title + TAB);
 					}
 					for( Element e2 : e.select("p[class=month_content]") )
 					{
 						act = stringReplaceLineBreakAndRemoveTag(e2);
 						act = removeEndLineBreak(act);
-						pw.print(act + "\t");
+						pw.print(act + TAB);
 						if( act.contains("..."))
 						{
 							print("■■" + liveHouseNo + "::" + date + "::act Failure");
@@ -570,7 +618,7 @@ public class ParseHtml
 					}
 					for( Element e2 : e.select("p[class=time_text]") )
 					{
-						other = stringReplaceLineBreakAndRemoveTag(e2) + "br2n";
+						other = stringReplaceLineBreakAndRemoveTag(e2) + LINE_BREAK;
 					}
 					for( Element e2 : e.select("p[class=ticket]") )
 					{
@@ -592,7 +640,7 @@ public class ParseHtml
 	private String stringReplaceLineBreakAndRemoveTag(Element e)
 	{
 		String html = e.html();
-		String text = Jsoup.parse(html.replaceAll("(?i)<br[^>]*>", "br2n")).text();
+		String text = Jsoup.parse(html.replaceAll("(?i)<br[^>]*>", LINE_BREAK)).text();
 		//text = text.replaceAll("br2n", "\n");
 		return text;
 	}
