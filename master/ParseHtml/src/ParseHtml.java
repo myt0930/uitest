@@ -53,6 +53,11 @@ public class ParseHtml
 		parseHtml.outKoenjiUFO(pw, month);
 		//16. 東高円寺二万電圧
 		parseHtml.outKoenjiNiman(pw, month);
+		//17. 渋谷O-EAST
+		parseHtml.outShibuyaEast(pw, month);
+		
+		
+		
 		
 		pw.close();
 		
@@ -113,7 +118,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("1.Motion Failure");
+			System.out.println("1.Motion Failure::" + e);
 		}
 		pw.println();
 	}
@@ -177,7 +182,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("2.Marble Failure");
+			System.out.println("2.Marble Failure" + e);
 		}
 		pw.println();
 	}
@@ -226,7 +231,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("3.Marz Failure");
+			System.out.println("3.Marz Failure" + e);
 		}
 	}
 	
@@ -238,7 +243,7 @@ public class ParseHtml
 			
 			outLoftProject(pw, baseElements, 4, month);
 		} catch(Exception e){
-			System.out.println("4.Loft Failure");
+			System.out.println("4.Loft Failure" + e);
 		}
 	}
 	
@@ -290,7 +295,7 @@ public class ParseHtml
 				}	
 			}
 		} catch(Exception e){
-			System.out.println("5.GOODMAN Failure");
+			System.out.println("5.GOODMAN Failure" + e);
 		}
 	}
 	
@@ -350,7 +355,7 @@ public class ParseHtml
 					
 			}
 		} catch(Exception e){
-			System.out.println("6.BASEMENT Failure");
+			System.out.println("6.BASEMENT Failure" + e);
 		}
 	}
 	
@@ -400,7 +405,7 @@ public class ParseHtml
 				pw.println(other + TAB);
 			}
 		} catch(Exception e){
-			System.out.println("7.THREE Failure");
+			System.out.println("7.THREE Failure" + e);
 		}
 	}
 	
@@ -453,7 +458,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("8.DAISY BAR Failure");
+			System.out.println("8.DAISY BAR Failure" + e);
 		}
 	}
 	
@@ -465,7 +470,7 @@ public class ParseHtml
 			
 			outLoftProject(pw, baseElements, 9, month);
 		} catch(Exception e){
-			System.out.println("9.Shelter Failure");
+			System.out.println("9.Shelter Failure" + e);
 		}
 	}
 	
@@ -538,7 +543,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("10.Que Failure");
+			System.out.println("10.Que Failure" + e);
 		}
 	}
 	
@@ -584,7 +589,7 @@ public class ParseHtml
 				pw.println(other);
 			}
 		} catch(Exception e){
-			System.out.println("11.251 Failure");
+			System.out.println("11.251 Failure" + e);
 		}
 	}
 	
@@ -633,7 +638,7 @@ public class ParseHtml
 				pw.println(other);
 			}
 		} catch(Exception e){
-			System.out.println("12.ERA Failure");
+			System.out.println("12.ERA Failure" + e);
 		}
 	}
 	
@@ -691,7 +696,7 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("13.Garden Failure");
+			System.out.println("13.Garden Failure" + e);
 		}
 	}
 	
@@ -744,7 +749,7 @@ public class ParseHtml
 				pw.println(other);
 			}
 		} catch(Exception e){
-			System.out.println("14.Fever Failure");
+			System.out.println("14.Fever Failure" + e);
 		}
 	}
 	
@@ -796,7 +801,7 @@ public class ParseHtml
 				pw.println(other);
 			}
 		} catch(Exception e){
-			System.out.println("15.UFO Failure");
+			System.out.println("15.UFO Failure" + e);
 		}
 	}
 	
@@ -866,7 +871,68 @@ public class ParseHtml
 				}
 			}
 		} catch(Exception e){
-			System.out.println("16.20000 Failure");
+			System.out.println("16.20000 Failure" + e);
+		}
+	}
+	
+	private void outShibuyaEast(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/03").get();
+			Elements baseElements = doc.body().select("div[class=post-list]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String className = e.className();
+					String tagName = e.tagName();
+					//print(className);
+					if(className.equals("post-date"))
+					{
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						print(str);
+					}
+					else if(tagName.equals("h3"))
+					{
+						print(this.stringReplaceLineBreakAndRemoveTag(e));
+					}
+					else if(className.equals("lineup"))
+					{
+						for(Element e2 : e.getAllElements())
+						{
+							tagName = e2.tagName();
+							if( tagName.equals("dd"))
+							{
+								String str = this.stringReplaceLineBreakAndRemoveTag(e2);
+								print(this.stringReplaceLineBreakAndRemoveTag(e2));
+								
+								if(str.contains("こちら") || str.contains("コチラ") || str.contains("http://"))
+								{
+									print("■■FAILURE::" + date + "::リンクあり");
+								}
+							}
+						}
+					}
+					else if(className.equals("information"))
+					{
+						for(Element e2 : e.getAllElements())
+						{
+							tagName = e2.tagName();
+							if( tagName.equals("dd"))
+							{
+								print(this.stringReplaceLineBreakAndRemoveTag(e2));
+							}
+						}
+					}
+				}
+			}
+		} catch(Exception e){
+			System.out.println("");
 		}
 	}
 	
@@ -926,6 +992,21 @@ public class ParseHtml
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	private void outTsutayaOGroup(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
+	{
+		String date = "";
+		String title = "";
+		String act = "";
+		String other = "";
+		for( Element element : baseElements)
+		{
+			for(Element e : element.getAllElements())
+			{
+				
 			}
 		}
 	}
