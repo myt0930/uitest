@@ -55,7 +55,14 @@ public class ParseHtml
 		parseHtml.outKoenjiNiman(pw, month);
 		//17. 渋谷O-EAST
 		parseHtml.outShibuyaEast(pw, month);
-		
+		//18. 渋谷O-WEST
+		parseHtml.outShibuyaWest(pw, month);
+		//19. 渋谷O-NEST
+		parseHtml.outShibuyaNest(pw, month);
+		//20. 渋谷O-CREST
+		parseHtml.outShibuyaCrest(pw, month);
+		//21. 渋谷BURROW
+		parseHtml.outShibuyaBurrow(pw, month);
 		
 		
 		
@@ -792,7 +799,7 @@ public class ParseHtml
 						
 					}
 				}
-				
+				if(date=="")continue;
 				other = this.removeEndLineBreak(other);
 				pw.print("15" + TAB);
 				pw.print(date + TAB);
@@ -859,7 +866,7 @@ public class ParseHtml
 									pw.print(date + TAB);
 									pw.print(title + TAB);
 									pw.print(act + TAB);
-									pw.print(other);
+									pw.println(other);
 								}
 							}
 							else
@@ -881,58 +888,53 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/03").get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
-			for(Element element : baseElements)
-			{
-				for(Element e : element.getAllElements())
-				{
-					String className = e.className();
-					String tagName = e.tagName();
-					//print(className);
-					if(className.equals("post-date"))
-					{
-						String str = this.stringReplaceLineBreakAndRemoveTag(e);
-						print(str);
-					}
-					else if(tagName.equals("h3"))
-					{
-						print(this.stringReplaceLineBreakAndRemoveTag(e));
-					}
-					else if(className.equals("lineup"))
-					{
-						for(Element e2 : e.getAllElements())
-						{
-							tagName = e2.tagName();
-							if( tagName.equals("dd"))
-							{
-								String str = this.stringReplaceLineBreakAndRemoveTag(e2);
-								print(this.stringReplaceLineBreakAndRemoveTag(e2));
-								
-								if(str.contains("こちら") || str.contains("コチラ") || str.contains("http://"))
-								{
-									print("■■FAILURE::" + date + "::リンクあり");
-								}
-							}
-						}
-					}
-					else if(className.equals("information"))
-					{
-						for(Element e2 : e.getAllElements())
-						{
-							tagName = e2.tagName();
-							if( tagName.equals("dd"))
-							{
-								print(this.stringReplaceLineBreakAndRemoveTag(e2));
-							}
-						}
-					}
-				}
-			}
+			this.outTsutayaOGroup(pw,baseElements, 17, month);
 		} catch(Exception e){
-			System.out.println("");
+			System.out.println("17.EAST FAILURE" + e);
+		}
+	}
+	private void outShibuyaWest(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/03").get();
+			Elements baseElements = doc.body().select("div[class=post-list]");
+			
+			this.outTsutayaOGroup(pw,baseElements, 18, month);
+		} catch(Exception e){
+			System.out.println("18.WEST FAILURE" + e);
+		}
+	}
+	private void outShibuyaNest(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/03").get();
+			Elements baseElements = doc.body().select("div[class=post-list]");
+			
+			this.outTsutayaOGroup(pw,baseElements, 19, month);
+		} catch(Exception e){
+			System.out.println("19.NEST FAILURE" + e);
+		}
+	}
+	private void outShibuyaCrest(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/03").get();
+			Elements baseElements = doc.body().select("div[class=post-list]");
+			
+			this.outTsutayaOGroup(pw,baseElements, 20, month);
+		} catch(Exception e){
+			System.out.println("20.CREST FAILURE" + e);
+		}
+	}
+	private void outShibuyaBurrow(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/03").get();
+			Elements baseElements = doc.body().select("div[class=post-list]");
+			
+			this.outTsutayaOGroup(pw,baseElements, 20, month);
+		} catch(Exception e){
+			System.out.println("21.BURROW FAILURE" + e);
 		}
 	}
 	
@@ -1002,11 +1004,69 @@ public class ParseHtml
 		String title = "";
 		String act = "";
 		String other = "";
-		for( Element element : baseElements)
+		for(Element element : baseElements)
 		{
 			for(Element e : element.getAllElements())
 			{
-				
+				String className = e.className();
+				String tagName = e.tagName();
+				if(className.equals("post-date"))
+				{
+					title = "";
+					act = "";
+					other = "";
+					
+					date = this.stringReplaceLineBreakAndRemoveTag(e);
+					date = date.substring(5, 10);
+					date = date.replace(".", "");
+				}
+				else if(tagName.equals("h3"))
+				{
+					title += this.stringReplaceLineBreakAndRemoveTag(e);
+				}
+				else if(className.equals("lineup"))
+				{
+					for(Element e2 : e.getAllElements())
+					{
+						tagName = e2.tagName();
+						if( tagName.equals("dd"))
+						{
+							act += this.stringReplaceLineBreakAndRemoveTag(e2);
+							
+							if(act.contains("こちら") || act.contains("コチラ") || act.contains("http://"))
+							{
+								print("■■FAILURE::" + liveHouseNo + "::" + date + "::リンクあり");
+							}
+						}
+					}
+				}
+				else if(className.equals("information"))
+				{
+					for(Element e2 : e.getAllElements())
+					{
+						tagName = e2.tagName();
+						if( tagName.equals("dd"))
+						{
+							other += this.stringReplaceLineBreakAndRemoveTag(e2);
+						}
+						
+						if(other.contains("ADV:") || other.contains("DOOR:"))
+						{
+							title = this.removeEndLineBreak(title);
+							act = this.removeEndLineBreak(act);
+							pw.print(liveHouseNo + TAB);
+							pw.print(date + TAB);
+							pw.print(title + TAB);
+							pw.print(act + TAB);
+							pw.println(other);
+							
+							title = "";
+							act = "";
+							other = "";
+						}
+					}
+					
+				}
 			}
 		}
 	}
