@@ -51,7 +51,8 @@ public class ParseHtml
 		parseHtml.outShindaitaFever(pw, month);
 		//15. 東高円寺U.F.O.CLUB
 		parseHtml.outKoenjiUFO(pw, month);
-		
+		//16. 東高円寺二万電圧
+		parseHtml.outKoenjiNiman(pw, month);
 		
 		pw.close();
 		
@@ -796,6 +797,76 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("15.UFO Failure");
+		}
+	}
+	
+	private void outKoenjiNiman(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-3-schedule").get();
+			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					if(tagName.equals("p"))
+					{
+						String html = e.html();
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						if(str.substring(0, 1).equals("■"))
+						{
+							date 	= "";
+							title 	= "";
+							act	 	= "";
+							other	= "";
+							
+							date = str.substring(1, str.length());
+							String[] split = date.split("\\(");
+							date = split[0];
+							split = date.split("/");
+							date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1])); 
+						}
+						else if(html.contains("<span style"))
+						{
+							if(html.contains("#ff0000"))
+							{
+								title += str + LINE_BREAK;
+							}
+						}
+						else
+						{
+							if( (str.contains("Open.") || str.contains("open.") ) && (str.contains("Adv.") || str.contains("adv.")) )
+							{
+								if( other.equals("") )
+								{
+									other = str + LINE_BREAK;
+									
+									title 	= this.removeEndLineBreak(title);
+									act 	= this.removeEndLineBreak(act);
+									other 	= this.removeEndLineBreak(other);
+									pw.print("16" + TAB);
+									pw.print(date + TAB);
+									pw.print(title + TAB);
+									pw.print(act + TAB);
+									pw.print(other);
+								}
+							}
+							else
+							{
+								act += str + LINE_BREAK;
+							}
+						}
+					}
+				}
+			}
+		} catch(Exception e){
+			System.out.println("16.20000 Failure");
 		}
 	}
 	
