@@ -129,7 +129,7 @@ public class ParseHtml
 		}
 		pw.println();
 	}
-	
+
 	private void outShinjukuMarble(PrintWriter pw, int month) 
 	{
 		try{
@@ -505,6 +505,10 @@ public class ParseHtml
 						}
 						isExistSchedule = false;
 						
+						title = "";
+						act = "";
+						other = "";
+						
 						date = stringReplaceLineBreakAndRemoveTag(e);
 						String[] split = date.split(LINE_BREAK);
 						date = removeEndSpace(split[0]);
@@ -517,19 +521,14 @@ public class ParseHtml
 						for( Element e2 :e.select("h3"))
 						{
 							isExistSchedule = true;
-							
-							pw.print("10" + TAB);
-							pw.print(date + TAB);
 							title = stringReplaceLineBreakAndRemoveTag(e2);
-							pw.print(title + TAB);
 						}
 						for( Element e2 :e.select("p"))
 						{
-							if(e2.className().equals("artists"))
+							if(e2.className().equals("artists") || e2.className().equals(" artists"))
 							{
 								act = stringReplaceLineBreakAndRemoveTag(e2);
 								act = this.removeEndLineBreak(act);
-								pw.print(act + TAB);
 							}
 							else
 							{
@@ -543,6 +542,14 @@ public class ParseHtml
 								split = other.split("チケット発売日");
 								other = split[0];
 								other = this.removeEndLineBreak(other);
+								title = this.removeEndLineBreak(title);
+								title = title.replace("\"", "");
+								act = this.removeEndLineBreak(act);
+								
+								pw.print("10" + TAB);
+								pw.print(date + TAB);
+								pw.print(title + TAB);
+								pw.print(act + TAB);
 								pw.println(other);
 							}
 						}
@@ -937,6 +944,144 @@ public class ParseHtml
 			System.out.println("21.BURROW FAILURE" + e);
 		}
 	}
+	
+	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.chelseahotel.jp/1403.html").get();
+			Elements baseElements = doc.body().select("");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+				}
+			}
+		}catch(Exception e){
+			System.out.println("22.ChelseaHotel Failure" + e);
+		}
+	}
+	
+	private void outShibuyaKinoto(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("").get();
+			Elements baseElements = doc.body().select("");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+				}
+			}
+		}catch(Exception e){
+			System.out.println("22.ChelseaHotel Failure" + e);
+		}
+	}
+	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
+//	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
+//	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
+//	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
 	
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
