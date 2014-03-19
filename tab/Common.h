@@ -28,8 +28,8 @@
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 #define SERVER_URL			@"https://s3-ap-northeast-1.amazonaws.com/tokyolive/"
-#define VERSION_FILE		@"tmpversion.bin"
-#define MASTER_FILE			@"tmpmaster.bin"
+#define VERSION_FILE		@"version.bin"
+#define MASTER_FILE			@"master.bin"
 
 #define CACHE_FOLDER		[Common libraryCachesDir]
 #define TEMP_FOLDER			[Common tempDir]

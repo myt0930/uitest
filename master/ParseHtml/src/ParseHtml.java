@@ -9,6 +9,8 @@ import org.jsoup.select.Elements;
 
 public class ParseHtml
 {
+	static int debugFlag = 1;
+	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
 	final static String TAB = "\t";
@@ -20,6 +22,7 @@ public class ParseHtml
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
         int month = 3;
+        
         
         //1. 新宿Motion
         parseHtml.outShinjukuMotion(pw, month);
@@ -63,7 +66,10 @@ public class ParseHtml
 		parseHtml.outShibuyaCrest(pw, month);
 		//21. 渋谷BURROW
 		parseHtml.outShibuyaBurrow(pw, month);
-		
+        //22. 渋谷CHELSEA HOTEL
+        
+        //23. 渋谷乙
+        parseHtml.outShibuyaKinoto(pw, month);
 		
 		
 		pw.close();
@@ -123,12 +129,14 @@ public class ParseHtml
 								break;
 							}
 							other = str;
+							other = other.replace(" ■", "■");
+							other = other.replace(" ★", "★");
 							
 							pw.print("1" + TAB);
-							pw.print(date + TAB);
-							pw.print(title + TAB);
-							pw.print(act + TAB);
-							pw.println(other);
+							outDate(pw, date);
+							outTitle(pw, title);
+							outAct(pw, act, date);
+							outOther(pw, other, date);
 						}
 					}
 				}
@@ -154,48 +162,45 @@ public class ParseHtml
 				{
 					String tagName = e.tagName();
 					String className = e.className();
-					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 					if(tagName.equals("td"))
-					{
-						String width = e.attr("width");
-						String height = e.attr("height");
-						if( width.equals("15%") && height.equals("30"))
+					{				
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						if(className.equals("font_bold"))
 						{
-							date = str;
-							date = date.replace(".", "");
-							date = date.substring(0,4);
+							title = "";
+							act = "";
+							other = "";
 							
-						}
-						else if(width.equals("85%"))
-						{
-							act = str;
-							for(Element e2 : e.getAllElements())
+							String[] split = str.split(LINE_BREAK);
+							for(int i = 1;i < split.length;i++)
 							{
-								className = e2.className();
-								if(className.equals("font_bold"))
-								{
-									title = this.stringReplaceLineBreakAndRemoveTag(e2);
-								}
+								title += split[i];
 							}
-							act = act.replace(title, "");
-							
-							title = this.removeStartEndLineBreak(title);
-							act = this.removeStartEndLineBreak(act);
+							date = split[0];
+							date = (date.split(" "))[0];
+							split = date.split("/");
+							date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
 						}
 						else if(className.equals("linehi_10"))
 						{
-							String html = e.html();
-							if(html.contains("img src"))
+							if(str.contains("開場/開演") || str.contains("前売/当日"))
 							{
-								break;
+								other += str;
+								other = other.replace("※", LINE_BREAK+"※");
+								other = other.replace("■開場/開演", LINE_BREAK + "■開場/開演");
 							}
-							other = str;
-							
-							pw.print("2" + TAB);
-							pw.print(date + TAB);
-							pw.print(title + TAB);
-							pw.print(act + TAB);
-							pw.println(other);
+							else if(str.contains("お問合せ：Marble") || str.contains("22時以降は18歳未満の方は入場出来ません"))
+							{
+								pw.print("2" + TAB);
+								outDate(pw, date);
+								outTitle(pw, title);
+								outAct(pw, act, date);
+								outOther(pw, other, date);
+							}
+							else
+							{
+								act += str;
+							}
 						}
 					}
 				}
@@ -203,7 +208,6 @@ public class ParseHtml
 		} catch(Exception e){
 			System.out.println("2.Marble Failure" + e);
 		}
-		pw.println();
 	}
 	
 	private void outShinjukuMarz(PrintWriter pw, int month) 
@@ -299,7 +303,7 @@ public class ParseHtml
 							event = event.replace(title+LINE_BREAK, "");
 							event = event.replace(title, "");
 						}
-						pw.print(title + TAB);
+						outTitle(pw, title);
 						pw.print(event + TAB);
 					}
 					else if( className.equals("o-s") )
@@ -328,11 +332,12 @@ public class ParseHtml
 			for( Element element : baseElements)
 			{
 				count++;
+				String date = "";
 				if( count == 1 )
 				{
-					String date = String.format("%02d%02d", 3, Integer.valueOf(element.text()));
+					date = String.format("%02d%02d", 3, Integer.valueOf(element.text()));
 					pw.print("6" + TAB);
-					pw.print(date + TAB);
+					outDate(pw, date);
 				}
 				else if(count == 2)
 				{
@@ -367,9 +372,9 @@ public class ParseHtml
 							act += e.text();
 						}
 					}
-					pw.print(title + TAB);
-					pw.print(act + TAB);
-					pw.println(other);	
+					outTitle(pw, title);
+					outAct(pw, act, date);
+					outOther(pw, other, date);	
 				}
 					
 			}
@@ -418,9 +423,9 @@ public class ParseHtml
 				pw.print("7" + TAB);
 				String[] dateSplits = date.split("\\.");
 				pw.print(dateSplits[1]+dateSplits[2]+ TAB);
-				pw.print(title + TAB);
+				outTitle(pw, title);
 				act = text.replace(LINE_BREAK,"");
-				pw.print(act + TAB);
+				outAct(pw, act, date);
 				pw.println(other + TAB);
 			}
 		} catch(Exception e){
@@ -446,7 +451,7 @@ public class ParseHtml
 					date = stringReplaceLineBreakAndRemoveTag(element);
 					date = String.format("%02d%02d", month, Integer.valueOf(date));
 					pw.print("8" + TAB);
-					pw.print(date + TAB);
+					outDate(pw, date);
 				}
 				else if(className.equals("about"))
 				{
@@ -559,10 +564,10 @@ public class ParseHtml
 								act = this.removeStartEndLineBreak(act);
 								
 								pw.print("10" + TAB);
-								pw.print(date + TAB);
-								pw.print(title + TAB);
-								pw.print(act + TAB);
-								pw.println(other);
+								outDate(pw, date);
+								outTitle(pw, title);
+								outAct(pw, act, date);
+								outOther(pw, other, date);
 							}
 						}
 					}
@@ -609,10 +614,10 @@ public class ParseHtml
 				}
 				
 				pw.print("11" + TAB);
-				pw.print(date + TAB);
-				pw.print(title + TAB);
-				pw.print(act + TAB);
-				pw.println(other);
+				outDate(pw, date);
+				outTitle(pw, title);
+				outAct(pw, act, date);
+				outOther(pw, other, date);
 			}
 		} catch(Exception e){
 			System.out.println("11.251 Failure" + e);
@@ -658,10 +663,10 @@ public class ParseHtml
 				}
 				
 				pw.print("12" + TAB);
-				pw.print(date + TAB);
-				pw.print(title + TAB);
-				pw.print(act + TAB);
-				pw.println(other);
+				outDate(pw, date);
+				outTitle(pw, title);
+				outAct(pw, act, date);
+				outOther(pw, other, date);
 			}
 		} catch(Exception e){
 			System.out.println("12.ERA Failure" + e);
@@ -715,10 +720,10 @@ public class ParseHtml
 					act = this.stringReplaceLineBreakAndRemoveTag(e);
 					
 					pw.print("13" + TAB);
-					pw.print(date + TAB);
-					pw.print(title + TAB);
-					pw.print(act + TAB);
-					pw.println(other);
+					outDate(pw, date);
+					outTitle(pw, title);
+					outAct(pw, act, date);
+					outOther(pw, other, date);
 				}
 			}
 		} catch(Exception e){
@@ -769,10 +774,10 @@ public class ParseHtml
 				}
 				
 				pw.print("14" + TAB);
-				pw.print(date + TAB);
-				pw.print(title + TAB);
-				pw.print(act + TAB);
-				pw.println(other);
+				outDate(pw, date);
+				outTitle(pw, title);
+				outAct(pw, act, date);
+				outOther(pw, other, date);
 			}
 		} catch(Exception e){
 			System.out.println("14.Fever Failure" + e);
@@ -821,10 +826,10 @@ public class ParseHtml
 				if(date=="")continue;
 				other = this.removeStartEndLineBreak(other);
 				pw.print("15" + TAB);
-				pw.print(date + TAB);
-				pw.print(title + TAB);
-				pw.print(act + TAB);
-				pw.println(other);
+				outDate(pw, date);
+				outTitle(pw, title);
+				outAct(pw, act, date);
+				outOther(pw, other, date);
 			}
 		} catch(Exception e){
 			System.out.println("15.UFO Failure" + e);
@@ -882,10 +887,10 @@ public class ParseHtml
 									act 	= this.removeStartEndLineBreak(act);
 									other 	= this.removeStartEndLineBreak(other);
 									pw.print("16" + TAB);
-									pw.print(date + TAB);
-									pw.print(title + TAB);
-									pw.print(act + TAB);
-									pw.println(other);
+									outDate(pw, date);
+									outTitle(pw, title);
+									outAct(pw, act, date);
+									outOther(pw, other, date);
 								}
 							}
 							else
@@ -951,7 +956,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/03").get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
-			this.outTsutayaOGroup(pw,baseElements, 20, month);
+			this.outTsutayaOGroup(pw,baseElements, 21, month);
 		} catch(Exception e){
 			System.out.println("21.BURROW FAILURE" + e);
 		}
@@ -971,8 +976,7 @@ public class ParseHtml
 			{
 				for(Element e : element.getAllElements())
 				{
-					String tagName = e.tagName();
-					String className = e.className();
+					
 				}
 			}
 		}catch(Exception e){
@@ -983,8 +987,8 @@ public class ParseHtml
 	private void outShibuyaKinoto(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("").get();
-			Elements baseElements = doc.body().select("");
+			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/03").get();
+			Elements baseElements = doc.body().select("td");
 			
 			String date = "";
 			String title = "";
@@ -996,10 +1000,35 @@ public class ParseHtml
 				{
 					String tagName = e.tagName();
 					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.equals("sched_date"))
+					{
+						String[] split = str.split("\\(");
+						date = String.format("%02d%02d", month, Integer.valueOf(split[0]));
+						split = split[1].split("\\)");
+						other = split[1];
+					}
+					else if(className.equals("sched_detail"))
+					{
+						Element e2 = e.select("p[class=font_12_h]").first();
+						if(e2 != null)
+						{
+							title = this.stringReplaceLineBreakAndRemoveTag(e2);
+						}
+						act = str.replace(title, "");
+						act = act.replace("※", LINE_BREAK+"※");
+						
+						pw.println("23" + TAB);
+						outDate(pw, date);
+						outTitle(pw, title);
+						outAct(pw, act, date);
+						outOther(pw, other, date);
+						
+					}
 				}
 			}
 		}catch(Exception e){
-			System.out.println("22.ChelseaHotel Failure" + e);
+			System.out.println("23.KINOTO Failure" + e);
 		}
 	}
 	
@@ -1121,14 +1150,14 @@ public class ParseHtml
 						title = removeStartEndLineBreak(title);
 						
 						pw.print(liveHouseNo + TAB);
-						pw.print(date + TAB);
-						pw.print(title + TAB);
+						outDate(pw, date);
+						outTitle(pw, title);
 					}
 					for( Element e2 : e.select("p[class=month_content]") )
 					{
 						act = stringReplaceLineBreakAndRemoveTag(e2);
 						act = removeStartEndLineBreak(act);
-						pw.print(act + TAB);
+						outAct(pw, act, date);
 						if( act.contains("..."))
 						{
 							print("■■" + liveHouseNo + "::" + date + "::act Failure");
@@ -1144,7 +1173,7 @@ public class ParseHtml
 						String[] split = other.split("【");
 						other = split[0];
 						other = removeStartEndLineBreak(other);
-						pw.println(other);
+						outOther(pw, other, date);
 						if( other.contains("..."))
 						{
 							print("■■" + liveHouseNo + "::" + date + "::other Failure");
@@ -1189,11 +1218,6 @@ public class ParseHtml
 						if( tagName.equals("dd"))
 						{
 							act += this.stringReplaceLineBreakAndRemoveTag(e2);
-							
-							if(act.contains("こちら") || act.contains("コチラ") || act.contains("http://"))
-							{
-								print("■■FAILURE::" + liveHouseNo + "::" + date + "::リンクあり");
-							}
 						}
 					}
 				}
@@ -1212,10 +1236,10 @@ public class ParseHtml
 							title = this.removeStartEndLineBreak(title);
 							act = this.removeStartEndLineBreak(act);
 							pw.print(liveHouseNo + TAB);
-							pw.print(date + TAB);
-							pw.print(title + TAB);
-							pw.print(act + TAB);
-							pw.println(other);
+							outDate(pw, date);
+							outTitle(pw, title);
+							outAct(pw, act, date);
+							outOther(pw, other, date);
 							
 							title = "";
 							act = "";
@@ -1251,8 +1275,7 @@ public class ParseHtml
 			{
 				s = s.substring(4, s.length());
 			}
-			
-			if(s.endsWith("br2n"))
+			else if(s.endsWith("br2n"))
 			{
 				s = s.substring(0, s.length()-4);
 			}
@@ -1273,7 +1296,11 @@ public class ParseHtml
 	private String removeEndSpace(String s)
 	{
 		do {
-			if(s.endsWith(" "))
+			if(s.startsWith(" "))
+			{
+				s = s.substring(1, s.length());
+			}
+			else if(s.endsWith(" "))
 			{
 				s = s.substring(0, s.length()-1);
 			}
@@ -1283,7 +1310,60 @@ public class ParseHtml
 			}
 		}while(true);
 	}
+	private String removeDuplicateLineBreak(String s)
+	{
+		s = s.replace(LINE_BREAK + "" + LINE_BREAK, LINE_BREAK);
+		s = s.replace(LINE_BREAK + " " + LINE_BREAK, LINE_BREAK);
+		s = s.replace(LINE_BREAK + "  " + LINE_BREAK, LINE_BREAK);
+		s = s.replace(LINE_BREAK + "   " + LINE_BREAK, LINE_BREAK);
+		return s;
+	}
 	
+	private void outDate(PrintWriter pw, String date){
+		if(debugFlag == 1){
+			print(date + TAB);
+		}else{
+			pw.print(date + TAB);
+		}
+	}
+	private void outTitle(PrintWriter pw, String title){
+		title = this.removeStartEndLineBreak(title);
+		title = this.removeEndSpace(title);
+		title = this.removeDuplicateLineBreak(title);
+		if(debugFlag == 1){
+			print(title + TAB);
+		}else{
+			pw.print(title + TAB);
+		}
+	}
+	private void outAct(PrintWriter pw, String act, String date){
+		act = this.removeStartEndLineBreak(act);
+		act = this.removeEndSpace(act);
+		act = this.removeDuplicateLineBreak(act);
+		if(debugFlag == 1){
+			print(act + TAB);
+		}else{
+			pw.print(act + TAB);
+		}
+		if(act.contains("こちら") || act.contains("コチラ") || act.contains("http") || act.contains("e+") || act.contains("イープラス") || act.contains("ローソン") || act.contains("ぴあ"))
+		{
+			print("■■FAILURE::" + date + "::" + act + "::リンクあり");
+		}
+	}
+	private void outOther(PrintWriter pw, String other, String date){
+		other = this.removeStartEndLineBreak(other);
+		other = this.removeEndSpace(other);
+		other = this.removeDuplicateLineBreak(other);
+		if(debugFlag == 1){
+			print(other);
+		}else{
+			pw.println(other);
+		}
+		if(other.contains("こちら") || other.contains("コチラ") || other.contains("http") || other.contains("e+") || other.contains("イープラス") || other.contains("ローソン") || other.contains("ぴあ"))
+		{
+			print("■■FAILURE::" + date + "::" + other + "::リンクあり");
+		}
+	}
 	
 	private void print(String s)
 	{
