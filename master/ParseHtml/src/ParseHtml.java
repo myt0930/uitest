@@ -142,56 +142,60 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule1403.html").get();
-			Elements elements = doc.body().select("table[width=450]");
-			
-			final String weekday[] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
-			boolean isAct = true;
-			for( Element element : elements)
+			Elements baseElements = doc.body().select("table[width=510] td[colspan=3]");
+
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for( Element element : baseElements)
 			{
-				if(element.ownText().length() > 0)
-				{		
-					String className = element.className();
-					if( className.equals("font_bold") )
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(tagName.equals("td"))
 					{
-						isAct = true;
-						
-						String elementStr = element.text();
-						//不要な曜日データを削る
-						for( String str : weekday)
+						String width = e.attr("width");
+						String height = e.attr("height");
+						if( width.equals("15%") && height.equals("30"))
 						{
-							elementStr = elementStr.replaceAll(str, "");
+							date = str;
+							date = date.replace(".", "");
+							date = date.substring(0,4);
+							
 						}
-						
-						String[] splits = elementStr.split(" ");	//marbleはスペースで切り分けられる
-						String date = splits[0];
-						String[] dateSplits = date.split("/");
-						date = String.format("%02d%02d", Integer.valueOf(dateSplits[0]), Integer.valueOf(dateSplits[1])); //MMdd形式の文字列に変換
-						String title = "";
-						for( int i = 1; i < splits.length;i++ )
+						else if(width.equals("85%"))
 						{
-							title += splits[i];
+							act = str;
+							for(Element e2 : e.getAllElements())
+							{
+								className = e2.className();
+								if(className.equals("font_bold"))
+								{
+									title = this.stringReplaceLineBreakAndRemoveTag(e2);
+								}
+							}
+							act = act.replace(title, "");
+							
+							title = this.removeStartEndLineBreak(title);
+							act = this.removeStartEndLineBreak(act);
 						}
-						
-						System.out.println(date);
-						System.out.println(title);
-						
-						pw.println();
-						pw.print("2" + TAB);	//ライブハウスNo
-						pw.print(date + TAB);
-						pw.print(title + TAB);
-					}
-					else if( className.equals("linehi_10") )
-					{
-						if( isAct )
+						else if(className.equals("linehi_10"))
 						{
-							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + TAB);
-							isAct = false;
-						}
-						else
-						{
-							System.out.println(stringReplaceLineBreakAndRemoveTag(element));
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + LINE_BREAK);
+							String html = e.html();
+							if(html.contains("img src"))
+							{
+								break;
+							}
+							other = str;
+							
+							pw.print("2" + TAB);
+							pw.print(date + TAB);
+							pw.print(title + TAB);
+							pw.print(act + TAB);
+							pw.println(other);
 						}
 					}
 				}
