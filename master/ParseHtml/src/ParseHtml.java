@@ -22,7 +22,7 @@ public class ParseHtml
         int month = 3;
         
         //1. 新宿Motion
-        //parseHtml.outShinjukuMotion(pw, month);
+        parseHtml.outShinjukuMotion(pw, month);
 		//2. 新宿Marble
 		parseHtml.outShinjukuMarble(pw,month);
 		//3. 新宿Marz
@@ -75,51 +75,60 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://motion-web.jp/html/201403.html").get();
-			Elements elements = doc.body().select("tbody td tr td");
-			
-			final String weekday[] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
-			boolean isAct = true;
-			for( Element element : elements)
+			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
+
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for( Element element : baseElements)
 			{
-				if(element.ownText().length() > 0)
-				{		
-					String className = element.className();
-					if( className.equals("font_bold") )
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(tagName.equals("td"))
 					{
-						isAct = true;
-						
-						String elementStr = element.text();
-						//不要な曜日データを削る
-						for( String str : weekday)
+						String width = e.attr("width");
+						String height = e.attr("height");
+						if( width.equals("15%") && height.equals("30"))
 						{
-							elementStr = elementStr.replaceAll(str, "");
+							date = str;
+							date = date.replace(".", "");
+							date = date.substring(0,4);
+							
 						}
-						
-						String[] splits = elementStr.split(" ");	//motionはスペースで切り分けられる
-						String date = splits[0];
-						String[] dateSplits = date.split("/");
-						date = String.format("%02d%02d", Integer.valueOf(dateSplits[0]), Integer.valueOf(dateSplits[1])); //MMdd形式の文字列に変換
-						String title = "";
-						for( int i = 1; i < splits.length;i++ )
+						else if(width.equals("85%"))
 						{
-							title += splits[i];
+							act = str;
+							for(Element e2 : e.getAllElements())
+							{
+								className = e2.className();
+								if(className.equals("font_bold"))
+								{
+									title = this.stringReplaceLineBreakAndRemoveTag(e2);
+								}
+							}
+							act = act.replace(title, "");
+							
+							title = this.removeStartEndLineBreak(title);
+							act = this.removeStartEndLineBreak(act);
 						}
-						
-						pw.println();
-						pw.print("1" + TAB);	//ライブハウスNo
-						pw.print(date + TAB);
-						pw.print(title + TAB);
-					}
-					else if( className.equals("linehi_10") )
-					{
-						if( isAct )
+						else if(className.equals("linehi_10"))
 						{
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + TAB);
-							isAct = false;
-						}
-						else
-						{
-							pw.print(stringReplaceLineBreakAndRemoveTag(element) + LINE_BREAK);
+							String html = e.html();
+							if(html.contains("img src"))
+							{
+								break;
+							}
+							other = str;
+							
+							pw.print("1" + TAB);
+							pw.print(date + TAB);
+							pw.print(title + TAB);
+							pw.print(act + TAB);
+							pw.println(other);
 						}
 					}
 				}
@@ -127,7 +136,6 @@ public class ParseHtml
 		} catch(Exception e){
 			System.out.println("1.Motion Failure::" + e);
 		}
-		pw.println();
 	}
 
 	private void outShinjukuMarble(PrintWriter pw, int month) 
@@ -441,7 +449,7 @@ public class ParseHtml
 					for(Element e : element.select("h3") )
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e);
-						pw.print(removeEndLineBreak(title) + TAB);
+						pw.print(removeStartEndLineBreak(title) + TAB);
 					}
 					String spanText = "";
 					int count = 0;
@@ -460,8 +468,8 @@ public class ParseHtml
 						count++;
 					}
 					other += spanText;
-					pw.print(removeEndLineBreak(act) + TAB);
-					pw.println(removeEndLineBreak(other));
+					pw.print(removeStartEndLineBreak(act) + TAB);
+					pw.println(removeStartEndLineBreak(other));
 				}
 			}
 		} catch(Exception e){
@@ -528,7 +536,7 @@ public class ParseHtml
 							if(e2.className().equals("artists") || e2.className().equals(" artists"))
 							{
 								act = stringReplaceLineBreakAndRemoveTag(e2);
-								act = this.removeEndLineBreak(act);
+								act = this.removeStartEndLineBreak(act);
 							}
 							else
 							{
@@ -541,10 +549,10 @@ public class ParseHtml
 								other = split[0];
 								split = other.split("チケット発売日");
 								other = split[0];
-								other = this.removeEndLineBreak(other);
-								title = this.removeEndLineBreak(title);
+								other = this.removeStartEndLineBreak(other);
+								title = this.removeStartEndLineBreak(title);
 								title = title.replace("\"", "");
-								act = this.removeEndLineBreak(act);
+								act = this.removeStartEndLineBreak(act);
 								
 								pw.print("10" + TAB);
 								pw.print(date + TAB);
@@ -584,12 +592,12 @@ public class ParseHtml
 				for(Element e : element.select("h3"))
 				{
 					title = this.stringReplaceLineBreakAndRemoveTag(e);
-					title = this.removeEndLineBreak(title);
+					title = this.removeStartEndLineBreak(title);
 				}
 				for(Element e : element.select("h2"))
 				{
 					act = this.stringReplaceLineBreakAndRemoveTag(e);
-					act = this.removeEndLineBreak(act);
+					act = this.removeStartEndLineBreak(act);
 				}
 				for(Element e : element.select("h5"))
 				{
@@ -628,20 +636,20 @@ public class ParseHtml
 				for(Element e : element.select("a[class=event-title]"))
 				{
 					title = this.stringReplaceLineBreakAndRemoveTag(e);
-					title = this.removeEndLineBreak(title);
+					title = this.removeStartEndLineBreak(title);
 				}
 				for(Element e : element.select("div[class=schedule-announce]"))
 				{
 					act = this.stringReplaceLineBreakAndRemoveTag(e);
 					act = act.replace(LINE_BREAK, "");	//スラッシュが入っているから要らない
-					act = this.removeEndLineBreak(act);
+					act = this.removeStartEndLineBreak(act);
 				}
 				for(Element e : element.select("div[class=schedule-note]"))
 				{
 					other = this.stringReplaceLineBreakAndRemoveTag(e);
 					String[] split = other.split("予約");
 					other = split[0];
-					other = this.removeEndLineBreak(other);
+					other = this.removeStartEndLineBreak(other);
 					other = other.replace("TICKET", LINE_BREAK + "TICKET");
 				}
 				
@@ -739,12 +747,12 @@ public class ParseHtml
 						date = str.substring(3, 8);
 						date = date.replace(".", "");
 						title = str.substring(15,str.length());
-						title = this.removeEndLineBreak(title);
+						title = this.removeStartEndLineBreak(title);
 					}
 					else if(tagName.equals("h3"))
 					{
 						act = this.stringReplaceLineBreakAndRemoveTag(e);
-						act = this.removeEndLineBreak(act);
+						act = this.removeStartEndLineBreak(act);
 					}
 					else if(tagName.equals("div") && className.equals(""))
 					{
@@ -807,7 +815,7 @@ public class ParseHtml
 					}
 				}
 				if(date=="")continue;
-				other = this.removeEndLineBreak(other);
+				other = this.removeStartEndLineBreak(other);
 				pw.print("15" + TAB);
 				pw.print(date + TAB);
 				pw.print(title + TAB);
@@ -866,9 +874,9 @@ public class ParseHtml
 								{
 									other = str + LINE_BREAK;
 									
-									title 	= this.removeEndLineBreak(title);
-									act 	= this.removeEndLineBreak(act);
-									other 	= this.removeEndLineBreak(other);
+									title 	= this.removeStartEndLineBreak(title);
+									act 	= this.removeStartEndLineBreak(act);
+									other 	= this.removeStartEndLineBreak(other);
 									pw.print("16" + TAB);
 									pw.print(date + TAB);
 									pw.print(title + TAB);
@@ -1106,7 +1114,7 @@ public class ParseHtml
 					for( Element e2 : e.select("h3") )
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e2);
-						title = removeEndLineBreak(title);
+						title = removeStartEndLineBreak(title);
 						
 						pw.print(liveHouseNo + TAB);
 						pw.print(date + TAB);
@@ -1115,7 +1123,7 @@ public class ParseHtml
 					for( Element e2 : e.select("p[class=month_content]") )
 					{
 						act = stringReplaceLineBreakAndRemoveTag(e2);
-						act = removeEndLineBreak(act);
+						act = removeStartEndLineBreak(act);
 						pw.print(act + TAB);
 						if( act.contains("..."))
 						{
@@ -1131,7 +1139,7 @@ public class ParseHtml
 						other += stringReplaceLineBreakAndRemoveTag(e2);
 						String[] split = other.split("【");
 						other = split[0];
-						other = removeEndLineBreak(other);
+						other = removeStartEndLineBreak(other);
 						pw.println(other);
 						if( other.contains("..."))
 						{
@@ -1197,8 +1205,8 @@ public class ParseHtml
 						
 						if(other.contains("ADV:") || other.contains("DOOR:"))
 						{
-							title = this.removeEndLineBreak(title);
-							act = this.removeEndLineBreak(act);
+							title = this.removeStartEndLineBreak(title);
+							act = this.removeStartEndLineBreak(act);
 							pw.print(liveHouseNo + TAB);
 							pw.print(date + TAB);
 							pw.print(title + TAB);
@@ -1224,9 +1232,22 @@ public class ParseHtml
 		return text;
 	}
 	
-	private String removeEndLineBreak(String s)
+	private String removeStartEndLineBreak(String s)
 	{
 		do {
+			if(s.startsWith("br2n  "))
+			{
+				s = s.substring(6, s.length());
+			}
+			else if(s.startsWith("br2n "))
+			{
+				s = s.substring(5, s.length());
+			}
+			else if(s.startsWith("br2n"))
+			{
+				s = s.substring(4, s.length());
+			}
+			
 			if(s.endsWith("br2n"))
 			{
 				s = s.substring(0, s.length()-4);
