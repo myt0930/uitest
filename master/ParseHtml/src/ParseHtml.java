@@ -77,8 +77,18 @@ public class ParseHtml
 //        parseHtml.outShibuyaLush(pw, month);
 //        //25. 渋谷CLUB QUATTRO
 //        parseHtml.outShibuyaQuattro(pw, month);
-		//26. 渋谷WWW
-        parseHtml.outShibuyaWWW(pw, month);
+//		//26. 渋谷WWW
+//        parseHtml.outShibuyaWWW(pw, month);
+//        //27. 渋谷7thFLOOR
+        
+//        //28. 渋谷DUO
+//        parseHtml.outShibuyaDuo(pw, month);
+//        //29. 代官山UNIT
+//        parseHtml.outDaikanyamaUnit(pw, month);
+//        //30. 原宿ASTRO HALL
+//        parseHtml.outHarajukuAstroHall(pw, month);
+        //31. 恵比寿LIQUIDROOM
+        parseHtml.outEbisuLiquidroom(pw, month);
         
 		pw.close();
 		
@@ -1241,6 +1251,242 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("26.WWW Failure" + e);
+		}
+	}
+	
+	private void outShibuyaDuo(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/03/index.html").get();
+			Elements baseElements = doc.body().select("td[width=670]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(tagName.equals("img")
+							&& e.attr("width").equals("30")
+							&& e.attr("height").equals("30"))
+					{
+						String imgNo = e.attr("src");
+						imgNo = imgNo.substring(imgNo.length()-6, imgNo.length()-4);
+						date = String.format("%02d%02d", month, Integer.valueOf(imgNo));
+					}
+					else if(tagName.equals("td")
+							&& e.attr("width").equals("385")
+							&& e.attr("valign").equals("middle"))
+					{
+						title = str;
+					}
+					else if(tagName.equals("td")
+							&& e.attr("class").equals("css5")
+							&& e.attr("valign").equals("middle"))
+					{
+						act = str;
+					}
+					else if(className.equals("css3_schduletext"))
+					{
+						other += str + LINE_BREAK;
+						if(other.contains("¥") || other.contains("￥") || other.contains("無料") )
+						{
+							pw.print("28" + TAB);
+							this.outDate(pw, date);
+							this.outTitle(pw, title);
+							this.outAct(pw, act, date);
+							this.outOther(pw, other, date);
+							
+							title = "";
+							act = "";
+							other = "";
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("28.Duo Failure" + e);
+		}
+	}
+	
+	private void outDaikanyamaUnit(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/03/all_schedule.php").get();
+			Elements baseElements = doc.body().select("div[class=content]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.contains("day"))
+					{
+						date = String.format("%02d", month) + str;
+					}
+					else if(className.equals("event_title_live"))
+					{
+						title = str;
+					}
+					else if(className.equals("event_line_up"))
+					{
+						act = str;
+						act = act.replace("LINE UP:", "");
+					}
+					else if(className.equals("event_info"))
+					{
+						other = str;
+						other = other.replace("INFORMATION : ", "");
+						
+						pw.println("29" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("29.UNIT Failure" + e);
+		}
+	}
+	
+	private void outHarajukuAstroHall(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=201403").get();
+			Elements baseElements = doc.body().select("div[id=content]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.contains("date date"))
+					{
+						date = str;
+					}
+					else if(className.contains("month") && tagName.equals("h4"))
+					{
+						title = str;
+					}
+					else if(className.contains("month") && tagName.equals("h5"))
+					{
+						act = str;
+					}
+					else if(className.equals("open"))
+					{
+						other = str + LINE_BREAK;
+					}
+					else if(className.equals("ticket"))
+					{
+						other += str;
+						
+						if(act.length() > 0)
+						{
+							pw.println("30" + TAB);
+							this.outDate(pw, date);
+							this.outTitle(pw, title);
+							this.outAct(pw, act, date);
+							this.outOther(pw, other, date);
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("30.ASTRO Failure" + e);
+		}
+	}
+	
+	private void outEbisuLiquidroom(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/03").get();
+			Elements baseElements = doc.body().select("dl[class=schedulelist clfx]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.contains("date"))
+					{
+						date = str;
+						String[] split = date.split("/");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]),Integer.valueOf(split[1]));
+					}
+					else if(tagName.contains("h3"))
+					{
+						title = str;
+					}
+					else if(tagName.contains("h4"))
+					{
+						act = str;
+					}
+					else if(className.equals("outline clfx"))
+					{
+						boolean isExistLineup = str.contains("LINE UP");
+						if(!isExistLineup)
+						{
+							//LINEUPが無い時はタイトルと出演者を入れ替え
+							String tmp = act;
+							act = title;
+							title = tmp;
+						}
+						other = "";
+						int type = 0;
+						for(Element e2 : e.getAllElements())
+						{
+							tagName = e2.tagName();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(tagName.equals("dt"))
+							{
+								if(str.contains("OPEN")) type = 1;
+								else if(str.contains("DOOR")) type = 2;
+								else if(str.contains("LINE")) type = 3;
+								else if(str.contains("LINE")) type = 4;
+							}
+							else if(tagName.equals("dd"))
+							{
+								if(type == 1) 		other += "OPEN / START : " + str + LINE_BREAK;
+								else if(type == 2) 	other += "ADV / DOOR : " + str + LINE_BREAK;
+								else if(type == 3)	act = str;
+								type = 0;
+							}
+						}
+						
+						pw.println("31" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("31.LIQUID Failure" + e);
 		}
 	}
 	
