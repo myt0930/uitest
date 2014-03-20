@@ -25,51 +25,53 @@ public class ParseHtml
         
         
         //1. 新宿Motion
-        parseHtml.outShinjukuMotion(pw, month);
-		//2. 新宿Marble
-		parseHtml.outShinjukuMarble(pw,month);
-		//3. 新宿Marz
-		parseHtml.outShinjukuMarz(pw,month);
-		//4. 新宿LOFT
-		parseHtml.outShinjukuLoft(pw,month);
-		//5. 秋葉原GOODMAN
-		parseHtml.outAkihabaraGoodman(pw,month);
-		//6. 下北沢BASEMENT BAR
-		parseHtml.outBasementBar(pw, month);
-		//7. 下北沢THREE
-		parseHtml.outShimokitaThree(pw, month);
-		//8. 下北沢DAISY BAR
-		parseHtml.outShimokitaDaisyBar(pw, month);
-		//9. 下北沢SHELTER
-		parseHtml.outShimokitaShelter(pw, month);
-		//10. 下北沢QUE
-		parseHtml.outShimokitaQue(pw, month);
-		//11. 下北沢251
-		parseHtml.outShimokita251(pw, month);
-		//12. 下北沢ERA
-		parseHtml.outShimokitaERA(pw, month);
-		//13. 下北沢GARDEN
-		parseHtml.outShimokitaGarden(pw, month);
-		//14. 新代田FEVER
-		parseHtml.outShindaitaFever(pw, month);
-		//15. 東高円寺U.F.O.CLUB
-		parseHtml.outKoenjiUFO(pw, month);
-		//16. 東高円寺二万電圧
-		parseHtml.outKoenjiNiman(pw, month);
-		//17. 渋谷O-EAST
-		parseHtml.outShibuyaEast(pw, month);
-		//18. 渋谷O-WEST
-		parseHtml.outShibuyaWest(pw, month);
-		//19. 渋谷O-NEST
-		parseHtml.outShibuyaNest(pw, month);
-		//20. 渋谷O-CREST
-		parseHtml.outShibuyaCrest(pw, month);
-		//21. 渋谷BURROW
-		parseHtml.outShibuyaBurrow(pw, month);
-        //22. 渋谷CHELSEA HOTEL
-        
-        //23. 渋谷乙
-        parseHtml.outShibuyaKinoto(pw, month);
+//        parseHtml.outShinjukuMotion(pw, month);
+//		//2. 新宿Marble
+//		parseHtml.outShinjukuMarble(pw,month);
+//		//3. 新宿Marz
+//		parseHtml.outShinjukuMarz(pw,month);
+//		//4. 新宿LOFT
+//		parseHtml.outShinjukuLoft(pw,month);
+//		//5. 秋葉原GOODMAN
+//		parseHtml.outAkihabaraGoodman(pw,month);
+//		//6. 下北沢BASEMENT BAR
+//		parseHtml.outBasementBar(pw, month);
+//		//7. 下北沢THREE
+//		parseHtml.outShimokitaThree(pw, month);
+//		//8. 下北沢DAISY BAR
+//		parseHtml.outShimokitaDaisyBar(pw, month);
+//		//9. 下北沢SHELTER
+//		parseHtml.outShimokitaShelter(pw, month);
+//		//10. 下北沢QUE
+//		parseHtml.outShimokitaQue(pw, month);
+//		//11. 下北沢251
+//		parseHtml.outShimokita251(pw, month);
+//		//12. 下北沢ERA
+//		parseHtml.outShimokitaERA(pw, month);
+//		//13. 下北沢GARDEN
+//		parseHtml.outShimokitaGarden(pw, month);
+//		//14. 新代田FEVER
+//		parseHtml.outShindaitaFever(pw, month);
+//		//15. 東高円寺U.F.O.CLUB
+//		parseHtml.outKoenjiUFO(pw, month);
+//		//16. 東高円寺二万電圧
+//		parseHtml.outKoenjiNiman(pw, month);
+//		//17. 渋谷O-EAST
+//		parseHtml.outShibuyaEast(pw, month);
+//		//18. 渋谷O-WEST
+//		parseHtml.outShibuyaWest(pw, month);
+//		//19. 渋谷O-NEST
+//		parseHtml.outShibuyaNest(pw, month);
+//		//20. 渋谷O-CREST
+//		parseHtml.outShibuyaCrest(pw, month);
+//		//21. 渋谷BURROW
+//		parseHtml.outShibuyaBurrow(pw, month);
+//        //22. 渋谷CHELSEA HOTEL
+//        
+//        //23. 渋谷乙
+//        parseHtml.outShibuyaKinoto(pw, month);
+        //24. 渋谷LUSH
+        parseHtml.outShibuyaLush(pw, month);
 		
 		
 		pw.close();
@@ -1032,29 +1034,34 @@ public class ParseHtml
 		}
 	}
 	
-//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println("22.ChelseaHotel Failure" + e);
-//		}
-//	}
-//	
+	private void outShibuyaLush(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_201403.html").get();
+			Elements baseElements = doc.body().select("table[cellpadding=5] td");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					
+					if(e.attr("color").contains("000000") )
+					{
+						print(e.text());
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("22.ChelseaHotel Failure" + e);
+		}
+	}
+	
 //	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
 //	{
 //		try{
