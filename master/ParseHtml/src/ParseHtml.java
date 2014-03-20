@@ -7,6 +7,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
+//TODO: 出来たらやること
+//渋谷QUATTRO　価格がとれていない
+
 public class ParseHtml
 {
 	static int debugFlag = 1;
@@ -70,10 +73,13 @@ public class ParseHtml
 //        
 //        //23. 渋谷乙
 //        parseHtml.outShibuyaKinoto(pw, month);
-        //24. 渋谷LUSH
-        parseHtml.outShibuyaLush(pw, month);
-		
-		
+//        //24. 渋谷LUSH
+//        parseHtml.outShibuyaLush(pw, month);
+//        //25. 渋谷CLUB QUATTRO
+//        parseHtml.outShibuyaQuattro(pw, month);
+		//26. 渋谷WWW
+        parseHtml.outShibuyaWWW(pw, month);
+        
 		pw.close();
 		
 		System.out.println("done");
@@ -1097,52 +1103,147 @@ public class ParseHtml
 			}
 	}
 	
-//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println("22.ChelseaHotel Failure" + e);
-//		}
-//	}
-//	
-//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println("22.ChelseaHotel Failure" + e);
-//		}
-//	}
-//	
+	private void outShibuyaQuattro(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=201403").get();
+			Elements baseElements = doc.body().getAllElements();
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				String tagName = element.tagName();
+				String className = element.className();
+
+				if(tagName.equals("th"))
+				{
+					Element e = element.child(0);
+					date = e.attr("alt");
+					String[] split = date.split("日");
+					date = String.format("%02d%02d", month, Integer.valueOf(split[0]));
+				}
+				else if(className.equals("body"))
+				{
+					for(Element e : element.children())
+					{
+						tagName = e.tagName();
+						className = e.className();
+						if(className.equals("lead"))
+						{
+							title = this.stringReplaceLineBreakAndRemoveTag(e);
+						}
+						else if(tagName.equals("h3"))
+						{
+							act = this.stringReplaceLineBreakAndRemoveTag(e);
+						}
+						else if(className.equals("foot clearfix"))
+						{
+							other = "OPEN/START ";
+							boolean isFirst = true;
+							for(Element e2 : e.select("span"))
+							{
+								if(!isFirst)
+								{
+									other += "/";
+								}
+								other += this.stringReplaceLineBreakAndRemoveTag(e2);
+								isFirst = false;
+							}
+							
+							pw.print("25" + TAB);
+							this.outDate(pw, date);
+							this.outTitle(pw, title);
+							this.outAct(pw, act, date);
+							this.outOther(pw, other, date);
+						}
+					}
+				}
+				
+			}
+		}catch(Exception e){
+			System.out.println("25.QUATTRO Failure" + e);
+		}
+	}
+	
+	private void outShibuyaWWW(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/1403/").get();
+			Elements baseElements = doc.body().select("div[id=contents] div[class*=event]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.equals("date"))
+					{
+						date = String.format("%02d%02d", month, Integer.valueOf(str));
+					}
+					else if(tagName.equals("h3"))
+					{
+						title = str;
+						Element span = e.getElementsByTag("span").first();
+						if(span != null)
+						{
+							title = title.replaceFirst(this.stringReplaceLineBreakAndRemoveTag(span), "");
+						}
+					}
+					else if(className.equals("data"))
+					{
+						int type = 0;
+						for(Element e2 : e.children())
+						{
+							tagName = e2.tagName();
+							if(tagName.equals("dt"))
+							{
+								String dt = this.stringReplaceLineBreakAndRemoveTag(e2);
+								if(dt.contains("START")) type = 1;
+								else if(dt.contains("DOOR")) type = 2;
+								else if(dt.contains("LINE")) type = 3;
+							}
+							else if(tagName.equals("dd"))
+							{
+								String dd = this.stringReplaceLineBreakAndRemoveTag(e2);
+								if(type == 1)
+								{
+									other =  "OPEN / START : " + dd + LINE_BREAK;
+								}
+								else if(type == 2)
+								{
+									other += "前売 / 当日 : " + dd;
+								}
+								else if(type == 3)
+								{
+									act = dd;
+
+									pw.print("26" + TAB);
+									this.outDate(pw, date);
+									this.outTitle(pw, title);
+									this.outAct(pw, act, date);
+									this.outOther(pw, other, date);
+								}
+								type = 0;
+							}
+						}
+						
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("26.WWW Failure" + e);
+		}
+	}
+	
 //	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
 //	{
 //		try{
