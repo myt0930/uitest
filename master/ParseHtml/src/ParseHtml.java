@@ -1038,7 +1038,7 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_201403.html").get();
-			Elements baseElements = doc.body().select("table[cellpadding=5] td");
+			Elements baseElements = doc.body().select("table[cellpadding=5] tr");
 			
 			String date = "";
 			String title = "";
@@ -1046,20 +1046,55 @@ public class ParseHtml
 			String other = "";
 			for(Element element : baseElements)
 			{
-				for(Element e : element.getAllElements())
+				for(Element e : element.children())
 				{
-					String tagName = e.tagName();
-					String className = e.className();
-					
-					if(e.attr("color").contains("000000") )
+					if(e.attr("style").contains("numberformat"))
 					{
-						print(e.text());
+						date = this.stringReplaceLineBreakAndRemoveTag(e);
+						String[] split = date.split(LINE_BREAK);
+						date = split[0];
+						date = this.removeEndSpace(date);
+						date = String.format("%02d%02d", month, Integer.valueOf(date));
+					}
+					else
+					{
+						if(e.text().equals("") || !e.attr("bgcolor").equals("white"))
+						{
+							continue;
+						}
+						act = this.stringReplaceLineBreakAndRemoveTag(e);
+						
+						for(Element e2 : e.getAllElements())
+						{
+							if(e2.attr("color").equals("#660000") || e2.attr("color").equals("#000066"))
+							{
+								title = this.stringReplaceLineBreakAndRemoveTag(e2);
+								act = act.replace(title, "");
+								break;
+							}
+						}
+						String[] split = act.split("■");
+						if(split.length < 2)
+						{
+							continue;
+						}
+						act = split[0];
+						for(int i = 1;i < split.length;i++ )
+						{
+							other += split[i];
+						}
+						
+						pw.print("24" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
 					}
 				}
 			}
 		}catch(Exception e){
 			System.out.println("22.ChelseaHotel Failure" + e);
-		}
+			}
 	}
 	
 //	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
