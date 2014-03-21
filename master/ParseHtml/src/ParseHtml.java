@@ -89,8 +89,17 @@ public class ParseHtml
 //        parseHtml.outHarajukuAstroHall(pw, month);
 //        //31. 恵比寿LIQUIDROOM
 //        parseHtml.outEbisuLiquidroom(pw, month);
-        //32. 池袋music org
-        parseHtml.outIkebukuroOrg(pw, month);
+//        //32. 池袋music org
+//        parseHtml.outIkebukuroOrg(pw, month);
+//        //33. 池袋RUIDO K3
+//        parseHtml.outIkebukuroRuidoK3(pw, month);
+//        //34. 渋谷RUIDO K2
+//        parseHtml.outShibuyaRuidoK2(pw, month);
+//        //35. 新宿RUIDO K4
+//        parseHtml.outShinjukuRuidoK4(pw, month);
+        //36. 赤坂BLITZ
+        parseHtml.outAkasakaBlitz(pw, month);
+        
         
 		pw.close();
 		
@@ -1570,28 +1579,94 @@ public class ParseHtml
 		}
 	}
 	
-//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println("22.ChelseaHotel Failure" + e);
-//		}
-//	}
+	private void outIkebukuroRuidoK3(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.ruido.org/k3/schedule/month_this/").get();
+			Elements baseElements = doc.body().select("div[id=schedule_place]");
+			
+			this.outRuidoProject(pw, baseElements, 32, month);
+		}catch(Exception e){
+			System.out.println("32.RuidoK3 Failure" + e);
+		}
+	}
+	private void outShibuyaRuidoK2(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.ruido.org/k2/schedule/month_this/").get();
+			Elements baseElements = doc.body().select("div[id=schedule_place]");
+			
+			this.outRuidoProject(pw, baseElements, 33, month);
+		}catch(Exception e){
+			System.out.println("33.RuidoK2 Failure" + e);
+		}
+	}
+	private void outShinjukuRuidoK4(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.ruido.org/k4/schedule/month_this/").get();
+			Elements baseElements = doc.body().select("div[id=schedule_place]");
+			
+			this.outRuidoProject(pw, baseElements, 34, month);
+		}catch(Exception e){
+			System.out.println("34.RuidoK4 Failure" + e);
+		}
+	}
+	
+	private void outAkasakaBlitz(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule201403.html").get();
+			Elements baseElements = doc.body().select("tr[id*=s20]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				String idName = element.attr("id");
+				date = element.attr("id").substring(idName.length() - 4, idName.length());
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(tagName.equals("p"))
+					{
+						if(className.equals("artist"))
+						{
+							act = str;
+						}
+						else if(className.equals("evttl"))
+						{
+							title = str;
+						}
+					}
+					else if(tagName.equals("dl"))
+					{
+						other = "";
+						for(Element e2 : e.children())
+						{
+							other += this.stringReplaceLineBreakAndRemoveTag(e2) + " ";
+						}
+						
+						other = other.replace("開場", LINE_BREAK + "開場");
+						other = other.replace("料金", LINE_BREAK + "料金");
+						other = other.replace("問合せ", LINE_BREAK + "問合せ");
+						
+						pw.print("35" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("35.BLITZ Failure" + e);
+		}
+	}
 	
 //	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
 //	{
@@ -1615,30 +1690,56 @@ public class ParseHtml
 //			System.out.println("22.ChelseaHotel Failure" + e);
 //		}
 //	}
-	
-//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println("22.ChelseaHotel Failure" + e);
-//		}
-//	}
-	
+	private void outRuidoProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
+	{
+		String date = "";
+		String title = "";
+		String act = "";
+		String other = "";
+		for(Element element : baseElements)
+		{
+			for(Element e : element.getAllElements())
+			{
+				String tagName = e.tagName();
+				String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				if(tagName.equals("th") && e.attr("width").equals("70"))
+				{
+					str = str.substring(0, 2);
+					date = String.format("%02d", month) + str;
+				}
+				else if(tagName.equals("table") && e.attr("id").equals("table02"))
+				{
+					for(Element e2 : e.getAllElements())
+					{
+						if(e2.tagName().equals("th"))
+						{
+							title = this.stringReplaceLineBreakAndRemoveTag(e2);
+						}
+						else if(e2.tagName().equals("td"))
+						{
+							act = this.stringReplaceLineBreakAndRemoveTag(e2);
+						}
+					}
+				}
+				else if(tagName.equals("table") && e.attr("id").equals("table03"))
+				{
+					other = str;
+					other = other.split("e+")[0];
+					other = other.split("Lコード")[0];
+					other = other.split("Ｌコード")[0];
+					other = other.split("Pコード")[0];
+					other = other.split("Ｐコード")[0];
+					other = other.split("info:")[0];
+					
+					pw.print("32" + TAB);
+					this.outDate(pw, date);
+					this.outTitle(pw, title);
+					this.outAct(pw, act, date);
+					this.outOther(pw, other, date);
+				}
+			}
+		}
+	}
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
 		String date = "";
