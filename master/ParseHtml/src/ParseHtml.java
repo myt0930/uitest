@@ -87,8 +87,10 @@ public class ParseHtml
 //        parseHtml.outDaikanyamaUnit(pw, month);
 //        //30. 原宿ASTRO HALL
 //        parseHtml.outHarajukuAstroHall(pw, month);
-        //31. 恵比寿LIQUIDROOM
-        parseHtml.outEbisuLiquidroom(pw, month);
+//        //31. 恵比寿LIQUIDROOM
+//        parseHtml.outEbisuLiquidroom(pw, month);
+        //32. 池袋music org
+        parseHtml.outIkebukuroOrg(pw, month);
         
 		pw.close();
 		
@@ -1489,6 +1491,130 @@ public class ParseHtml
 			System.out.println("31.LIQUID Failure" + e);
 		}
 	}
+	
+	private void outIkebukuroOrg(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://minamiikebukuromusic.org/category/schedule/").get();	//月ごとの管理は無い
+			Elements baseElements = doc.body().select("div[class=entry-summary]");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(className.equals("entry-summary"))
+					{
+						str = str.replaceFirst("Tweet ", "");
+						String[] split = str.split(LINE_BREAK);
+						int type = 0;
+						for(String s : split)
+						{
+							s = s.split("予約・")[0];
+							s = s.split("■")[0];
+							s = s.split("詳細はこちら")[0];
+							s = s.split("Continue reading")[0];
+							if(s.contains("年") && s.contains("月") && s.contains("日")){
+								type = 2;
+							}
+							switch(type){
+							case 0:
+								act = "";
+								other = "";
+								title = "";
+								type++;
+							case 1:
+								title += s + LINE_BREAK;
+								break;
+							case 2:
+							{
+								date = s;
+								date = date.split("年")[1];
+								date = date.split("日")[0];
+								String[] sp = date.split("月");
+								date = String.format("%02d%02d", Integer.valueOf(sp[0]),Integer.valueOf(sp[1]));
+								type++;
+								break;
+							}
+							case 3:
+								other = s + LINE_BREAK;
+								type++;
+								break;
+							case 4:
+								other += s;
+								type++;
+								break;
+							default:
+								act += s + LINE_BREAK;
+								break;
+							}
+						}
+						
+						pw.print("31" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("31.ORG Failure" + e);
+		}
+	}
+	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
+	
+//	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			
+//			String date = "";
+//			String title = "";
+//			String act = "";
+//			String other = "";
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String tagName = e.tagName();
+//					String className = e.className();
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println("22.ChelseaHotel Failure" + e);
+//		}
+//	}
 	
 //	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
 //	{
