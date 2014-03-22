@@ -59,9 +59,9 @@ static NSDate *maxDate;
 {
 	NSString *current = [NSString stringWithDateFormat:@"yyyyMM" date:[NSDate date]];
 	NSMutableArray *liveList = [NSMutableArray array];
-	for( LiveInfoTrait *trait in traitList )
+	for( const LiveInfoTrait *trait in traitList )
 	{
-		if( trait.liveHouseNo == liveHouseNo )
+		if( trait.liveHouseNo == liveHouseNo && ![trait isPastLive])
 		{
 			NSString *liveDate = [NSString stringWithDateFormat:@"yyyyMM" date:trait.liveDate];
 			if( [liveDate compare:current] != NSOrderedAscending )

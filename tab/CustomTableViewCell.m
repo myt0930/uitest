@@ -119,16 +119,18 @@
     }
     
     const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:trait.liveHouseNo];
-	
-	_place.attributedText	= [NSAttributedString tlsAttributedStringWithString:liveHouseTrait.name
-                                                                    lineSpace:2.0f];
-	_title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
-                                                                    lineSpace:2.0f];
-    NSString *actString     = [trait.act stringByReplacingOccurrencesOfString:@"\r\n" withString:@" / "];
-    actString               = [actString stringByReplacingOccurrencesOfString:@"\n" withString:@" / "];
-	_act.attributedText		= [NSAttributedString tlsAttributedStringWithString:actString
+    if( liveHouseTrait )
+	{
+        _place.attributedText	= [NSAttributedString tlsAttributedStringWithString:liveHouseTrait.name
+                                                                        lineSpace:2.0f];
+        _title.attributedText	= [NSAttributedString tlsAttributedStringWithString:trait.eventTitle
+                                                                        lineSpace:2.0f];
+        NSString *actString     = [trait.act stringByReplacingOccurrencesOfString:@"\r\n" withString:@" / "];
+        actString               = [actString stringByReplacingOccurrencesOfString:@"\n" withString:@" / "];
+        _act.attributedText		= [NSAttributedString tlsAttributedStringWithString:actString
                                                                    lineSpace:2.0f];
-	
+    }
+    
 	[_place sizeToFit];
 	[_title sizeToFit];
 	[_act	sizeToFit];

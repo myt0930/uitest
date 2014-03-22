@@ -2,6 +2,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -12,7 +14,7 @@ import org.jsoup.select.Elements;
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
+	static int debugFlag = 0;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -28,75 +30,75 @@ public class ParseHtml
         
         
         //1. 新宿Motion
-//        parseHtml.outShinjukuMotion(pw, month);
-//		//2. 新宿Marble
-//		parseHtml.outShinjukuMarble(pw,month);
-//		//3. 新宿Marz
-//		parseHtml.outShinjukuMarz(pw,month);
-//		//4. 新宿LOFT
-//		parseHtml.outShinjukuLoft(pw,month);
-//		//5. 秋葉原GOODMAN
-//		parseHtml.outAkihabaraGoodman(pw,month);
-//		//6. 下北沢BASEMENT BAR
-//		parseHtml.outBasementBar(pw, month);
-//		//7. 下北沢THREE
-//		parseHtml.outShimokitaThree(pw, month);
-//		//8. 下北沢DAISY BAR
-//		parseHtml.outShimokitaDaisyBar(pw, month);
-//		//9. 下北沢SHELTER
-//		parseHtml.outShimokitaShelter(pw, month);
-//		//10. 下北沢QUE
-//		parseHtml.outShimokitaQue(pw, month);
-//		//11. 下北沢251
-//		parseHtml.outShimokita251(pw, month);
-//		//12. 下北沢ERA
-//		parseHtml.outShimokitaERA(pw, month);
-//		//13. 下北沢GARDEN
-//		parseHtml.outShimokitaGarden(pw, month);
-//		//14. 新代田FEVER
-//		parseHtml.outShindaitaFever(pw, month);
-//		//15. 東高円寺U.F.O.CLUB
-//		parseHtml.outKoenjiUFO(pw, month);
-//		//16. 東高円寺二万電圧
-//		parseHtml.outKoenjiNiman(pw, month);
-//		//17. 渋谷O-EAST
-//		parseHtml.outShibuyaEast(pw, month);
-//		//18. 渋谷O-WEST
-//		parseHtml.outShibuyaWest(pw, month);
-//		//19. 渋谷O-NEST
-//		parseHtml.outShibuyaNest(pw, month);
-//		//20. 渋谷O-CREST
-//		parseHtml.outShibuyaCrest(pw, month);
-//		//21. 渋谷BURROW
-//		parseHtml.outShibuyaBurrow(pw, month);
-//        //22. 渋谷CHELSEA HOTEL
-//        
-//        //23. 渋谷乙
-//        parseHtml.outShibuyaKinoto(pw, month);
-//        //24. 渋谷LUSH
-//        parseHtml.outShibuyaLush(pw, month);
-//        //25. 渋谷CLUB QUATTRO
-//        parseHtml.outShibuyaQuattro(pw, month);
-//		//26. 渋谷WWW
-//        parseHtml.outShibuyaWWW(pw, month);
-//        //27. 渋谷7thFLOOR
-        
-//        //28. 渋谷DUO
-//        parseHtml.outShibuyaDuo(pw, month);
-//        //29. 代官山UNIT
-//        parseHtml.outDaikanyamaUnit(pw, month);
-//        //30. 原宿ASTRO HALL
-//        parseHtml.outHarajukuAstroHall(pw, month);
-//        //31. 恵比寿LIQUIDROOM
-//        parseHtml.outEbisuLiquidroom(pw, month);
-//        //32. 池袋music org
-//        parseHtml.outIkebukuroOrg(pw, month);
-//        //33. 池袋RUIDO K3
-//        parseHtml.outIkebukuroRuidoK3(pw, month);
-//        //34. 渋谷RUIDO K2
-//        parseHtml.outShibuyaRuidoK2(pw, month);
-//        //35. 新宿RUIDO K4
-//        parseHtml.outShinjukuRuidoK4(pw, month);
+		parseHtml.outShinjukuMotion(pw, month);
+		//2. 新宿Marble
+		parseHtml.outShinjukuMarble(pw,month);
+		//3. 新宿Marz
+		parseHtml.outShinjukuMarz(pw,month);
+		//4. 新宿LOFT
+		parseHtml.outShinjukuLoft(pw,month);
+		//5. 秋葉原GOODMAN
+		parseHtml.outAkihabaraGoodman(pw,month);
+		//6. 下北沢BASEMENT BAR
+		parseHtml.outBasementBar(pw, month);
+		//7. 下北沢THREE
+		parseHtml.outShimokitaThree(pw, month);
+		//8. 下北沢DAISY BAR
+		parseHtml.outShimokitaDaisyBar(pw, month);
+		//9. 下北沢SHELTER
+		parseHtml.outShimokitaShelter(pw, month);
+		//10. 下北沢QUE
+		parseHtml.outShimokitaQue(pw, month);
+		//11. 下北沢251
+		parseHtml.outShimokita251(pw, month);
+		//12. 下北沢ERA
+		parseHtml.outShimokitaERA(pw, month);
+		//13. 下北沢GARDEN
+		parseHtml.outShimokitaGarden(pw, month);
+		//14. 新代田FEVER
+		parseHtml.outShindaitaFever(pw, month);
+		//15. 東高円寺U.F.O.CLUB
+		parseHtml.outKoenjiUFO(pw, month);
+		//16. 東高円寺二万電圧
+		parseHtml.outKoenjiNiman(pw, month);
+		//17. 渋谷O-EAST
+		parseHtml.outShibuyaEast(pw, month);
+		//18. 渋谷O-WEST
+		parseHtml.outShibuyaWest(pw, month);
+		//19. 渋谷O-NEST
+		parseHtml.outShibuyaNest(pw, month);
+		//20. 渋谷O-CREST
+		parseHtml.outShibuyaCrest(pw, month);
+		//21. 渋谷BURROW
+		parseHtml.outShibuyaBurrow(pw, month);
+		//22. 渋谷CHELSEA HOTEL
+		
+		//23. 渋谷乙
+		parseHtml.outShibuyaKinoto(pw, month);
+		//24. 渋谷LUSH
+		parseHtml.outShibuyaLush(pw, month);
+		//25. 渋谷CLUB QUATTRO
+		parseHtml.outShibuyaQuattro(pw, month);
+		//26. 渋谷WWW
+		parseHtml.outShibuyaWWW(pw, month);
+		//27. 渋谷7thFLOOR
+		        
+		//28. 渋谷DUO
+		parseHtml.outShibuyaDuo(pw, month);
+		//29. 代官山UNIT
+		parseHtml.outDaikanyamaUnit(pw, month);
+		//30. 原宿ASTRO HALL
+		parseHtml.outHarajukuAstroHall(pw, month);
+		//31. 恵比寿LIQUIDROOM
+		parseHtml.outEbisuLiquidroom(pw, month);
+		//32. 池袋music org
+		parseHtml.outIkebukuroOrg(pw, month);
+		//33. 池袋RUIDO K3
+		parseHtml.outIkebukuroRuidoK3(pw, month);
+		//34. 渋谷RUIDO K2
+		parseHtml.outShibuyaRuidoK2(pw, month);
+		//35. 新宿RUIDO K4
+		parseHtml.outShinjukuRuidoK4(pw, month);
         //36. 赤坂BLITZ
         parseHtml.outAkasakaBlitz(pw, month);
         
@@ -1047,7 +1049,7 @@ public class ParseHtml
 						act = str.replace(title, "");
 						act = act.replace("※", LINE_BREAK+"※");
 						
-						pw.println("23" + TAB);
+						pw.print("23" + TAB);
 						outDate(pw, date);
 						outTitle(pw, title);
 						outAct(pw, act, date);
@@ -1106,6 +1108,7 @@ public class ParseHtml
 							continue;
 						}
 						act = split[0];
+						other = "";
 						for(int i = 1;i < split.length;i++ )
 						{
 							other += split[i];
@@ -1120,7 +1123,7 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("22.ChelseaHotel Failure" + e);
+			System.out.println("24.LUSH Failure" + e);
 			}
 	}
 	
@@ -1359,7 +1362,7 @@ public class ParseHtml
 						other = str;
 						other = other.replace("INFORMATION : ", "");
 						
-						pw.println("29" + TAB);
+						pw.print("29" + TAB);
 						this.outDate(pw, date);
 						this.outTitle(pw, title);
 						this.outAct(pw, act, date);
@@ -1392,6 +1395,7 @@ public class ParseHtml
 					if(className.contains("date date"))
 					{
 						date = str;
+						date = String.format("%02d", month) + date;
 					}
 					else if(className.contains("month") && tagName.equals("h4"))
 					{
@@ -1411,7 +1415,7 @@ public class ParseHtml
 						
 						if(act.length() > 0)
 						{
-							pw.println("30" + TAB);
+							pw.print("30" + TAB);
 							this.outDate(pw, date);
 							this.outTitle(pw, title);
 							this.outAct(pw, act, date);
@@ -1488,7 +1492,7 @@ public class ParseHtml
 							}
 						}
 						
-						pw.println("31" + TAB);
+						pw.print("31" + TAB);
 						this.outDate(pw, date);
 						this.outTitle(pw, title);
 						this.outAct(pw, act, date);
@@ -1566,7 +1570,7 @@ public class ParseHtml
 							}
 						}
 						
-						pw.print("31" + TAB);
+						pw.print("32" + TAB);
 						this.outDate(pw, date);
 						this.outTitle(pw, title);
 						this.outAct(pw, act, date);
@@ -1575,7 +1579,7 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("31.ORG Failure" + e);
+			System.out.println("32.ORG Failure" + e);
 		}
 	}
 	
@@ -1585,9 +1589,9 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.ruido.org/k3/schedule/month_this/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
-			this.outRuidoProject(pw, baseElements, 32, month);
+			this.outRuidoProject(pw, baseElements, 33, month);
 		}catch(Exception e){
-			System.out.println("32.RuidoK3 Failure" + e);
+			System.out.println("33.RuidoK3 Failure" + e);
 		}
 	}
 	private void outShibuyaRuidoK2(PrintWriter pw, int month)
@@ -1596,9 +1600,9 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.ruido.org/k2/schedule/month_this/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
-			this.outRuidoProject(pw, baseElements, 33, month);
+			this.outRuidoProject(pw, baseElements, 34, month);
 		}catch(Exception e){
-			System.out.println("33.RuidoK2 Failure" + e);
+			System.out.println("34.RuidoK2 Failure" + e);
 		}
 	}
 	private void outShinjukuRuidoK4(PrintWriter pw, int month)
@@ -1607,9 +1611,9 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.ruido.org/k4/schedule/month_this/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
-			this.outRuidoProject(pw, baseElements, 34, month);
+			this.outRuidoProject(pw, baseElements, 35, month);
 		}catch(Exception e){
-			System.out.println("34.RuidoK4 Failure" + e);
+			System.out.println("35.RuidoK4 Failure" + e);
 		}
 	}
 	
@@ -1655,7 +1659,7 @@ public class ParseHtml
 						other = other.replace("料金", LINE_BREAK + "料金");
 						other = other.replace("問合せ", LINE_BREAK + "問合せ");
 						
-						pw.print("35" + TAB);
+						pw.print("36" + TAB);
 						this.outDate(pw, date);
 						this.outTitle(pw, title);
 						this.outAct(pw, act, date);
@@ -1664,7 +1668,7 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("35.BLITZ Failure" + e);
+			System.out.println("36.BLITZ Failure" + e);
 		}
 	}
 	
@@ -1731,7 +1735,7 @@ public class ParseHtml
 					other = other.split("Ｐコード")[0];
 					other = other.split("info:")[0];
 					
-					pw.print("32" + TAB);
+					pw.print(liveHouseNo + TAB);
 					this.outDate(pw, date);
 					this.outTitle(pw, title);
 					this.outAct(pw, act, date);
@@ -1956,12 +1960,32 @@ public class ParseHtml
 		act = this.removeStartEndLineBreak(act);
 		act = this.removeEndSpace(act);
 		act = this.removeDuplicateLineBreak(act);
+		// 111111222222222222222333333333
+		// ******(aaa/aaa)******(bbb/bbb)
+		// ******(aaa／aaa)******(bbb／bbb)
+		String[] split = act.split("\\(");
+		if(split.length > 1)
+		{
+			print("before::"+act);
+			act = split[0] + "(";
+			for(int i = 1;i < split.length;i++)
+			{
+				String[] split2 = split[i].split("\\)");
+				split2[0] = split2[0].replace("/", "／");
+				for(String s : split2)
+				{
+					act += s + ")";
+				}
+			}
+			print("after::"+act);
+		}
+		
 		if(debugFlag == 1){
 			print(act + TAB);
 		}else{
 			pw.print(act + TAB);
 		}
-		if(act.contains("こちら") || act.contains("コチラ") || act.contains("http") || act.contains("e+") || act.contains("イープラス") || act.contains("ローソン") || act.contains("ぴあ"))
+		if(act.contains("こちら") || act.contains("コチラ") || act.contains("http") )
 		{
 			print("■■FAILURE::" + date + "::" + act + "::リンクあり");
 		}
@@ -1975,7 +1999,7 @@ public class ParseHtml
 		}else{
 			pw.println(other);
 		}
-		if(other.contains("こちら") || other.contains("コチラ") || other.contains("http") || other.contains("e+") || other.contains("イープラス") || other.contains("ローソン") || other.contains("ぴあ"))
+		if(other.contains("こちら") || other.contains("コチラ") || other.contains("http") )
 		{
 			print("■■FAILURE::" + date + "::" + other + "::リンクあり");
 		}

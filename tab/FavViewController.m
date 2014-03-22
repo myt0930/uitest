@@ -35,7 +35,7 @@
     for( NSString *uniqueId in saveUniqueIdArray )
     {
         const LiveInfoTrait *trait = [LiveInfoTrait traitOfUniqueID:uniqueId];
-        if( trait )
+        if( trait && ![trait isPastLive] )
         {
             [favArray addObject:trait];
         }

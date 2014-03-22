@@ -50,9 +50,11 @@
         _place.textColor        = RED_COLOR;
 		_place.backgroundColor	= WHITE_COLOR;
         const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:_liveTrait.liveHouseNo];
-        _place.text             = liveHouseTrait.name;
-        [_place sizeToFit];
-
+        if(liveHouseTrait)
+        {
+            _place.text             = liveHouseTrait.name;
+            [_place sizeToFit];
+        }
         labelHeight += _place.frame.size.height + 5;
 	}
     
@@ -102,16 +104,20 @@
     //ライブハウス情報
 	{
         const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:_liveTrait.liveHouseNo];
-        NSString *liveHouseInfo = liveHouseTrait ? liveHouseTrait.info : @"";
-        
-        CGRect rect = _liveHouseInfo.frame;
-        _liveHouseInfo.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
-        
-        _liveHouseInfo.textColor        = BLACK_COLOR;
-		_liveHouseInfo.backgroundColor	= WHITE_COLOR;
-        _liveHouseInfo.attributedText   = [NSAttributedString tlsAttributedStringWithString:liveHouseInfo lineSpace:2.0f];
-		[_liveHouseInfo sizeToFit];
-        
+        if(liveHouseTrait)
+        {
+            NSString *liveHouseInfo = liveHouseTrait ? liveHouseTrait.info : @"";
+            
+            liveHouseInfo = [liveHouseInfo stringByAppendingString:@"\n\n※各ライブハウスのHPで最新の情報をご確認下さい。"];
+            
+            CGRect rect = _liveHouseInfo.frame;
+            _liveHouseInfo.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
+            
+            _liveHouseInfo.textColor        = BLACK_COLOR;
+            _liveHouseInfo.backgroundColor	= WHITE_COLOR;
+            _liveHouseInfo.attributedText   = [NSAttributedString tlsAttributedStringWithString:liveHouseInfo lineSpace:2.0f];
+            [_liveHouseInfo sizeToFit];
+        }
         labelHeight += _liveHouseInfo.frame.size.height + 70;
 	}
 	
