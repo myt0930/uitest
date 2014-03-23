@@ -11,6 +11,7 @@
 #import "CustomTableViewCell.h"
 #import "LiveInfoTrait.h"
 #import "SettingData.h"
+#import "DetailViewController.h"
 
 @interface SectionBaseViewController ()
 
@@ -125,6 +126,31 @@
 	[sectionView addSubview:sectionLabel];
     return sectionView;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *sectionName = [_sectionArray objectAtIndex:indexPath.section];
+	
+	NSMutableArray *array = [NSMutableArray array];
+	for( const LiveInfoTrait *trait in self.items )
+	{
+		NSString *date = [NSString stringWithDateFormat:@"yyyy/MM" date:trait.liveDate];
+		if( [date isEqualToString:sectionName] )
+		{
+			[array addObject:trait];
+		}
+	}
+	
+	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
+	
+	//詳細view表示
+	DetailViewController *instance = [[DetailViewController alloc] initWithLiveInfoTrait:trait baseController:self];
+	[self.navigationController pushViewController:instance
+										 animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

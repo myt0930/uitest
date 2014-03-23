@@ -29,77 +29,114 @@ public class ParseHtml
         int month = 3;
         
         
+        int count = 1;
         //1. 新宿Motion
+        parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMotion(pw, month);
 		//2. 新宿Marble
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMarble(pw,month);
 		//3. 新宿Marz
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMarz(pw,month);
 		//4. 新宿LOFT
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuLoft(pw,month);
 		//5. 秋葉原GOODMAN
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outAkihabaraGoodman(pw,month);
 		//6. 下北沢BASEMENT BAR
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outBasementBar(pw, month);
 		//7. 下北沢THREE
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaThree(pw, month);
 		//8. 下北沢DAISY BAR
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaDaisyBar(pw, month);
 		//9. 下北沢SHELTER
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaShelter(pw, month);
 		//10. 下北沢QUE
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaQue(pw, month);
 		//11. 下北沢251
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokita251(pw, month);
 		//12. 下北沢ERA
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaERA(pw, month);
 		//13. 下北沢GARDEN
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShimokitaGarden(pw, month);
 		//14. 新代田FEVER
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShindaitaFever(pw, month);
 		//15. 東高円寺U.F.O.CLUB
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outKoenjiUFO(pw, month);
 		//16. 東高円寺二万電圧
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outKoenjiNiman(pw, month);
 		//17. 渋谷O-EAST
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaEast(pw, month);
 		//18. 渋谷O-WEST
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaWest(pw, month);
 		//19. 渋谷O-NEST
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaNest(pw, month);
 		//20. 渋谷O-CREST
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaCrest(pw, month);
 		//21. 渋谷BURROW
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaBurrow(pw, month);
 		//22. 渋谷CHELSEA HOTEL
+		parseHtml.print(String.valueOf(count++));
 		
 		//23. 渋谷乙
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaKinoto(pw, month);
 		//24. 渋谷LUSH
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaLush(pw, month);
 		//25. 渋谷CLUB QUATTRO
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaQuattro(pw, month);
 		//26. 渋谷WWW
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaWWW(pw, month);
 		//27. 渋谷7thFLOOR
+		parseHtml.print(String.valueOf(count++));
 		        
 		//28. 渋谷DUO
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaDuo(pw, month);
 		//29. 代官山UNIT
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outDaikanyamaUnit(pw, month);
 		//30. 原宿ASTRO HALL
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outHarajukuAstroHall(pw, month);
 		//31. 恵比寿LIQUIDROOM
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outEbisuLiquidroom(pw, month);
 		//32. 池袋music org
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outIkebukuroOrg(pw, month);
 		//33. 池袋RUIDO K3
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outIkebukuroRuidoK3(pw, month);
 		//34. 渋谷RUIDO K2
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShibuyaRuidoK2(pw, month);
 		//35. 新宿RUIDO K4
+		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuRuidoK4(pw, month);
         //36. 赤坂BLITZ
+		parseHtml.print(String.valueOf(count++));
         parseHtml.outAkasakaBlitz(pw, month);
         
         
@@ -1158,6 +1195,7 @@ public class ParseHtml
 						if(className.equals("lead"))
 						{
 							title = this.stringReplaceLineBreakAndRemoveTag(e);
+							title = title.replace("\"", "");
 						}
 						else if(tagName.equals("h3"))
 						{
@@ -1936,6 +1974,11 @@ public class ParseHtml
 		s = s.replace(LINE_BREAK + " " + LINE_BREAK, LINE_BREAK);
 		s = s.replace(LINE_BREAK + "  " + LINE_BREAK, LINE_BREAK);
 		s = s.replace(LINE_BREAK + "   " + LINE_BREAK, LINE_BREAK);
+//		s = s.replace("/" + LINE_BREAK, "/");
+//		s = s.replace("/ " + LINE_BREAK, "/");
+//		s = s.replace("/  " + LINE_BREAK, "/");
+//		s = s.replace("/   " + LINE_BREAK, "/");
+
 		return s;
 	}
 	
@@ -1960,24 +2003,24 @@ public class ParseHtml
 		act = this.removeStartEndLineBreak(act);
 		act = this.removeEndSpace(act);
 		act = this.removeDuplicateLineBreak(act);
-		// 111111222222222222222333333333
-		// ******(aaa/aaa)******(bbb/bbb)
-		// ******(aaa／aaa)******(bbb／bbb)
+
 		String[] split = act.split("\\(");
 		if(split.length > 1)
 		{
-			print("before::"+act);
-			act = split[0] + "(";
+			act = split[0];
 			for(int i = 1;i < split.length;i++)
 			{
+				act +=  "(";
+				
 				String[] split2 = split[i].split("\\)");
 				split2[0] = split2[0].replace("/", "／");
-				for(String s : split2)
+				
+				act += split2[0] + ")";
+				for(int j = 1;j < split2.length;j++)
 				{
-					act += s + ")";
+					act += split2[j];
 				}
 			}
-			print("after::"+act);
 		}
 		
 		if(debugFlag == 1){
