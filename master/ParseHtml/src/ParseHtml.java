@@ -19,7 +19,7 @@ import org.jsoup.select.Elements;
 
 public class ParseHtml
 {
-	static int debugFlag = 0;
+	static int debugFlag = 1;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -322,16 +322,16 @@ public class ParseHtml
 					}
 					else if( tagName.equals("h1") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
+						this.outTitle(pw, stringReplaceLineBreakAndRemoveTag(e));
 					}
 					else if( className.equals("entrybody") )
 					{
+						this.outAct(pw, stringReplaceLineBreakAndRemoveTag(e), "");
 						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
 					}
 					else if( className.equals("entryex") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK);
-						pw.println();
+						this.outOther(pw, stringReplaceLineBreakAndRemoveTag(e), "");
 					}
 				}
 			}
@@ -454,6 +454,7 @@ public class ParseHtml
 							act += e.text();
 						}
 					}
+					other = other.replace("●", LINE_BREAK + "●");
 					outTitle(pw, title);
 					outAct(pw, act, date);
 					outOther(pw, other, date);	
@@ -499,16 +500,17 @@ public class ParseHtml
 						continue;
 					}
 					other = stringReplaceLineBreakAndRemoveTag(e);
+					other = other.replace("adv", LINE_BREAK + "adv");
 					text = text.replace(other, "");
 				}
 				
 				pw.print("7" + TAB);
 				String[] dateSplits = date.split("\\.");
 				pw.print(dateSplits[1]+dateSplits[2]+ TAB);
-				outTitle(pw, title);
+				this.outTitle(pw, title);
 				act = text.replace(LINE_BREAK,"");
-				outAct(pw, act, date);
-				pw.println(other + TAB);
+				this.outAct(pw, act, date);
+				this.outOther(pw, other, date);
 			}
 		} catch(Exception e){
 			System.out.println("7.THREE Failure" + e);
@@ -540,7 +542,7 @@ public class ParseHtml
 					for(Element e : element.select("h3") )
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e);
-						pw.print(removeStartEndLineBreak(title) + TAB);
+						this.outTitle(pw, title);
 					}
 					String spanText = "";
 					int count = 0;
@@ -559,8 +561,9 @@ public class ParseHtml
 						count++;
 					}
 					other += spanText;
-					pw.print(removeStartEndLineBreak(act) + TAB);
-					pw.println(removeStartEndLineBreak(other));
+					other = other.replace("前売", LINE_BREAK + "前売");
+					this.outAct(pw, act, date);
+					this.outOther(pw, other, date);
 				}
 			}
 		} catch(Exception e){
@@ -693,6 +696,7 @@ public class ParseHtml
 				for(Element e : element.select("h5"))
 				{
 					other = this.stringReplaceLineBreakAndRemoveTag(e);
+					other = other.replace("adv", LINE_BREAK + "adv");
 				}
 				
 				pw.print("11" + TAB);
@@ -859,6 +863,7 @@ public class ParseHtml
 				outDate(pw, date);
 				outTitle(pw, title);
 				outAct(pw, act, date);
+				other = other.replace("ADV", LINE_BREAK + "ADV");
 				outOther(pw, other, date);
 			}
 		} catch(Exception e){
@@ -970,6 +975,7 @@ public class ParseHtml
 									title 	= this.removeStartEndLineBreak(title);
 									act 	= this.removeStartEndLineBreak(act);
 									other 	= this.removeStartEndLineBreak(other);
+									other 	= other.replace("Adv.", LINE_BREAK + "Adv.");
 									pw.print("16" + TAB);
 									outDate(pw, date);
 									outTitle(pw, title);
@@ -1167,6 +1173,7 @@ public class ParseHtml
 							other += split[i];
 						}
 						
+						other = other.replace("Advance", LINE_BREAK + "Advance");
 						pw.print("24" + TAB);
 						this.outDate(pw, date);
 						this.outTitle(pw, title);
@@ -1730,7 +1737,7 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
-			Elements baseElements = doc.body().select("div[class*=date_box date]");
+			Elements baseElements = doc.body().select("div[class*=date_box]");
 			
 			this.outZeppProject(pw, baseElements, 37, month);
 		}catch(Exception e){
@@ -1742,7 +1749,7 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
-			Elements baseElements = doc.body().select("div[class*=date_box date]");
+			Elements baseElements = doc.body().select("div[class*=date_box]");
 			
 			this.outZeppProject(pw, baseElements, 38, month);
 		}catch(Exception e){
@@ -1877,6 +1884,7 @@ public class ParseHtml
 						if(tagName.equals("dl")){
 							other = this.stringReplaceLineBreakAndRemoveTag(e2);
 							other = other.replace("料金：", LINE_BREAK + "料金：");
+							other = other.replace("¥", "￥");
 							pw.print(liveHouseNo + TAB);
 							this.outDate(pw, date);
 							this.outTitle(pw, title);
