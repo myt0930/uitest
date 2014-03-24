@@ -10,6 +10,11 @@ import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
 //TODO: 出来たらやること
+//URL確認
+
+//ORG
+//RUIDO project
+
 //渋谷QUATTRO　価格がとれていない
 
 public class ParseHtml
@@ -26,116 +31,116 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 3;
+        int month = 4;
         
         
         int count = 1;
         //1. 新宿Motion
-//        parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShinjukuMotion(pw, month);
-//		//2. 新宿Marble
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShinjukuMarble(pw,month);
-//		//3. 新宿Marz
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShinjukuMarz(pw,month);
-//		//4. 新宿LOFT
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShinjukuLoft(pw,month);
-//		//5. 秋葉原GOODMAN
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outAkihabaraGoodman(pw,month);
-//		//6. 下北沢BASEMENT BAR
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outBasementBar(pw, month);
-//		//7. 下北沢THREE
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaThree(pw, month);
-//		//8. 下北沢DAISY BAR
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaDaisyBar(pw, month);
-//		//9. 下北沢SHELTER
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaShelter(pw, month);
-//		//10. 下北沢QUE
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaQue(pw, month);
-//		//11. 下北沢251
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokita251(pw, month);
-//		//12. 下北沢ERA
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaERA(pw, month);
-//		//13. 下北沢GARDEN
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShimokitaGarden(pw, month);
-//		//14. 新代田FEVER
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShindaitaFever(pw, month);
-//		//15. 東高円寺U.F.O.CLUB
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outKoenjiUFO(pw, month);
-//		//16. 東高円寺二万電圧
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outKoenjiNiman(pw, month);
-//		//17. 渋谷O-EAST
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaEast(pw, month);
-//		//18. 渋谷O-WEST
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaWest(pw, month);
-//		//19. 渋谷O-NEST
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaNest(pw, month);
-//		//20. 渋谷O-CREST
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaCrest(pw, month);
-//		//21. 渋谷BURROW
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaBurrow(pw, month);
-//		//22. 渋谷CHELSEA HOTEL
-//		parseHtml.print(String.valueOf(count++));
-//		
-//		//23. 渋谷乙
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaKinoto(pw, month);
-//		//24. 渋谷LUSH
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaLush(pw, month);
-//		//25. 渋谷CLUB QUATTRO
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaQuattro(pw, month);
-//		//26. 渋谷WWW
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaWWW(pw, month);
-//		//27. 渋谷7thFLOOR
-//		parseHtml.print(String.valueOf(count++));
-//		        
-//		//28. 渋谷DUO
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaDuo(pw, month);
-//		//29. 代官山UNIT
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outDaikanyamaUnit(pw, month);
-//		//30. 原宿ASTRO HALL
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outHarajukuAstroHall(pw, month);
-//		//31. 恵比寿LIQUIDROOM
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outEbisuLiquidroom(pw, month);
-//		//32. 池袋music org
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outIkebukuroOrg(pw, month);
-//		//33. 池袋RUIDO K3
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outIkebukuroRuidoK3(pw, month);
-//		//34. 渋谷RUIDO K2
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShibuyaRuidoK2(pw, month);
-//		//35. 新宿RUIDO K4
-//		parseHtml.print(String.valueOf(count++));
-//		parseHtml.outShinjukuRuidoK4(pw, month);
-//        //36. 赤坂BLITZ
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuMotion(pw, month);
+		//2. 新宿Marble
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuMarble(pw,month);
+		//3. 新宿Marz
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuMarz(pw,month);
+		//4. 新宿LOFT
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuLoft(pw,month);
+		//5. 秋葉原GOODMAN
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outAkihabaraGoodman(pw,month);
+		//6. 下北沢BASEMENT BAR
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outBasementBar(pw, month);
+		//7. 下北沢THREE
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaThree(pw, month);
+		//8. 下北沢DAISY BAR
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaDaisyBar(pw, month);
+		//9. 下北沢SHELTER
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaShelter(pw, month);
+		//10. 下北沢QUE
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaQue(pw, month);
+		//11. 下北沢251
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokita251(pw, month);
+		//12. 下北沢ERA
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaERA(pw, month);
+		//13. 下北沢GARDEN
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShimokitaGarden(pw, month);
+		//14. 新代田FEVER
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShindaitaFever(pw, month);
+		//15. 東高円寺U.F.O.CLUB
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outKoenjiUFO(pw, month);
+		//16. 東高円寺二万電圧
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outKoenjiNiman(pw, month);
+		//17. 渋谷O-EAST
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaEast(pw, month);
+		//18. 渋谷O-WEST
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaWest(pw, month);
+		//19. 渋谷O-NEST
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaNest(pw, month);
+		//20. 渋谷O-CREST
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaCrest(pw, month);
+		//21. 渋谷BURROW
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaBurrow(pw, month);
+		//22. 渋谷CHELSEA HOTEL
+		parseHtml.print(String.valueOf(count++));
+		
+		//23. 渋谷乙
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaKinoto(pw, month);
+		//24. 渋谷LUSH
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaLush(pw, month);
+		//25. 渋谷CLUB QUATTRO
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaQuattro(pw, month);
+		//26. 渋谷WWW
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaWWW(pw, month);
+		//27. 渋谷7thFLOOR
+		parseHtml.print(String.valueOf(count++));
+		        
+		//28. 渋谷DUO
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaDuo(pw, month);
+		//29. 代官山UNIT
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outDaikanyamaUnit(pw, month);
+		//30. 原宿ASTRO HALL
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outHarajukuAstroHall(pw, month);
+		//31. 恵比寿LIQUIDROOM
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outEbisuLiquidroom(pw, month);
+		//32. 池袋music org
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outIkebukuroOrg(pw, month);
+		//33. 池袋RUIDO K3
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outIkebukuroRuidoK3(pw, month);
+		//34. 渋谷RUIDO K2
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShibuyaRuidoK2(pw, month);
+		//35. 新宿RUIDO K4
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuRuidoK4(pw, month);
+        //36. 赤坂BLITZ
 		parseHtml.print(String.valueOf(count++));
         parseHtml.outAkasakaBlitz(pw, month);
         //37. ZEPP TOKYO
@@ -157,7 +162,7 @@ public class ParseHtml
 	private void outShinjukuMotion(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://motion-web.jp/html/201403.html").get();
+			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
 
 			String date = "";
@@ -226,7 +231,7 @@ public class ParseHtml
 	private void outShinjukuMarble(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule1403.html").get();
+			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=510] td[colspan=3]");
 
 			String date = "";
@@ -290,7 +295,7 @@ public class ParseHtml
 	private void outShinjukuMarz(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/03/").get();
+			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/" + String.format("%02d", month) + "/").get();
 			Elements baseElements = doc.body().select("article");
 			
 			final String weekday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -338,7 +343,7 @@ public class ParseHtml
 	private void outShinjukuLoft(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/03").get();
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("tr");
 			
 			outLoftProject(pw, baseElements, 4, month);
@@ -350,7 +355,7 @@ public class ParseHtml
 	private void outAkihabaraGoodman(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-3.html").get();
+			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-" + String.format("%d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table tbody tr[class!=head_line]");// getElementsByTag("tr");
 			
 			for( Element element : baseElements)
@@ -402,8 +407,8 @@ public class ParseHtml
 	private void outBasementBar(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_03.html").get();
-			Elements baseElements = doc.body().select("Table[width=624] tr[valign=middle] td");
+			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("Table[width*=62] tr[valign=middle] td");
 			
 			int count = 0;
 			for( Element element : baseElements)
@@ -412,7 +417,7 @@ public class ParseHtml
 				String date = "";
 				if( count == 1 )
 				{
-					date = String.format("%02d%02d", 3, Integer.valueOf(element.text()));
+					date = String.format("%02d%02d", month, Integer.valueOf(element.text()));
 					pw.print("6" + TAB);
 					outDate(pw, date);
 				}
@@ -463,7 +468,7 @@ public class ParseHtml
 	private void outShimokitaThree(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.toos.co.jp/3/3_schedule.html").get(); //TODO: 当月のURLが違う
+			Document doc = Jsoup.connect("http://www.toos.co.jp/3/3_schedule_14" + String.format("%02d", month) +".html").get(); //TODO: 当月のURLが違う
 			Elements baseElements = doc.body().select("table[width=625][border=0][cellspacing=2][cellpadding=1] tr");
 			
 			String date = "";
@@ -513,7 +518,7 @@ public class ParseHtml
 	private void outShimokitaDaisyBar(PrintWriter pw, int month) 
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/1403.html").get();
+			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("tbody tr td");
 			
 			String date = "";
@@ -566,7 +571,7 @@ public class ParseHtml
 	private void outShimokitaShelter(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/03").get();
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("tr");
 			
 			outLoftProject(pw, baseElements, 9, month);
@@ -578,7 +583,7 @@ public class ParseHtml
 	private void outShimokitaQue(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ukproject.com/que/schedule/thismonth.html").get();	//TODO:今月、来月っていう取り方しか出来ない
+			Document doc = Jsoup.connect("http://www.ukproject.com/que/schedule/nextmonth.html").get();	//TODO:今月、来月っていう取り方しか出来ない
 			Elements baseElements = doc.body().select("tr tr");
 			
 			String date = "";
@@ -641,10 +646,10 @@ public class ParseHtml
 								act = this.removeStartEndLineBreak(act);
 								
 								pw.print("10" + TAB);
-								outDate(pw, date);
-								outTitle(pw, title);
-								outAct(pw, act, date);
-								outOther(pw, other, date);
+								this.outDate(pw, date);
+								this.outTitle(pw, title);
+								this.outAct(pw, act, date);
+								this.outOther(pw, other, date);
 							}
 						}
 					}
@@ -658,7 +663,7 @@ public class ParseHtml
 	private void outShimokita251(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.club251.com/sche/1403.html").get();
+			Document doc = Jsoup.connect("http://www.club251.com/sche/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("div[class=day clearfix]");
 			
 			for(Element element : baseElements)
@@ -704,7 +709,7 @@ public class ParseHtml
 	private void outShimokitaERA(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://s-era.jp/2014/03/?cat=20").get();
+			Document doc = Jsoup.connect("http://s-era.jp/2014/" + String.format("%02d", month) + "/?cat=20").get();
 			Elements baseElements = doc.body().select("div[id=schedule] div[class*=schedule-day]");
 			
 			for(Element element : baseElements)
@@ -753,7 +758,7 @@ public class ParseHtml
 	private void outShimokitaGarden(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.gar-den.in/pc/plist.php?m=201403").get();
+			Document doc = Jsoup.connect("http://www.gar-den.in/pc/plist.php?m=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=txt_box_ms] div");
 			
 			String date = "";
@@ -811,7 +816,7 @@ public class ParseHtml
 	private void outShindaitaFever(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/03/").get();
+			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/" + String.format("%02d", month) + "/").get();
 			Elements baseElements = doc.body().select("div[id*=entry-][class=entry-asset asset hentry]");
 			
 			String date = "";
@@ -864,7 +869,7 @@ public class ParseHtml
 	private void outKoenjiUFO(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ufoclub.jp/schedule/").get();	//TODO: 
+			Document doc = Jsoup.connect("http://www.ufoclub.jp/schedule/next-month").get();	//TODO: 
 			Elements baseElements = doc.body().select("tbody tr");
 			
 			String date = "";
@@ -891,13 +896,15 @@ public class ParseHtml
 					else if(tagName.equals("strong"))
 					{
 						title = this.stringReplaceLineBreakAndRemoveTag(e);
+						act = act.replace(title, "");
 					}
-					else if(tagName.equals("p"))
+					else if(tagName.equals("td"))
 					{
-						act += this.stringReplaceLineBreakAndRemoveTag(e);
-						act = act.replace("/LIVE; ", "");
-						act = act.replace(",", " /");
-						
+						if(e.html().contains("strong")){
+							act += this.stringReplaceLineBreakAndRemoveTag(e);
+							act = act.replace("/LIVE; ", "");
+							act = act.replace(",", " /");
+						}
 					}
 				}
 				if(date=="")continue;
@@ -916,7 +923,7 @@ public class ParseHtml
 	private void outKoenjiNiman(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-3-schedule").get();
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
 			String date = "";
@@ -986,7 +993,7 @@ public class ParseHtml
 	private void outShibuyaEast(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/03").get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 17, month);
@@ -997,7 +1004,7 @@ public class ParseHtml
 	private void outShibuyaWest(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/03").get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 18, month);
@@ -1008,7 +1015,7 @@ public class ParseHtml
 	private void outShibuyaNest(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/03").get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 19, month);
@@ -1019,7 +1026,7 @@ public class ParseHtml
 	private void outShibuyaCrest(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/03").get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 20, month);
@@ -1030,7 +1037,7 @@ public class ParseHtml
 	private void outShibuyaBurrow(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/03").get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 21, month);
@@ -1042,7 +1049,7 @@ public class ParseHtml
 	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.chelseahotel.jp/1403.html").get();
+			Document doc = Jsoup.connect("http://www.chelseahotel.jp/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("");
 			
 			String date = "";
@@ -1064,7 +1071,7 @@ public class ParseHtml
 	private void outShibuyaKinoto(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/03").get();
+			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("td");
 			
 			String date = "";
@@ -1112,7 +1119,7 @@ public class ParseHtml
 	private void outShibuyaLush(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_201403.html").get();
+			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[cellpadding=5] tr");
 			
 			String date = "";
@@ -1176,7 +1183,7 @@ public class ParseHtml
 	private void outShibuyaQuattro(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=201403").get();
+			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().getAllElements();
 			
 			String date = "";
@@ -1242,7 +1249,7 @@ public class ParseHtml
 	private void outShibuyaWWW(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/1403/").get();
+			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/14" + String.format("%02d", month) + "/").get();
 			Elements baseElements = doc.body().select("div[id=contents] div[class*=event]");
 			
 			String date = "";
@@ -1318,7 +1325,7 @@ public class ParseHtml
 	private void outShibuyaDuo(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/03/index.html").get();
+			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/" + String.format("%02d", month) + "/index.html").get();
 			Elements baseElements = doc.body().select("td[width=670]");
 			
 			String date = "";
@@ -1378,7 +1385,7 @@ public class ParseHtml
 	private void outDaikanyamaUnit(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/03/all_schedule.php").get();
+			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/" + String.format("%02d", month) + "/all_schedule.php").get();
 			Elements baseElements = doc.body().select("div[class=content]");
 			
 			String date = "";
@@ -1425,7 +1432,7 @@ public class ParseHtml
 	private void outHarajukuAstroHall(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=201403").get();
+			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[id=content]");
 			
 			String date = "";
@@ -1479,7 +1486,7 @@ public class ParseHtml
 	private void outEbisuLiquidroom(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/03").get();
+			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("dl[class=schedulelist clfx]");
 			
 			String date = "";
@@ -1633,7 +1640,7 @@ public class ParseHtml
 	private void outIkebukuroRuidoK3(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k3/schedule/month_this/").get();
+			Document doc = Jsoup.connect("http://www.ruido.org/k3/schedule/month_next/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 33, month);
@@ -1644,7 +1651,7 @@ public class ParseHtml
 	private void outShibuyaRuidoK2(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k2/schedule/month_this/").get();
+			Document doc = Jsoup.connect("http://www.ruido.org/k2/schedule/month_next/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 34, month);
@@ -1655,7 +1662,7 @@ public class ParseHtml
 	private void outShinjukuRuidoK4(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k4/schedule/month_this/").get();
+			Document doc = Jsoup.connect("http://www.ruido.org/k4/schedule/month_next/").get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 35, month);
@@ -1667,7 +1674,7 @@ public class ParseHtml
 	private void outAkasakaBlitz(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule201403.html").get();
+			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("tr[id*=s20]");
 			
 			String date = "";
@@ -1722,7 +1729,7 @@ public class ParseHtml
 	private void outZeppTokyo(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=03").get();
+			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class*=date_box date]");
 			
 			this.outZeppProject(pw, baseElements, 37, month);
@@ -1734,7 +1741,7 @@ public class ParseHtml
 	private void outZeppDiverCity(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=03").get();
+			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class*=date_box date]");
 			
 			this.outZeppProject(pw, baseElements, 38, month);
@@ -1746,7 +1753,7 @@ public class ParseHtml
 	private void outShinjukuRedCloth(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/1403.html").get();
+			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=480][cellpadding=0] tr");
 			
 			String date = "";
@@ -2128,6 +2135,7 @@ public class ParseHtml
 		s = s.replace("/ " + LINE_BREAK, "/");
 		s = s.replace("/  " + LINE_BREAK, "/");
 		s = s.replace("/   " + LINE_BREAK, "/");
+		s = s.replace("/　" + LINE_BREAK, "/");
 		s = s.replace(LINE_BREAK + " ", LINE_BREAK);
 
 		return s;
@@ -2144,6 +2152,7 @@ public class ParseHtml
 		title = this.removeStartEndLineBreak(title);
 		title = this.removeEndSpace(title);
 		title = this.removeDuplicateLineBreak(title);
+		title = title.replace("\"", "”");
 		if(debugFlag == 1){
 			print(title + TAB);
 		}else{
@@ -2154,6 +2163,7 @@ public class ParseHtml
 		act = this.removeStartEndLineBreak(act);
 		act = this.removeEndSpace(act);
 		act = this.removeDuplicateLineBreak(act);
+		act = act.replace("\"", "”");
 
 		//全角スラッシュを半角スラッシュに置き換え(全角スラッシュは括弧内のみ使う)
 		act = act.replace("／", "/");
@@ -2195,6 +2205,7 @@ public class ParseHtml
 		other = this.removeStartEndLineBreak(other);
 		other = this.removeEndSpace(other);
 		other = this.removeDuplicateLineBreak(other);
+		other = other.replace("\"", "”");
 		if(debugFlag == 1){
 			print(other);
 		}else{
