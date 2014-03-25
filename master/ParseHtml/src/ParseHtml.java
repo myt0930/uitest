@@ -14,12 +14,11 @@ import org.jsoup.select.Elements;
 
 //ORG
 //RUIDO project
-
 //渋谷QUATTRO　価格がとれていない
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
+	static int debugFlag = 0;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -327,7 +326,6 @@ public class ParseHtml
 					else if( className.equals("entrybody") )
 					{
 						this.outAct(pw, stringReplaceLineBreakAndRemoveTag(e), "");
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
 					}
 					else if( className.equals("entryex") )
 					{
@@ -500,8 +498,8 @@ public class ParseHtml
 						continue;
 					}
 					other = stringReplaceLineBreakAndRemoveTag(e);
-					other = other.replace("adv", LINE_BREAK + "adv");
 					text = text.replace(other, "");
+					other = other.replace("adv", LINE_BREAK + "adv");
 				}
 				
 				pw.print("7" + TAB);
@@ -1778,6 +1776,18 @@ public class ParseHtml
 					if(tagName.equals("td") && e.attr("valign").equals("top") && !e.attr("align").equals("right")){
 						if(str.length() > 0){
 							if(e.html().contains("color=\"white\"") && e.html().contains("class=\"ss\"")){
+								if(!title.equals("") || (!act.equals("") && !act.equals(LINE_BREAK)))
+								{
+									pw.print("39" + TAB);
+									this.outDate(pw, date);
+									this.outTitle(pw, title);
+									this.outAct(pw, act, date);
+									this.outOther(pw, other, date);
+									title = "";
+									act = "";
+									other = "";
+								}
+								
 								date = String.format("%02d", month) + str.split("\\.")[0];
 							}else{
 								act = str;
@@ -1801,6 +1811,15 @@ public class ParseHtml
 						}
 					}
 				}
+			}
+			
+			if(!title.equals("") || (!act.equals("") && !act.equals(LINE_BREAK)))
+			{
+				pw.print("39" + TAB);
+				this.outDate(pw, date);
+				this.outTitle(pw, title);
+				this.outAct(pw, act, date);
+				this.outOther(pw, other, date);
 			}
 		}catch(Exception e){
 			System.out.println(" Failure" + e);
