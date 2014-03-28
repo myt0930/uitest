@@ -131,7 +131,7 @@ public class ParseHtml
 		//32. 池袋music org
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outIkebukuroOrg(pw, month);
-		*/
+		
 		//33. 池袋RUIDO K3
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outIkebukuroRuidoK3(pw, month);
@@ -142,27 +142,31 @@ public class ParseHtml
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuRuidoK4(pw, month);
         //36. 赤坂BLITZ
-//		parseHtml.print(String.valueOf(count++));
-//        parseHtml.outAkasakaBlitz(pw, month);
-//        //37. ZEPP TOKYO
-//    	parseHtml.print(String.valueOf(count++));
-//        parseHtml.outZeppTokyo(pw, month);
-//        //38. ZEPP DIVERCITY
-//        parseHtml.print(String.valueOf(count++));
-//        parseHtml.outZeppDiverCity(pw, month);
-//        //39. 新宿RedCloth
-//        parseHtml.print(String.valueOf(count++));
-//        parseHtml.outShinjukuRedCloth(pw, month);
-//        
-//        
-//        
-//        //42. 新木場STUDIO COAST
-//        //parseHtml.print(String.valueOf(count++));
-//        parseHtml.outShinkibaStudioCoast(pw, month);
-//        
-//        //46. 高円寺HIGH
-//        //parseHtml.print(String.valueOf(count++));
-//        parseHtml.outKoenjiHigh(pw, month);
+		parseHtml.print(String.valueOf(count++));
+        parseHtml.outAkasakaBlitz(pw, month);
+        //37. ZEPP TOKYO
+    	parseHtml.print(String.valueOf(count++));
+        parseHtml.outZeppTokyo(pw, month);
+        //38. ZEPP DIVERCITY
+        parseHtml.print(String.valueOf(count++));
+        parseHtml.outZeppDiverCity(pw, month);
+        //39. 新宿RedCloth
+        parseHtml.print(String.valueOf(count++));
+        parseHtml.outShinjukuRedCloth(pw, month);
+        
+        
+        
+        //42. 新木場STUDIO COAST
+        //parseHtml.print(String.valueOf(count++));
+        parseHtml.outShinkibaStudioCoast(pw, month);
+        
+        //46. 高円寺HIGH
+        //parseHtml.print(String.valueOf(count++));
+        parseHtml.outKoenjiHigh(pw, month);
+ */
+		//47. 小岩bushbash
+		//parseHtml.print(String.valueOf(count++));
+		parseHtml.outKoiwaBushbash(pw, month);
         
 		pw.close();
 		
@@ -1976,28 +1980,60 @@ public class ParseHtml
 		}
 	}
 	
-//	private void out(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println(" Failure" + e);
-//		}
-//	}
+	private void outKoiwaBushbash(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://bushbash.org/schedule14" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("td");
+			
+			String date = "";
+			String title = "";
+			String act = "";
+			String other = "";
+			for(Element element : baseElements)
+			{
+				String str = this.stringReplaceLineBreakAndRemoveTag(element);
+				if(element.attr("align").contains("center")){
+					if(str.contains("sun") || str.contains("mon") || str.contains("tue") || str.contains("wed") || str.contains("thu") || str.contains("fri") || str.contains("sat") ){
+						date = str.split(LINE_BREAK)[0];
+						date = String.format("%02d%02d", month, Integer.valueOf(date));
+					}
+				}else{
+					String[] split = str.split("■");
+					if(split.length > 1){
+						int type = 0;
+						for(int i = 0; i < split.length;i++){
+							if(split[i].contains("open") && split[i].contains("start")){
+								type = 2;
+							}
+							switch(type){
+							case 0:
+								title = split[i];
+								type++;
+								break;
+							case 1:
+								act += split[i];
+								break;
+							default:
+								other += split[i];
+								break;
+							}
+						}
+						
+						pw.print("47" + TAB);
+						this.outDate(pw, date);
+						this.outTitle(pw, title);
+						this.outAct(pw, act, date);
+						this.outOther(pw, other, date);
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("47 bushbash Failure" + e);
+		}
+	}
 	
 //	private void out(PrintWriter pw, int month)
 //	{
@@ -2289,11 +2325,11 @@ public class ParseHtml
 	private String removeEndSpace(String s)
 	{
 		do {
-			if(s.startsWith(" "))
+			if(s.startsWith(" ") || s.startsWith("　"))
 			{
 				s = s.substring(1, s.length());
 			}
-			else if(s.endsWith(" "))
+			else if(s.endsWith(" ") || s.startsWith("　"))
 			{
 				s = s.substring(0, s.length()-1);
 			}
@@ -2315,6 +2351,7 @@ public class ParseHtml
 		s = s.replace("/   " + LINE_BREAK, "/");
 		s = s.replace("/　" + LINE_BREAK, "/");
 		s = s.replace(LINE_BREAK + " ", LINE_BREAK);
+		s = s.replace(LINE_BREAK + "　", LINE_BREAK);
 
 		return s;
 	}
