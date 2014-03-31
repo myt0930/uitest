@@ -39,13 +39,14 @@ public class ParseHtml
 
         
         int count = 1;
-/*        
+        
         //1. 新宿Motion
         parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMotion(pw, month);
 		//2. 新宿Marble
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMarble(pw,month);
+/*
 		//3. 新宿Marz
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMarz(pw,month);
@@ -200,7 +201,6 @@ public class ParseHtml
 		//54. 大塚MEETS
 		parseHtml.print(String.valueOf(count++));
 		parseHtml.outOtsukaMeets(pw, month);
-*/
         //55. 高田馬場AREA
         parseHtml.print(String.valueOf(count++));
 		parseHtml.outTakadanobabaArea(pw, month);
@@ -208,6 +208,11 @@ public class ParseHtml
         //56. 池袋EDGE
         parseHtml.print(String.valueOf(count++));
 		parseHtml.outIkebukuroEdge(pw, month);
+*/
+        //57. 立川BABEL
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outTachikawaBabel(pw, month);
+		
 		pw.close();
 		
 		System.out.println("done");
@@ -1204,7 +1209,6 @@ public class ParseHtml
 						}
 					}
 				}
-				
 			}
 		}catch(Exception e){
 			System.out.println("25.QUATTRO Failure" + e);
@@ -2395,26 +2399,43 @@ public class ParseHtml
 		}
 	}
 	
-//	private void out(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			this.initParam();
-//			
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String t = e.tagName();
-//					String c = e.className();
-//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println(" Failure" + e);
-//		}
-//	}
+	private void outTachikawaBabel(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.babel-rocktower.net/schedule/2014" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("dl[class=schesettxt]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("daytxt")){
+						date = str;
+						date = date.split("\\(")[0];
+						date = this.removeEndSpace(date);
+						String[] split = date.split("/");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]),Integer.valueOf(split[1]));
+					}else if(t.equals("dt")){
+						title = "[" + str.split("\\[")[1];
+					}else if(t.equals("dd")){
+						String[] split = str.split(LINE_BREAK);
+						other = split[0];
+						if(split.length > 1){
+							act = split[1];
+						}
+						
+						this.outParam(pw, 57);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("57.BABEL Failure" + e);
+		}
+	}
 	
 //	private void out(PrintWriter pw, int month)
 //	{
@@ -2804,7 +2825,7 @@ public class ParseHtml
 		
 		//名前にスラッシュが入るバンドは個別置き換え（随時追加）
 		act = act.replace("V/ACATION", "V／ACATION");
-		
+		act = act.replace("d/i/s/c/o/s", "d／i／s／c／o／s");
 		if(debugFlag == 1){
 			print(act + TAB);
 		}else{
