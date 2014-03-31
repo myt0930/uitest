@@ -1,9 +1,9 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.URL;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -25,6 +25,11 @@ public class ParseHtml
 	final static String TAB = "\t";
 	final static String LINE_BREAK = "br2n";
 	
+	String date = "";
+	String title = "";
+	String act = "";
+	String other = "";
+	
 	public static void main(String[] args) throws IOException 
 	{
 		//出力先を作成する
@@ -34,7 +39,7 @@ public class ParseHtml
 
         
         int count = 1;
-        /*
+/*        
         //1. 新宿Motion
         parseHtml.print(String.valueOf(count++));
 		parseHtml.outShinjukuMotion(pw, month);
@@ -163,11 +168,46 @@ public class ParseHtml
         //46. 高円寺HIGH
         //parseHtml.print(String.valueOf(count++));
         parseHtml.outKoenjiHigh(pw, month);
- */
+ 
 		//47. 小岩bushbash
 		//parseHtml.print(String.valueOf(count++));
 		parseHtml.outKoiwaBushbash(pw, month);
         
+        //48. 高円寺CLUB MISSION'S
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outKoenjiMissions(pw, month);
+		
+		//49. 八王子MatchBox
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outHachiojiMatchBox(pw, month);
+
+        //50. 八王子RIPS
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outHachiojiRIPS(pw, month);
+
+        //51. 西荻窪FLAT
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outNishiOgikuboFLAT(pw, month);
+
+        //52. 新宿JAM TODO: 時間などの分離がかなり厳しい
+//        parseHtml.print(String.valueOf(count++));
+//		parseHtml.outShinjukuJam(pw, month);
+		
+		//53. 新宿NINESPICES
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outShinjukuNineSpices(pw, month);
+		
+		//54. 大塚MEETS
+		parseHtml.print(String.valueOf(count++));
+		parseHtml.outOtsukaMeets(pw, month);
+*/
+        //55. 高田馬場AREA
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outTakadanobabaArea(pw, month);
+
+        //56. 池袋EDGE
+        parseHtml.print(String.valueOf(count++));
+		parseHtml.outIkebukuroEdge(pw, month);
 		pw.close();
 		
 		System.out.println("done");
@@ -179,10 +219,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
 
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for( Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -228,11 +265,7 @@ public class ParseHtml
 							other = other.replace(" ■", "■");
 							other = other.replace(" ★", "★");
 							
-							pw.print("1" + TAB);
-							outDate(pw, date);
-							outTitle(pw, title);
-							outAct(pw, act, date);
-							outOther(pw, other, date);
+							this.outParam(pw, 1);
 						}
 					}
 				}
@@ -248,10 +281,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=510] td[colspan=3]");
 
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for( Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -287,11 +317,7 @@ public class ParseHtml
 							}
 							else if(str.contains("お問合せ：Marble") || str.contains("22時以降は18歳未満の方は入場出来ません"))
 							{
-								pw.print("2" + TAB);
-								outDate(pw, date);
-								outTitle(pw, title);
-								outAct(pw, act, date);
-								outOther(pw, other, date);
+								this.outParam(pw, 2);
 							}
 							else
 							{
@@ -485,10 +511,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.toos.co.jp/3/3_schedule_14" + String.format("%02d", month) +".html").get(); //TODO: 当月のURLが違う
 			Elements baseElements = doc.body().select("table[width=625][border=0][cellspacing=2][cellpadding=1] tr");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for( Element element : baseElements)
 			{
 				String text = stringReplaceLineBreakAndRemoveTag(element);
@@ -517,13 +540,11 @@ public class ParseHtml
 					other = other.replace("adv", LINE_BREAK + "adv");
 				}
 				
-				pw.print("7" + TAB);
 				String[] dateSplits = date.split("\\.");
-				pw.print(dateSplits[1]+dateSplits[2]+ TAB);
-				this.outTitle(pw, title);
+				date = dateSplits[1]+dateSplits[2];
 				act = text.replace(LINE_BREAK,"");
-				this.outAct(pw, act, date);
-				this.outOther(pw, other, date);
+				
+				this.outParam(pw, 7);
 			}
 		} catch(Exception e){
 			System.out.println("7.THREE Failure" + e);
@@ -536,10 +557,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("tbody tr td");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for( Element element : baseElements)
 			{
 				String className = element.className();
@@ -602,10 +620,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.ukproject.com/que/schedule/nextmonth.html").get();	//TODO:今月、来月っていう取り方しか出来ない
 			Elements baseElements = doc.body().select("tr tr");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			boolean isExistSchedule = true;
 			for( Element element : baseElements)
 			{
@@ -661,11 +676,7 @@ public class ParseHtml
 								title = title.replace("\"", "");
 								act = this.removeStartEndLineBreak(act);
 								
-								pw.print("10" + TAB);
-								this.outDate(pw, date);
-								this.outTitle(pw, title);
-								this.outAct(pw, act, date);
-								this.outOther(pw, other, date);
+								this.outParam(pw, 10);
 							}
 						}
 					}
@@ -684,10 +695,7 @@ public class ParseHtml
 			
 			for(Element element : baseElements)
 			{
-				String date = "";
-				String title = "";
-				String act = "";
-				String other = "";
+				this.initParam();
 				for(Element e : element.select("h4"))
 				{
 					date = this.stringReplaceLineBreakAndRemoveTag(e);
@@ -712,11 +720,7 @@ public class ParseHtml
 					other = other.replace("adv", LINE_BREAK + "adv");
 				}
 				
-				pw.print("11" + TAB);
-				outDate(pw, date);
-				outTitle(pw, title);
-				outAct(pw, act, date);
-				outOther(pw, other, date);
+				this.outParam(pw, 11);
 			}
 		} catch(Exception e){
 			System.out.println("11.251 Failure" + e);
@@ -731,10 +735,7 @@ public class ParseHtml
 			
 			for(Element element : baseElements)
 			{
-				String date = "";
-				String title = "";
-				String act = "";
-				String other = "";
+				this.initParam();
 				for(Element e : element.select("span[class=d]"))
 				{
 					date = this.stringReplaceLineBreakAndRemoveTag(e);
@@ -761,11 +762,7 @@ public class ParseHtml
 					other = other.replace("TICKET", LINE_BREAK + "TICKET");
 				}
 				
-				pw.print("12" + TAB);
-				outDate(pw, date);
-				outTitle(pw, title);
-				outAct(pw, act, date);
-				outOther(pw, other, date);
+				this.outParam(pw, 12);
 			}
 		} catch(Exception e){
 			System.out.println("12.ERA Failure" + e);
@@ -778,10 +775,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.gar-den.in/pc/plist.php?m=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[class=txt_box_ms] div");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				String className = element.className();
@@ -818,11 +812,7 @@ public class ParseHtml
 					Element e = element.select("p").first();
 					act = this.stringReplaceLineBreakAndRemoveTag(e);
 					
-					pw.print("13" + TAB);
-					outDate(pw, date);
-					outTitle(pw, title);
-					outAct(pw, act, date);
-					outOther(pw, other, date);
+					this.outParam(pw, 13);
 				}
 			}
 		} catch(Exception e){
@@ -836,10 +826,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/" + String.format("%02d", month) + "/").get();
 			Elements baseElements = doc.body().select("div[id*=entry-][class=entry-asset asset hentry]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -872,12 +859,8 @@ public class ParseHtml
 					}
 				}
 				
-				pw.print("14" + TAB);
-				outDate(pw, date);
-				outTitle(pw, title);
-				outAct(pw, act, date);
 				other = other.replace("ADV", LINE_BREAK + "ADV");
-				outOther(pw, other, date);
+				this.outParam(pw, 14);
 			}
 		} catch(Exception e){
 			System.out.println("14.Fever Failure" + e);
@@ -890,10 +873,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.ufoclub.jp/schedule/next-month").get();	//TODO: 
 			Elements baseElements = doc.body().select("tbody tr");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -927,11 +907,7 @@ public class ParseHtml
 				}
 				if(date=="")continue;
 				other = this.removeStartEndLineBreak(other);
-				pw.print("15" + TAB);
-				outDate(pw, date);
-				outTitle(pw, title);
-				outAct(pw, act, date);
-				outOther(pw, other, date);
+				this.outParam(pw, 15);
 			}
 		} catch(Exception e){
 			System.out.println("15.UFO Failure" + e);
@@ -944,10 +920,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -989,11 +962,7 @@ public class ParseHtml
 									act 	= this.removeStartEndLineBreak(act);
 									other 	= this.removeStartEndLineBreak(other);
 									other 	= other.replace("Adv.", LINE_BREAK + "Adv.");
-									pw.print("16" + TAB);
-									outDate(pw, date);
-									outTitle(pw, title);
-									outAct(pw, act, date);
-									outOther(pw, other, date);
+									this.outParam(pw, 16);
 								}
 							}
 							else
@@ -1071,10 +1040,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.chelseahotel.jp/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1093,10 +1059,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("td");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1121,11 +1084,7 @@ public class ParseHtml
 						act = str.replace(title, "");
 						act = act.replace("※", LINE_BREAK+"※");
 						
-						pw.print("23" + TAB);
-						outDate(pw, date);
-						outTitle(pw, title);
-						outAct(pw, act, date);
-						outOther(pw, other, date);
+						this.outParam(pw, 23);
 						
 					}
 				}
@@ -1141,10 +1100,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[cellpadding=5] tr");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.children())
@@ -1187,11 +1143,7 @@ public class ParseHtml
 						}
 						
 						other = other.replace("Advance", LINE_BREAK + "Advance");
-						pw.print("24" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 24);
 					}
 				}
 			}
@@ -1206,10 +1158,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().getAllElements();
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				String tagName = element.tagName();
@@ -1251,11 +1200,7 @@ public class ParseHtml
 								isFirst = false;
 							}
 							
-							pw.print("25" + TAB);
-							this.outDate(pw, date);
-							this.outTitle(pw, title);
-							this.outAct(pw, act, date);
-							this.outOther(pw, other, date);
+							this.outParam(pw, 25);
 						}
 					}
 				}
@@ -1272,10 +1217,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/14" + String.format("%02d", month) + "/").get();
 			Elements baseElements = doc.body().select("div[id=contents] div[class*=event]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1324,11 +1266,7 @@ public class ParseHtml
 								{
 									act = dd;
 
-									pw.print("26" + TAB);
-									this.outDate(pw, date);
-									this.outTitle(pw, title);
-									this.outAct(pw, act, date);
-									this.outOther(pw, other, date);
+									this.outParam(pw, 26);
 								}
 								type = 0;
 							}
@@ -1348,10 +1286,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/" + String.format("%02d", month) + "/index.html").get();
 			Elements baseElements = doc.body().select("td[width=670]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1384,11 +1319,7 @@ public class ParseHtml
 						other += str + LINE_BREAK;
 						if(other.contains("¥") || other.contains("￥") || other.contains("無料") )
 						{
-							pw.print("28" + TAB);
-							this.outDate(pw, date);
-							this.outTitle(pw, title);
-							this.outAct(pw, act, date);
-							this.outOther(pw, other, date);
+							this.outParam(pw, 28);
 							
 							title = "";
 							act = "";
@@ -1408,10 +1339,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/" + String.format("%02d", month) + "/all_schedule.php").get();
 			Elements baseElements = doc.body().select("div[class=content]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1436,11 +1364,7 @@ public class ParseHtml
 						other = str;
 						other = other.replace("INFORMATION : ", "");
 						
-						pw.print("29" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 29);
 					}
 				}
 			}
@@ -1455,10 +1379,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=2014" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("div[id=content]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1489,11 +1410,7 @@ public class ParseHtml
 						
 						if(act.length() > 0)
 						{
-							pw.print("30" + TAB);
-							this.outDate(pw, date);
-							this.outTitle(pw, title);
-							this.outAct(pw, act, date);
-							this.outOther(pw, other, date);
+							this.outParam(pw, 30);
 						}
 					}
 				}
@@ -1509,10 +1426,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("dl[class=schedulelist clfx]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1566,11 +1480,7 @@ public class ParseHtml
 							}
 						}
 						
-						pw.print("31" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 31);
 					}
 				}
 			}
@@ -1585,10 +1495,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://minamiikebukuromusic.org/category/schedule/").get();	//月ごとの管理は無い
 			Elements baseElements = doc.body().select("div[class=entry-summary]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1644,11 +1551,7 @@ public class ParseHtml
 							}
 						}
 						
-						pw.print("32" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 32);
 					}
 				}
 			}
@@ -1697,10 +1600,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("tr[id*=s20]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				String idName = element.attr("id");
@@ -1733,11 +1633,7 @@ public class ParseHtml
 						other = other.replace("料金", LINE_BREAK + "料金");
 						other = other.replace("問合せ", LINE_BREAK + "問合せ");
 						
-						pw.print("36" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 36);
 					}
 				}
 			}
@@ -1776,10 +1672,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=480][cellpadding=0] tr");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1793,11 +1686,7 @@ public class ParseHtml
 							if(e.html().contains("color=\"white\"") && e.html().contains("class=\"ss\"")){
 								if(!title.equals("") || (!act.equals("") && !act.equals(LINE_BREAK)))
 								{
-									pw.print("39" + TAB);
-									this.outDate(pw, date);
-									this.outTitle(pw, title);
-									this.outAct(pw, act, date);
-									this.outOther(pw, other, date);
+									this.outParam(pw, 39);
 									title = "";
 									act = "";
 									other = "";
@@ -1814,11 +1703,7 @@ public class ParseHtml
 					}else if(tagName.equals("td") && e.attr("align").equals("right")){
 						other += str;
 						if(other.contains("前")){
-							pw.print("39" + TAB);
-							this.outDate(pw, date);
-							this.outTitle(pw, title);
-							this.outAct(pw, act, date);
-							this.outOther(pw, other, date);
+							this.outParam(pw, 39);
 							
 							title = "";
 							act = "";
@@ -1830,11 +1715,7 @@ public class ParseHtml
 			
 			if(!title.equals("") || (!act.equals("") && !act.equals(LINE_BREAK)))
 			{
-				pw.print("39" + TAB);
-				this.outDate(pw, date);
-				this.outTitle(pw, title);
-				this.outAct(pw, act, date);
-				this.outOther(pw, other, date);
+				this.outParam(pw, 39);
 			}
 		}catch(Exception e){
 			System.out.println(" Failure" + e);
@@ -1847,10 +1728,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://warp.rinky.info/schedules").get();
 			print(doc.body().html());
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 //			for(Element element : baseElements)
 //			{
 //				for(Element e : element.getAllElements())
@@ -1870,10 +1748,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://www.studio-coast.com/schedule/2014/"+ String.format("%02d", month) +".html").get();
 			Elements baseElements = doc.body().select("section[id*=event]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1911,11 +1786,7 @@ public class ParseHtml
 							}
 						}
 					}else if(className.equals("contact")){
-						pw.print("42" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 42);
 					}
 				}
 			}
@@ -1930,10 +1801,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://koenji-high.com/schedule/?sy=2014&sm=" + month).get();
 			Elements baseElements = doc.body().select("div[class=eventlist clearfix]");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -1964,11 +1832,7 @@ public class ParseHtml
 								}else if(menuName.contains("ADV/DOOR")){
 									other += menuName + ":" + str;
 									
-									pw.print("46" + TAB);
-									this.outDate(pw, date);
-									this.outTitle(pw, title);
-									this.outAct(pw, act, date);
-									this.outOther(pw, other, date);
+									this.outParam(pw, 46);
 								}
 							}
 						}
@@ -1986,10 +1850,7 @@ public class ParseHtml
 			Document doc = Jsoup.connect("http://bushbash.org/schedule14" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("td");
 			
-			String date = "";
-			String title = "";
-			String act = "";
-			String other = "";
+			this.initParam();
 			for(Element element : baseElements)
 			{
 				String str = this.stringReplaceLineBreakAndRemoveTag(element);
@@ -2020,11 +1881,7 @@ public class ParseHtml
 							}
 						}
 						
-						pw.print("47" + TAB);
-						this.outDate(pw, date);
-						this.outTitle(pw, title);
-						this.outAct(pw, act, date);
-						this.outOther(pw, other, date);
+						this.outParam(pw, 47);
 						act = "";
 						other = "";
 					}
@@ -2035,22 +1892,586 @@ public class ParseHtml
 		}
 	}
 	
+	private void outKoenjiMissions(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.live-missions.com/schedule.html?ym=2014-"+String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("section[id*= liveDate]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("day")){
+						date = String.format("%02d", month) + str;
+					}else if(t.equals("h2")){
+						title = str;
+					}else if(c.equals("data")){
+						int type = 0;
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							
+							if(t.equals("dt"))
+							{
+								if(str.contains("ACT")) type = 1;
+								else if(str.contains("OPEN")) type = 2;
+								else if(str.contains("START")) type = 3;
+								else if(str.contains("CHARGE")) type = 4;
+							}
+							else if(t.equals("dd"))
+							{
+								if(type == 1) 	   act = str;
+								else if(type == 2) other = "OPEN " + str + " ";
+								else if(type == 3) other += "START " + str + LINE_BREAK;
+								else if(type == 4) other += str;
+								type = 0;
+							}
+						}
+						this.outParam(pw, 48);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("48.Missions Failure" + e);
+		}
+	}
+	
+	private void outHachiojiMatchBox(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://matchvox.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("height").equals("20")){
+						String[] split = str.split("　　");
+						date = split[0];
+						title = split[1];
+						
+						date = date.split("\\(")[0];
+						date = date.split("年")[1];
+						date = date.replace("日", "");
+						split = date.split("月");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}else if(e.attr("colspan").equals("2")){
+						act = str;
+						String[] split;
+						if(act.contains("br2nOPEN")){
+							split = str.split("br2nOPEN");
+							act = split[0];
+							other = "OPEN" + split[1];
+						}else if(act.contains("br2nopen")){
+							split = str.split("br2nopen");
+							act = split[0];
+							other = "open" + split[1];
+						}else if(act.contains("br2nadv")){
+							split = str.split("br2nadv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n adv")){
+							split = str.split("br2n adv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n時間")){
+							split = str.split("br2n時間");
+							act = split[0];
+							other = split[1];
+						}
+						this.outParam(pw, 49);
+						other = "";
+						act = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("49.MatchBox Failure" + e);
+		}
+	}
+	
+	private void outHachiojiRIPS(PrintWriter pw, int month)
+	{
+		try{
+			String url = "http://rips.rinky.info/schedule/rips_s.cgi?form=2&year=2014&mon="+month;
+			Document doc = Jsoup.parse(new URL(url).openStream(),"Shift_JIS", url);
+			Elements baseElements = doc.body().select("tr");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("font")){
+						String fontSize = e.attr("size"); 
+						if(fontSize.equals("+1")){
+							date = String.format("%02d%02d", month, Integer.valueOf(str));
+						}else if(fontSize.equals("3")){
+							title = str;
+						}else if(fontSize.equals("-1")){
+							if(str.equals(LINE_BREAK)){
+								continue;
+							}
+							other += str;
+						}else if(fontSize.equals("2")){
+							act = str;
+							if(title.contains("HALL RENTAL")){
+								continue;
+							}
+							String[] split = act.split(LINE_BREAK);
+							for(String s : split){
+								if(s.startsWith("チケット：")){
+									other += LINE_BREAK + s;
+									act = act.replace(s, "");
+								}
+							}
+							this.outParam(pw, 50);
+							title = "";
+							other = "";
+							act = "";
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("50.RIPS Failure" + e);
+		}
+	}
+	
+	private void outNishiOgikuboFLAT(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://flat.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("height").equals("20")){
+						String[] split = str.split("　　");
+						date = split[0];
+						title = split[1];
+						
+						date = date.split("\\(")[0];
+						date = date.split("年")[1];
+						date = date.replace("日", "");
+						split = date.split("月");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}else if(e.attr("colspan").equals("2")){
+						act = str;
+						String[] split;
+						if(act.contains("br2nOPEN")){
+							split = str.split("br2nOPEN");
+							act = split[0];
+							other = "OPEN" + split[1];
+						}else if(act.contains("br2nopen")){
+							split = str.split("br2nopen");
+							act = split[0];
+							other = "open" + split[1];
+						}else if(act.contains("br2nadv")){
+							split = str.split("br2nadv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n adv")){
+							split = str.split("br2n adv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n時間")){
+							split = str.split("br2n時間");
+							act = split[0];
+							other = split[1];
+						}
+						this.outParam(pw, 51);
+						other = "";
+						act = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("51.FLAT Failure" + e);
+		}
+	}
+	
+	private void outShinjukuJam(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://jam.rinky.info/sche/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("td");
+			this.initParam();
+			
+			//TODO: フォーマットがバラバラで厳しい
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("height").equals("20")){
+						String[] split = str.split("　　");
+						date = split[0];
+						if(split.length > 1){
+							title = split[1];
+						}
+						date = date.split("\\(")[0];
+						date = date.split("年")[1];
+						date = date.replace("日", "");
+						split = date.split("月");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}else if(e.attr("colspan").equals("2")){
+						
+						String[] split = str.split("br2n");
+						
+						for(String s : split){
+							if((s.contains("OPEN") && s.contains("START")) || 
+								(s.contains("open") && s.contains("start")) ||
+								(s.contains("adv") && s.contains("door")) ||
+								(s.contains("adv") && s.contains("day")) ||
+								(s.contains("ADV") && s.contains("DOOR")) ||
+								(s.contains("ADV") && s.contains("DAY")) ||
+								s.contains("前売") ||
+								s.contains("当日") ||
+								s.contains("")){
+								other += s + LINE_BREAK;
+							}else{
+								act += s + LINE_BREAK;
+							}
+						}
+						
+						this.outParam(pw, 52);
+						title = "";
+						other = "";
+						act = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("52.JAM Failure" + e);
+		}
+	}
+	
+	private void outShinjukuNineSpices(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://9spices.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("height").equals("20")){
+						String[] split = str.split("　　");
+						date = split[0];
+						if(split.length > 1){
+							title = split[1];
+						}
+						date = date.split("\\(")[0];
+						date = date.split("年")[1];
+						date = date.replace("日", "");
+						split = date.split("月");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}else if(e.attr("colspan").equals("2")){
+						act = str;
+						String[] split;
+						if(act.contains("br2nOPEN")){
+							split = str.split("br2nOPEN");
+							act = split[0];
+							other = "OPEN" + split[1];
+						}else if(act.contains("br2nopen")){
+							split = str.split("br2nopen");
+							act = split[0];
+							other = "open" + split[1];
+						}else if(act.contains("br2nadv")){
+							split = str.split("br2nadv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n adv")){
+							split = str.split("br2n adv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n時間")){
+							split = str.split("br2n時間");
+							act = split[0];
+							other = split[1];
+						}
+						if(title.equals("") && act.equals("")){
+							continue;
+						}
+						if(title.contains("HALL RENTAL")){
+							continue;
+						}
+						this.outParam(pw, 53);
+						title = "";
+						other = "";
+						act = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("53.NINESPICES Failure" + e);
+		}
+	}
+	
+	private void outOtsukaMeets(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://meets.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String tagName = e.tagName();
+					String className = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("height").equals("20")){
+						String[] split = str.split("　　");
+						date = split[0];
+						if(split.length > 1){
+							title = split[1];
+						}
+						date = date.split("\\(")[0];
+						date = date.split("年")[1];
+						date = date.replace("日", "");
+						split = date.split("月");
+						date = String.format("%02d%02d", Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+					}else if(e.attr("colspan").equals("2")){
+						act = str;
+						String[] split;
+						if(act.contains("br2nOPEN")){
+							split = str.split("br2nOPEN");
+							act = split[0];
+							other = "OPEN" + split[1];
+						}else if(act.contains("br2nopen")){
+							split = str.split("br2nopen");
+							act = split[0];
+							other = "open" + split[1];
+						}else if(act.contains("br2nadv")){
+							split = str.split("br2nadv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n adv")){
+							split = str.split("br2n adv");
+							act = split[0];
+							other = "adv" + split[1];
+						}else if(act.contains("br2n時間")){
+							split = str.split("br2n時間");
+							act = split[0];
+							other = split[1];
+						}
+						if(title.equals("") && act.equals("")){
+							continue;
+						}
+						if(title.contains("HALL RENTAL")){
+							continue;
+						}
+						this.outParam(pw, 54);
+						title = "";
+						other = "";
+						act = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("54.MEETS Failure" + e);
+		}
+	}
+	
+	private void outTakadanobabaArea(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.xxxrecords.jp/area/sche_14" + String.format("%02d", month) +".html").get();
+			Elements baseElements = doc.body().select("table[class=style1] tr");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("img")){
+						if(e.attr("src").contains("c_")){
+							date = e.attr("src");
+							date = date.replace(".gif", "");
+							date = date.replace("c_", "");
+							date = String.format("%02d%02d", month, Integer.valueOf(date));
+						}
+					}else if(!c.equals("style2") && e.attr("style").contains("85px")){
+						other = str;
+					}else if(!c.equals("style2")  && 
+							 e.attr("style").contains("219px")){
+						str = this.removeEndSpace(str);
+						String[] split = str.split(LINE_BREAK+" "+LINE_BREAK);
+						for(int i = 0;i < split.length;i++){
+							if(i == 0)title = split[i];
+							else	  act += split[i];
+						}
+						
+						this.outParam(pw, 55);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("55.AREA Failure" + e);
+		}
+	}
+	
+	private void outIkebukuroEdge(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://edge-ikebukuro.com/2014"+ String.format("%02d", month) +".html").get();
+			Elements baseElements = doc.body().select("div[class=contents] tr");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("img")){
+						if(e.attr("src").contains("img/") && e.attr("src").contains(".gif")){
+							date = e.attr("src");
+							date = date.replace(".gif", "");
+							date = date.replace("img/", "");
+							date = date.replace("_h", "");
+							date = String.format("%02d%02d", month, Integer.valueOf(date));
+						}
+					}else if(t.equals("td") && e.attr("width").equals("150")){
+						other = str;
+					}else if(t.equals("td") && e.attributes().size() == 0){
+						act = str;
+						for(Element e2 : e.getAllElements()){
+							if(e2.tagName().equals("span")){
+								title = this.stringReplaceLineBreakAndRemoveTag(e2);
+								break;
+							}
+						}
+						act = act.replace(title, "");
+						
+						this.outParam(pw, 56);
+						act = "";
+						title = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("56.EDGE Failure" + e);
+		}
+	}
+	
 //	private void out(PrintWriter pw, int month)
 //	{
 //		try{
 //			Document doc = Jsoup.connect("").get();
 //			Elements baseElements = doc.body().select("");
+//			this.initParam();
 //			
-//			String date = "";
-//			String title = "";
-//			String act = "";
-//			String other = "";
 //			for(Element element : baseElements)
 //			{
 //				for(Element e : element.getAllElements())
 //				{
-//					String tagName = e.tagName();
-//					String className = e.className();
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println(" Failure" + e);
+//		}
+//	}
+	
+//	private void out(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			this.initParam();
+//			
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println(" Failure" + e);
+//		}
+//	}
+	
+//	private void out(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			this.initParam();
+//			
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println(" Failure" + e);
+//		}
+//	}
+	
+//	private void out(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			this.initParam();
+//			
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 //				}
 //			}
 //		}catch(Exception e){
@@ -2060,10 +2481,7 @@ public class ParseHtml
 	
 	private void outZeppProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
-		String date = "";
-		String title = "";
-		String act = "";
-		String other = "";
+		this.initParam();
 		for(Element element : baseElements)
 		{
 			for(Element e : element.getAllElements())
@@ -2091,11 +2509,8 @@ public class ParseHtml
 							other = this.stringReplaceLineBreakAndRemoveTag(e2);
 							other = other.replace("料金：", LINE_BREAK + "料金：");
 							other = other.replace("¥", "￥");
-							pw.print(liveHouseNo + TAB);
-							this.outDate(pw, date);
-							this.outTitle(pw, title);
-							this.outAct(pw, act, date);
-							this.outOther(pw, other, date);
+							
+							this.outParam(pw, liveHouseNo);
 						}
 					}
 				}
@@ -2105,10 +2520,7 @@ public class ParseHtml
 	
 	private void outRuidoProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
-		String date = "";
-		String title = "";
-		String act = "";
-		String other = "";
+		this.initParam();
 		for(Element element : baseElements)
 		{
 			for(Element e : element.getAllElements())
@@ -2144,21 +2556,14 @@ public class ParseHtml
 					other = other.split("Ｐコード")[0];
 					other = other.split("info:")[0];
 					
-					pw.print(liveHouseNo + TAB);
-					this.outDate(pw, date);
-					this.outTitle(pw, title);
-					this.outAct(pw, act, date);
-					this.outOther(pw, other, date);
+					this.outParam(pw, liveHouseNo);
 				}
 			}
 		}
 	}
 	private void outLoftProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
-		String date = "";
-		String title = "";
-		String act = "";
-		String other = "";
+		this.initParam();
 		for( Element element : baseElements)
 		{
 			for(Element e : element.getAllElements())
@@ -2215,10 +2620,7 @@ public class ParseHtml
 	
 	private void outTsutayaOGroup(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
-		String date = "";
-		String title = "";
-		String act = "";
-		String other = "";
+		this.initParam();
 		for(Element element : baseElements)
 		{
 			for(Element e : element.getAllElements())
@@ -2264,11 +2666,7 @@ public class ParseHtml
 						{
 							title = this.removeStartEndLineBreak(title);
 							act = this.removeStartEndLineBreak(act);
-							pw.print(liveHouseNo + TAB);
-							outDate(pw, date);
-							outTitle(pw, title);
-							outAct(pw, act, date);
-							outOther(pw, other, date);
+							this.outParam(pw, liveHouseNo);
 							
 							title = "";
 							act = "";
@@ -2375,6 +2773,7 @@ public class ParseHtml
 		}
 	}
 	private void outAct(PrintWriter pw, String act, String date){
+		act = this.removeEndSpace(act);
 		act = this.removeStartEndLineBreak(act);
 		act = this.removeEndSpace(act);
 		act = this.removeDuplicateLineBreak(act);
@@ -2421,6 +2820,7 @@ public class ParseHtml
 		other = this.removeEndSpace(other);
 		other = this.removeDuplicateLineBreak(other);
 		other = other.replace("\"", "”");
+		other = other.replace("\\", "¥");
 		if(debugFlag == 1){
 			print(other);
 		}else{
@@ -2435,5 +2835,20 @@ public class ParseHtml
 	private void print(String s)
 	{
 		System.out.println(s);
+	}
+	
+	private void initParam(){
+		date = "";
+		title = "";
+		act = "";
+		other = "";
+	}
+	
+	private void outParam(PrintWriter pw, int liveHouseNo){
+		pw.print(liveHouseNo + TAB);
+		this.outDate(pw, date);
+		this.outTitle(pw, title);
+		this.outAct(pw, act, date);
+		this.outOther(pw, other, date);
 	}
 }
