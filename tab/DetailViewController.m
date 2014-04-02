@@ -52,7 +52,7 @@
         const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:_liveTrait.liveHouseNo];
         if(liveHouseTrait)
         {
-            _place.text             = liveHouseTrait.name;
+            _place.attributedText       = [NSAttributedString tlsAttributedStringWithString:liveHouseTrait.name lineSpace:2.0f];
             [_place sizeToFit];
         }
         labelHeight += _place.frame.size.height + 5;

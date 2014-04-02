@@ -11,6 +11,7 @@
 #import "LiveHouseTrait.h"
 #import "HomeViewController.h"
 #import "LiveListViewController.h"
+#import "Common.h"
 
 @interface LiveHouseViewController ()
 
@@ -70,8 +71,10 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	const LiveHouseTrait *trait = [self.items objectAtIndex:indexPath.row];
-	cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
-	cell.textLabel.text = trait.name;
+    UIFont *font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
+	cell.textLabel.font = font;
+	cell.textLabel.attributedText = [NSAttributedString tlsAttributedStringWithString:trait.name
+                                                                            lineSpace:2.0f];
     
     return cell;
 }

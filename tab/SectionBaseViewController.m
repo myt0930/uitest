@@ -104,6 +104,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if( _rowCountArray.count <= section )
+    {
+        return 0;
+    }
     return [[_rowCountArray objectAtIndex:section] integerValue];
 }
 
@@ -182,7 +186,10 @@
 			[array addObject:trait];
 		}
 	}
-	
+	if(array.count <= indexPath.row)
+    {
+        return;
+    }
 	LiveInfoTrait *trait = [array objectAtIndex:indexPath.row];
 	[customcell setTextWithTrait:trait];
 	
