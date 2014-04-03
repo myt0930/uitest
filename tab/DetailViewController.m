@@ -74,6 +74,7 @@
     //出演者名
 	{
         NSString *actText = [_liveTrait.act stringByReplacingOccurrencesOfString:@"/" withString:@"\n"];
+        actText = [actText stringByReplacingOccurrencesOfString:@"／" withString:@"/"];
         actText = [actText stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
         
         CGRect rect = _act.frame;
@@ -89,12 +90,13 @@
     
     //時刻
 	{
+        NSString *otherText = [_liveTrait.otherInfo stringByReplacingOccurrencesOfString:@"／" withString:@"/"];
         CGRect rect = _other.frame;
         _other.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);
         
 		_other.textColor           = BLACK_COLOR;
 		_other.backgroundColor     = WHITE_COLOR;
-        _other.attributedText      = [NSAttributedString tlsAttributedStringWithString:_liveTrait.otherInfo
+        _other.attributedText      = [NSAttributedString tlsAttributedStringWithString:otherText
                                                                                  lineSpace:2.0f];
         [_other sizeToFit];
         
