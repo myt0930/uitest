@@ -176,6 +176,12 @@ public class ParseHtml
 						String height = e.attr("height");
 						if( width.equals("15%") && height.equals("30"))
 						{
+							if(!title.equals("")){
+								this.outParam(pw, 1);
+								title = "";
+								act = "";
+								other = "";
+							}
 							date = str;
 							date = date.replace(".", "");
 							date = date.substring(0,4);
@@ -209,6 +215,10 @@ public class ParseHtml
 							other = other.replace(" ★", "★");
 							
 							this.outParam(pw, 1);
+							title = "";
+							act = "";
+							other = "";
+							
 						}
 					}
 				}
@@ -486,7 +496,7 @@ public class ParseHtml
 				}
 				
 				String[] dateSplits = date.split("\\.");
-				date = dateSplits[1]+dateSplits[2];
+				date = String.format("%02d%02d", Integer.valueOf(dateSplits[1]),Integer.valueOf(dateSplits[2]));
 				act = text.replace(LINE_BREAK,"");
 				
 				this.outParam(pw, 7);
@@ -1267,6 +1277,10 @@ public class ParseHtml
 						if(other.contains("¥") || other.contains("￥") || other.contains("無料") )
 						{
 							this.outParam(pw, 28);
+							
+							title = "";
+							act = "";
+							other = "";
 						}
 					}
 				}
@@ -1631,6 +1645,9 @@ public class ParseHtml
 								if(!title.equals("") || (!act.equals("") && !act.equals(LINE_BREAK)))
 								{
 									this.outParam(pw, 39);
+									title = "";
+									act = "";
+									other = "";
 								}
 								
 								date = String.format("%02d", month) + str.split("\\.")[0];
@@ -1645,6 +1662,9 @@ public class ParseHtml
 						other += str;
 						if(other.contains("前")){
 							this.outParam(pw, 39);
+							title = "";
+							act = "";
+							other = "";
 						}
 					}
 				}
@@ -1977,6 +1997,9 @@ public class ParseHtml
 								}
 							}
 							this.outParam(pw, 50);
+							title = "";
+							act = "";
+							other = "";
 						}
 					}
 				}
@@ -2092,6 +2115,9 @@ public class ParseHtml
 						}
 						
 						this.outParam(pw, 52);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
@@ -2156,6 +2182,9 @@ public class ParseHtml
 							continue;
 						}
 						this.outParam(pw, 53);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
@@ -2220,6 +2249,9 @@ public class ParseHtml
 							continue;
 						}
 						this.outParam(pw, 54);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
@@ -2262,6 +2294,9 @@ public class ParseHtml
 						}
 						
 						this.outParam(pw, 55);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
@@ -2306,6 +2341,9 @@ public class ParseHtml
 						act = act.replace(title, "");
 						
 						this.outParam(pw, 56);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
@@ -2606,6 +2644,9 @@ public class ParseHtml
 							title = this.removeStartEndLineBreak(title);
 							act = this.removeStartEndLineBreak(act);
 							this.outParam(pw, liveHouseNo);
+							title = "";
+							act = "";
+							other = "";
 						}
 					}
 					
@@ -2785,9 +2826,5 @@ public class ParseHtml
 		this.outTitle(pw, title);
 		this.outAct(pw, act, date);
 		this.outOther(pw, other, date);
-		
-		title = "";
-		act = "";
-		other = "";
 	}
 }
