@@ -19,7 +19,9 @@ import org.jsoup.select.Elements;
 
 public class ParseHtml
 {
-	static int debugFlag = 0;
+	static int debugFlag = 1;
+	static boolean isOutDifficultLiveHouse = false;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -41,116 +43,145 @@ public class ParseHtml
         int month = 4;
         
         parseHtml.currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        if(isOutDifficultLiveHouse){
+        	//4. 新宿LOFT
+			parseHtml.outShinjukuLoft(pw,month);
+			//9. 下北沢SHELTER
+			parseHtml.outShimokitaShelter(pw, month);
+			//15. 東高円寺U.F.O.CLUB
+			parseHtml.outKoenjiUFO(pw, month);
+			//32. 池袋music org
+			parseHtml.outIkebukuroOrg(pw, month);
+			//33. 池袋RUIDO K3
+			parseHtml.outIkebukuroRuidoK3(pw, month);
+			//34. 渋谷RUIDO K2
+			parseHtml.outShibuyaRuidoK2(pw, month);
+			//35. 新宿RUIDO K4
+			parseHtml.outShinjukuRuidoK4(pw, month);
+        }
+        //安定して取得できるライブハウス
+        if(isOutNormalLiveHouse){
+	        //1. 新宿Motion
+			parseHtml.outShinjukuMotion(pw, month);
+			//2. 新宿Marble
+			parseHtml.outShinjukuMarble(pw,month);
+			//3. 新宿Marz
+			parseHtml.outShinjukuMarz(pw,month);
+			
+			//5. 秋葉原GOODMAN
+			parseHtml.outAkihabaraGoodman(pw,month);
+			//6. 下北沢BASEMENT BAR
+			parseHtml.outBasementBar(pw, month);
+			//7. 下北沢THREE
+			parseHtml.outShimokitaThree(pw, month);
+			//8. 下北沢DAISY BAR
+			parseHtml.outShimokitaDaisyBar(pw, month);
+			
+			//10. 下北沢QUE
+			parseHtml.outShimokitaQue(pw, month);
+			//11. 下北沢251
+			parseHtml.outShimokita251(pw, month);
+			//12. 下北沢ERA
+			parseHtml.outShimokitaERA(pw, month);
+			//13. 下北沢GARDEN
+			parseHtml.outShimokitaGarden(pw, month);
+			//14. 新代田FEVER
+			parseHtml.outShindaitaFever(pw, month);
+			
+			//16. 東高円寺二万電圧
+			parseHtml.outKoenjiNiman(pw, month);
+			//17. 渋谷O-EAST
+			parseHtml.outShibuyaEast(pw, month);
+			//18. 渋谷O-WEST
+			parseHtml.outShibuyaWest(pw, month);
+			//19. 渋谷O-NEST
+			parseHtml.outShibuyaNest(pw, month);
+			//20. 渋谷O-CREST
+			parseHtml.outShibuyaCrest(pw, month);
+			//21. 渋谷BURROW
+			parseHtml.outShibuyaBurrow(pw, month);
+			//22. 渋谷CHELSEA HOTEL
+			
+			//23. 渋谷乙
+			parseHtml.outShibuyaKinoto(pw, month);
+			//24. 渋谷LUSH
+			parseHtml.outShibuyaLush(pw, month);
+			//25. 渋谷CLUB QUATTRO
+			parseHtml.outShibuyaQuattro(pw, month);
+			//26. 渋谷WWW
+			parseHtml.outShibuyaWWW(pw, month);
+			//27. 渋谷7thFLOOR
+			        
+			//28. 渋谷DUO
+			parseHtml.outShibuyaDuo(pw, month);
+			//29. 代官山UNIT
+			parseHtml.outDaikanyamaUnit(pw, month);
+			//30. 原宿ASTRO HALL
+			parseHtml.outHarajukuAstroHall(pw, month);
+			//31. 恵比寿LIQUIDROOM
+			parseHtml.outEbisuLiquidroom(pw, month);
+			
+	        //36. 赤坂BLITZ
+	        parseHtml.outAkasakaBlitz(pw, month);
+	        //37. ZEPP TOKYO
+	        parseHtml.outZeppTokyo(pw, month);
+	        //38. ZEPP DIVERCITY
+	        parseHtml.outZeppDiverCity(pw, month);
+	        //39. 新宿RedCloth
+	        parseHtml.outShinjukuRedCloth(pw, month);
+	        //40. 
+	        
+	        //41.
+	        
+	        //42. 新木場STUDIO COAST
+	        parseHtml.outShinkibaStudioCoast(pw, month);
+	        //46. 高円寺HIGH
+	        parseHtml.outKoenjiHigh(pw, month);
+			//47. 小岩bushbash
+			parseHtml.outKoiwaBushbash(pw, month);
+	        //48. 高円寺CLUB MISSION'S
+			parseHtml.outKoenjiMissions(pw, month);
+			//49. 八王子MatchBox
+			parseHtml.outHachiojiMatchBox(pw, month);
+	        //50. 八王子RIPS
+			parseHtml.outHachiojiRIPS(pw, month);
+	        //51. 西荻窪FLAT
+			parseHtml.outNishiOgikuboFLAT(pw, month);
+	        //52. 新宿JAM TODO: 時間などの分離がかなり厳しい
+	//		parseHtml.outShinjukuJam(pw, month);
+			//53. 新宿NINESPICES
+			parseHtml.outShinjukuNineSpices(pw, month);
+			//54. 大塚MEETS
+			parseHtml.outOtsukaMeets(pw, month);
+	        //55. 高田馬場AREA
+			parseHtml.outTakadanobabaArea(pw, month);
+	        //56. 池袋EDGE        
+			parseHtml.outIkebukuroEdge(pw, month);
+	        //57. 立川BABEL
+			parseHtml.outTachikawaBabel(pw, month);
+			//58. 下北沢MOSAiC
+			parseHtml.outShimokitaMosaic(pw, month);
+			//59. 四谷OUTBREAK
+	        parseHtml.outYotsuyaOutBreak(pw, month);
+	        //60. 四谷天窓
+	        parseHtml.outYotsuyaTenmado(pw, month);
+	        //61. 四谷天窓.comfort
+	        parseHtml.outYotsuyaTenmadoComfort(pw, month);
+	        //62. 恵比寿天窓.switch
+	        parseHtml.outEbisuTenmadoSwitch(pw, month);
+	        //63. 新大久保EARTHDOM
+	        parseHtml.outShinokuboEarthdom(pw, month);
+	        //64. 初台WALL
+	        parseHtml.outHatsudaiWall(pw, month);
+	        //65. 高円寺ROOTS
+	        parseHtml.outKoenjiRoots(pw, month);
+	        //66.渋谷La.mama
+	        parseHtml.outShibuyaLamama(pw, month);
+        }        
+        //67. 渋谷VISION
+        parseHtml.outShibuyaVision(pw, month);
         
-        //1. 新宿Motion
-		parseHtml.outShinjukuMotion(pw, month);
-		//2. 新宿Marble
-		parseHtml.outShinjukuMarble(pw,month);
-		//3. 新宿Marz
-		parseHtml.outShinjukuMarz(pw,month);
-		//4. 新宿LOFT
-		parseHtml.outShinjukuLoft(pw,month);
-		//5. 秋葉原GOODMAN
-		parseHtml.outAkihabaraGoodman(pw,month);
-		//6. 下北沢BASEMENT BAR
-		parseHtml.outBasementBar(pw, month);
-		//7. 下北沢THREE
-		parseHtml.outShimokitaThree(pw, month);
-		//8. 下北沢DAISY BAR
-		parseHtml.outShimokitaDaisyBar(pw, month);
-		//9. 下北沢SHELTER
-		parseHtml.outShimokitaShelter(pw, month);
-		//10. 下北沢QUE
-		parseHtml.outShimokitaQue(pw, month);
-		//11. 下北沢251
-		parseHtml.outShimokita251(pw, month);
-		//12. 下北沢ERA
-		parseHtml.outShimokitaERA(pw, month);
-		//13. 下北沢GARDEN
-		parseHtml.outShimokitaGarden(pw, month);
-		//14. 新代田FEVER
-		parseHtml.outShindaitaFever(pw, month);
-		//15. 東高円寺U.F.O.CLUB
-		parseHtml.outKoenjiUFO(pw, month);
-		//16. 東高円寺二万電圧
-		parseHtml.outKoenjiNiman(pw, month);
-		//17. 渋谷O-EAST
-		parseHtml.outShibuyaEast(pw, month);
-		//18. 渋谷O-WEST
-		parseHtml.outShibuyaWest(pw, month);
-		//19. 渋谷O-NEST
-		parseHtml.outShibuyaNest(pw, month);
-		//20. 渋谷O-CREST
-		parseHtml.outShibuyaCrest(pw, month);
-		//21. 渋谷BURROW
-		parseHtml.outShibuyaBurrow(pw, month);
-		//22. 渋谷CHELSEA HOTEL
-		
-		//23. 渋谷乙
-		parseHtml.outShibuyaKinoto(pw, month);
-		//24. 渋谷LUSH
-		parseHtml.outShibuyaLush(pw, month);
-		//25. 渋谷CLUB QUATTRO
-		parseHtml.outShibuyaQuattro(pw, month);
-		//26. 渋谷WWW
-		parseHtml.outShibuyaWWW(pw, month);
-		//27. 渋谷7thFLOOR
-		        
-		//28. 渋谷DUO
-		parseHtml.outShibuyaDuo(pw, month);
-		//29. 代官山UNIT
-		parseHtml.outDaikanyamaUnit(pw, month);
-		//30. 原宿ASTRO HALL
-		parseHtml.outHarajukuAstroHall(pw, month);
-		//31. 恵比寿LIQUIDROOM
-		parseHtml.outEbisuLiquidroom(pw, month);
-		//32. 池袋music org
-		parseHtml.outIkebukuroOrg(pw, month);
-		//33. 池袋RUIDO K3
-		parseHtml.outIkebukuroRuidoK3(pw, month);
-		//34. 渋谷RUIDO K2
-		parseHtml.outShibuyaRuidoK2(pw, month);
-		//35. 新宿RUIDO K4
-		parseHtml.outShinjukuRuidoK4(pw, month);
-        //36. 赤坂BLITZ
-        parseHtml.outAkasakaBlitz(pw, month);
-        //37. ZEPP TOKYO
-        parseHtml.outZeppTokyo(pw, month);
-        //38. ZEPP DIVERCITY
-        parseHtml.outZeppDiverCity(pw, month);
-        //39. 新宿RedCloth
-        parseHtml.outShinjukuRedCloth(pw, month);
-        //40. 
         
-        //41.
-        
-        //42. 新木場STUDIO COAST
-        parseHtml.outShinkibaStudioCoast(pw, month);
-        //46. 高円寺HIGH
-        parseHtml.outKoenjiHigh(pw, month);
-		//47. 小岩bushbash
-		parseHtml.outKoiwaBushbash(pw, month);
-        //48. 高円寺CLUB MISSION'S
-		parseHtml.outKoenjiMissions(pw, month);
-		//49. 八王子MatchBox
-		parseHtml.outHachiojiMatchBox(pw, month);
-        //50. 八王子RIPS
-		parseHtml.outHachiojiRIPS(pw, month);
-        //51. 西荻窪FLAT
-		parseHtml.outNishiOgikuboFLAT(pw, month);
-        //52. 新宿JAM TODO: 時間などの分離がかなり厳しい
-//		parseHtml.outShinjukuJam(pw, month);
-		//53. 新宿NINESPICES
-		parseHtml.outShinjukuNineSpices(pw, month);
-		//54. 大塚MEETS
-		parseHtml.outOtsukaMeets(pw, month);
-        //55. 高田馬場AREA
-		parseHtml.outTakadanobabaArea(pw, month);
-        //56. 池袋EDGE        
-		parseHtml.outIkebukuroEdge(pw, month);
-        //57. 立川BABEL
-		parseHtml.outTachikawaBabel(pw, month);
-		
 		pw.close();
 		
 		System.out.println("done");
@@ -1307,7 +1338,7 @@ public class ParseHtml
 					{
 						date = String.format("%02d", month) + str;
 					}
-					else if(className.equals("event_title_live"))
+					else if(className.contains("event_title_"))
 					{
 						title = str;
 					}
@@ -1521,7 +1552,8 @@ public class ParseHtml
 	private void outIkebukuroRuidoK3(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k3/schedule/month_4/").get();
+			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/next_month/";
+			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 33, month);
@@ -1532,7 +1564,8 @@ public class ParseHtml
 	private void outShibuyaRuidoK2(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k2/schedule/month_4/").get();
+			String url = month == currentMonth ? "http://www.ruido.org/k2/schedule/month_this/" : "http://www.ruido.org/k2/schedule/next_month/";
+			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 34, month);
@@ -1543,7 +1576,8 @@ public class ParseHtml
 	private void outShinjukuRuidoK4(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.ruido.org/k4/schedule/month_4/").get();
+			String url = month == currentMonth ? "http://www.ruido.org/k4/schedule/month_this/" : "http://www.ruido.org/k4/schedule/next_month/";
+			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 35, month);
@@ -2393,6 +2427,397 @@ public class ParseHtml
 		}
 	}
 	
+	private void outShimokitaMosaic(PrintWriter pw, int month)
+	{
+		try{
+			String url = month == currentMonth ? "http://www.studio-museum.com/mosaic/schedule/index.html" : "http://www.studio-museum.com/mosaic/schedule/2014" + String.format("%02d", month) +".html";
+			Document doc = Jsoup.connect(url).get();
+			
+			Elements baseElements = doc.body().select("td[align=center]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				if(element.hasAttr("class")){
+					continue;
+				}
+				boolean isAct = false;
+				boolean isInfo = false;
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("font18")){
+						date = this.makeDate(month, str);
+					}else if(c.contains("title")){
+						title = str;
+					}else if(c.contains("artist")){
+						isAct = true;
+					}else if(c.contains("information")){
+						isInfo = true;
+					}else if(t.equals("td")){
+						if(isAct){
+							act = str;
+							isAct = false;
+						}else if(isInfo){
+							other = str;
+							isInfo = false;
+							
+							this.outParam(pw, 58);
+						}
+					}
+					
+				}
+			}
+		}catch(Exception e){
+			System.out.println("58.mosaic Failure" + e);
+		}
+	}
+	
+	private void outYotsuyaOutBreak(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.hor-outbreak.com/live.php?ym=2014-" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("section");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("day")){
+						date = this.makeDate(month, str);
+					}else if(c.contains("liveInfo01")){
+						int type = 0;
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(t.equals("dt")){
+								if(str.contains("ACT")) 		type = 1;
+								else if(str.contains("OPEN")) 	type = 2;
+								else if(str.contains("START"))	type = 3;
+								else if(str.contains("CHARGE"))	type = 4;
+							}else if(t.equals("dd")){
+								switch(type){
+								case 1:
+									act = str;
+									break;
+								case 2:
+									other = "OPEN " + str + LINE_BREAK;
+									break;
+								case 3:
+									other += "START " + str + LINE_BREAK;
+									break;
+								case 4:
+									other += "CHARGE " + str;
+									break;
+								}
+							}else if(t.equals("h2")){
+								title = str;
+							}
+						}
+						this.outParam(pw, 59);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("59.OUTBREAK Failure" + e);
+		}
+	}
+	
+	private void outYotsuyaTenmado(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.otonami.com/tenmado/schedule/14" + String.format("%02d", month) +".htm").get();
+			Elements baseElements = doc.body().getAllElements();
+			
+			this.outTenmadoProject(pw, baseElements, 60, month);
+		}catch(Exception e){
+			System.out.println("60. Failure" + e);
+		}
+	}
+	
+	private void outYotsuyaTenmadoComfort(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.otonami.com/comfort/schedule/14" + String.format("%02d", month) +".htm").get();
+			Elements baseElements = doc.body().getAllElements();
+			
+			this.outTenmadoProject(pw, baseElements, 61, month);
+		}catch(Exception e){
+			System.out.println("61. Failure" + e);
+		}
+	}
+	
+	private void outEbisuTenmadoSwitch(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.otonami.com/ebisu/schedule/14" + String.format("%02d", month) +".htm").get();
+			Elements baseElements = doc.body().getAllElements();
+			
+			this.outTenmadoProject(pw, baseElements, 62, month);
+		}catch(Exception e){
+			System.out.println("62. Failure" + e);
+		}
+	}
+	
+	private void outShinokuboEarthdom(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www1.odn.ne.jp/~cfs81480/index.html/2014." + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("tr td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(e.attr("width").contains("11%")){
+						str = str.split("\\(")[0];
+						date = this.makeDate(month, str);
+					}else if(e.attr("width").contains("59%")){
+						act = str;
+						for(Element e2 : e.getAllElements()){
+							if(e2.attr("color").contains("#ff0000")){
+								title = this.stringReplaceLineBreakAndRemoveTag(e2);
+								act = act.replace(title, "");
+								break;
+							}
+						}
+					}else if(e.attr("width").contains("17%")){
+						other = str;
+						this.outParam(pw, 63);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("63 Failure" + e);
+		}
+	}
+	
+	
+	
+	private void outHatsudaiWall(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://wall-moonstep.com/wall/wall_mobile/schedule/2014/2014_" + String.format("%02d", month) + "_mobile.html").get();
+			Elements baseElements = doc.body().getAllElements();
+			this.initParam();
+			
+			for(Element e : baseElements)
+			{
+				String t = e.tagName();
+				String c = e.className();
+				String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				if(t.equals("font")){
+					String size = e.attr("size");
+					if(size.equals("5")){
+						if(!title.equals("")){
+							this.outParam(pw, 64);
+							title = "";
+							act = "";
+						}
+						date = str;
+						String[] split = date.split("\\(");
+						split = split[0].split("/");
+						date = this.makeDate(split[0], split[1]);
+					}else if(size.equals("4")){
+						title = str;
+					}else if(size.equals("2")){
+						act = str;
+					}else if(size.equals("1")){
+						if(e.attr("color").equals("gray")){
+							other = str;
+							this.outParam(pw, 64);
+							title = "";
+							act = "";
+							other = "";
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("64 Failure" + e);
+		}
+	}
+	
+	
+	
+	private void outKoenjiRoots(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.muribushi.jp/schedule/2014/" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("tr td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.contains("dropcap_")){
+						date = str.substring(0, 2);
+						date = this.makeDate(month, date);
+					}else if(t.equals("p")){
+						if(str.equals("")){
+							continue;
+						}
+						other = str;
+						for(Element e2 : e.getAllElements()){
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(c.contains("color2")){
+								title = str;
+								other = other.replace(title, "");
+							}else if(c.contains("color3")){
+								act = str;
+								other = other.replace(act, "");
+							}
+						}
+						if(title.equals("") && act.equals("")){
+							continue;
+						}
+						this.outParam(pw, 65);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("65 Failure" + e);
+		}
+	}
+	
+	private void outShibuyaLamama(PrintWriter pw, int month)
+	{
+		try{
+			String url = month == currentMonth ? "http://lamama.net/staticpages/index.php/schedule" : "http://lamama.net/staticpages/index.php/schedule2014" + String.format("%02d", month);
+			Document doc = Jsoup.connect(url).get();
+			Elements baseElements = doc.body().select("div[class=block-center] tr td p");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.contains("decotitle")){
+						date = str;
+						date = date.split("\\(")[0];
+						date = this.makeDate(month, date);
+					}else{
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(t.equals("span")){
+								if(e2.attr("style").contains("#3366ff")){
+									title = str;
+								}else if(e2.attr("style").contains("large")){
+									act = str;
+								}
+							}else{
+								if(str.contains("OPEN/") || str.contains("ADV/")){
+									other = str;
+									other = other.split("※")[0];
+									this.outParam(pw, 66);
+									title = "";
+									act = "";
+									other = "";
+								}
+							}
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("66 Failure" + e);
+		}
+	}
+	
+	
+	private void outShibuyaVision(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.vision-tokyo.com/schedule/2014-" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("td[class*=tribe-events-thismonth]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(t.equals("div") && e.attr("id").contains("daynum_")){
+						if(str.length() > 5){
+							str = str.substring(0, 4);
+						}
+						String[] split  = str.split("\\.");
+						if(split.length > 1) {
+							str = split[1];
+						}
+						if(str.length() > 2){
+							str = str.substring(0, 2);
+						}
+						date = this.makeDate(month, str);
+					}else if(c.equals("entry-title")){
+						title = str;
+					}else if(c.equals("entry-summary")){
+						act = str;
+						other = "時間・チケット価格は公式HPをご確認下さい。";
+						
+						this.outParam(pw, 67);
+						title = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println(" Failure" + e);
+		}
+	}
+	
+	//TODO: 最終ライン
+//	private void out(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			this.initParam();
+//			
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println(" Failure" + e);
+//		}
+//	}
 //	private void out(PrintWriter pw, int month)
 //	{
 //		try{
@@ -2414,48 +2839,51 @@ public class ParseHtml
 //		}
 //	}
 	
-//	private void out(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			this.initParam();
-//			
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String t = e.tagName();
-//					String c = e.className();
-//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println(" Failure" + e);
-//		}
-//	}
-	
-//	private void out(PrintWriter pw, int month)
-//	{
-//		try{
-//			Document doc = Jsoup.connect("").get();
-//			Elements baseElements = doc.body().select("");
-//			this.initParam();
-//			
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String t = e.tagName();
-//					String c = e.className();
-//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
-//				}
-//			}
-//		}catch(Exception e){
-//			System.out.println(" Failure" + e);
-//		}
-//	}
-	
+
+	private void outTenmadoProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
+	{
+		this.initParam();
+		
+		for(Element e : baseElements)
+		{
+			String t = e.tagName();
+			String c = e.className();
+			String str = this.stringReplaceLineBreakAndRemoveTag(e);
+			if(c.equals("style13")){
+				for(Element e2 : e.getAllElements()){
+					t = e2.tagName();
+					if(t.equals("img")){
+						String srcAttr = e2.attr("src");
+						String[] split = srcAttr.split("/");
+						srcAttr = split[split.length - 1];
+						srcAttr = srcAttr.split("\\.")[0];
+						if(srcAttr.matches("^[0-9]{1,2}$")) {
+							date = this.makeDate(month, srcAttr);
+						}
+						break;
+					}
+				}
+			}else if(c.equals("style20")){
+				title = str;
+			}else if(t.equals("tr")){
+				String[] split = str.split(LINE_BREAK);
+				boolean isAct = true;
+				for(int i = 0;i < split.length;i++){
+					if(split[i].contains("op/") || split[i].contains("ド別")){
+						isAct = false;
+					}
+					if(isAct) act += split[i] + LINE_BREAK;
+					else 	other += split[i] + LINE_BREAK;
+				}
+				if(!title.equals("") || !other.equals("")){
+					this.outParam(pw, 60);
+				}
+				title = "";
+				act = "";
+				other = "";
+			}
+		}
+	}
 	private void outZeppProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
 		this.initParam();
@@ -2699,7 +3127,7 @@ public class ParseHtml
 	private String removeEndSpace(String s)
 	{
 		do {
-			if(s.startsWith(" ") || s.startsWith("　"))
+			if(s.startsWith(" ") || s.startsWith("　") || s.startsWith("  "))
 			{
 				s = s.substring(1, s.length());
 			}
@@ -2826,5 +3254,12 @@ public class ParseHtml
 		this.outTitle(pw, title);
 		this.outAct(pw, act, date);
 		this.outOther(pw, other, date);
+	}
+	
+	private String makeDate(String month, String day){
+		return String.format("%02d%02d", Integer.valueOf(month), Integer.valueOf(day));
+	}
+	private String makeDate(int month, String day){
+		return String.format("%02d%02d", month, Integer.valueOf(day));
 	}
 }
