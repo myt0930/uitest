@@ -10,6 +10,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+
 //TODO: 出来たらやること
 //URL確認
 
@@ -58,6 +63,7 @@ public class ParseHtml
 			parseHtml.outShibuyaRuidoK2(pw, month);
 			//35. 新宿RUIDO K4
 			parseHtml.outShinjukuRuidoK4(pw, month);
+			
         }
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -159,7 +165,7 @@ public class ParseHtml
 			parseHtml.outIkebukuroEdge(pw, month);
 	        //57. 立川BABEL
 			parseHtml.outTachikawaBabel(pw, month);
-			//58. 下北沢MOSAiC
+			 //58. 下北沢MOSAiC
 			parseHtml.outShimokitaMosaic(pw, month);
 			//59. 四谷OUTBREAK
 	        parseHtml.outYotsuyaOutBreak(pw, month);
@@ -173,14 +179,36 @@ public class ParseHtml
 	        parseHtml.outShinokuboEarthdom(pw, month);
 	        //64. 初台WALL
 	        parseHtml.outHatsudaiWall(pw, month);
-	        //65. 高円寺ROOTS
-	        parseHtml.outKoenjiRoots(pw, month);
+	        
 	        //66.渋谷La.mama
 	        parseHtml.outShibuyaLamama(pw, month);
+	        //67. 渋谷VISION
+	        parseHtml.outShibuyaVision(pw, month);
+	        //68. 渋谷eggman
+	        parseHtml.outShibuyaEggman(pw, month);
+	        //69. 新宿BLAZE
+	        parseHtml.outShinjukuBlaze(pw, month);
+	        //70. 下北沢GARAGE
+	        parseHtml.outShimokitaGarage(pw, month);
+	        //71. 下北沢屋根裏
+	        parseHtml.outShimokitaYaneura(pw, month);
+	        //72. 下北沢REG
+	        parseHtml.outShimokitaReg(pw, month);
+	        //73. 代官山LOOP
+	        parseHtml.outDaikanyamaLoop(pw, month);
+	        //74. 渋谷LOOP ANNEX
+	        parseHtml.outShibuyaLoopAnnex(pw, month);
+	        //75. 高田馬場PHASE
+	        parseHtml.outTakadanobabaPhase(pw, month);
+	        //76. 代官山晴れたら空に豆まいて
+	        parseHtml.outDaikanyamaHaremame(pw, month);
+	        //77. 学芸大学MAPLEHOUSE
+	        parseHtml.outGakugeidaigakuMapleHouse(pw, month);
+	        //78. 青山月見ル君想フ
+	        parseHtml.outAoyamaTsukimiru(pw, month);
         }        
-        //67. 渋谷VISION
-        parseHtml.outShibuyaVision(pw, month);
-        
+        //65. 高円寺ROOTS
+        parseHtml.outKoenjiRoots(pw, month);
         
 		pw.close();
 		
@@ -2660,7 +2688,7 @@ public class ParseHtml
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.muribushi.jp/schedule/2014/" + String.format("%02d", month) + ".html").get();
-			Elements baseElements = doc.body().select("tr td");
+			Elements baseElements = doc.body().select("tr td[valign=top]");
 			this.initParam();
 			
 			for(Element element : baseElements)
@@ -2793,6 +2821,556 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
+			System.out.println("67 Failure" + e);
+		}
+	}
+	
+	
+	private void outShibuyaEggman(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://eggman.jp/daytime/schedule/2014/" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("dl");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(t.equals("img") && e.attr("src").contains("schedule/num/")){
+						String[] split = e.attr("src").split("/");
+						date = split[split.length-1];
+						date = date.split("\\.")[0];
+						date = this.makeDate(month, date);
+					}else if(t.equals("h2")){
+						title = str;
+					}else if(t.equals("p")){
+						act = str;
+						other = "時間・チケット価格は公式HPをご確認下さい。";
+						
+						this.outParam(pw, 68);
+						title = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("68 Failure" + e);
+		}
+	}
+	
+
+	private void outShinjukuBlaze(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shinjuku-blaze.com/event/date/2014/" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("div[class=eventlist]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("day")){
+						date = this.makeDate(month, str);
+					}else if(t.equals("h1")){
+						title = str;
+					}else if(c.contains("eventlist-detail")){
+						int type = 0;
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(t.equals("dt")){
+								if(str.contains("OPEN"))	 type = 1;
+								else if(str.contains("ADV"))type = 2;
+								else if(str.contains("LINE UP")) type = 3;
+							}else if(t.equals("dd")){
+								if(type==1){
+									other = "OPEN/START " + str + LINE_BREAK;
+								}else if(type==2){
+									other +="ADV/DOOR " + str;
+								}else if(type==3){
+									act = str;
+									this.outParam(pw, 69);
+									title = "";
+									other = "";
+									type = 0;
+								}
+							}
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("69 Failure" + e);
+		}
+	}
+
+	
+	private void outShimokitaGarage(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.garage.or.jp/wp/2014" + String.format("%02d", month) +"sch").get();
+			Elements baseElements = doc.body().select("table");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(t.equals("h4")){
+						if(str.equals("")){
+							continue;
+						}
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(t.equals("span")){
+								if(e2.attr("style").contains("background-color: #000000")){
+							
+									String[] split = str.split("\\(");
+									split = split[0].split("/");
+									date = this.makeDate(split[0], this.removeEndSpace(split[1]));
+								}else if(e2.attr("style").contains("ff0099") || e2.attr("style").contains("ff1493")){
+									title += str;
+								}
+							}else if(t.equals("h4")){
+								String html = e.html();
+								if(!html.contains("ff0099") && !html.contains("ff1493")){
+									if(str.contains("http://")){
+										print("■■http contains::" + str);
+										continue;
+									}
+									act += str;
+								}
+							}
+						}
+					}else if(t.equals("p")){
+						if(str.contains("open") || str.contains("前売")){
+							other = str;
+							if(!title.equals("") || !act.equals("")){
+								this.outParam(pw, 70);
+							}
+							title = "";
+							act = "";
+							other = "";
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("70 Failure" + e);
+		}
+	}
+
+	private void outShimokitaYaneura(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://shimoyane.com/cgi-bin/el-calendar/index.php").get();
+			Elements baseElements = doc.body().select("tr td");
+			this.initParam();
+			
+			String targetMonth = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("td-month01")){
+						targetMonth = str;
+					}else if(c.equals("td-calendar01")){
+						date = this.makeDate(targetMonth, str);
+					}else if(c.equals("td-calendar03")){
+						if(str.equals(" ")){
+							continue;
+						}
+						
+						int type = 1;
+						for(String s : str.split(LINE_BREAK)){
+							//before
+							if(s.contains("00/") || 
+								s.contains("15/") ||
+								s.contains("30/") || 
+								s.contains("45/")){
+								type = 3;
+							}
+							//----
+							
+							if(type==1){
+								title += s + LINE_BREAK;
+							}else if(type==2){
+								act += s + LINE_BREAK;
+							}else if(type==3){
+								other += s + LINE_BREAK;
+							}
+							
+							//after
+							if(s.contains("YEN/") || s.endsWith("YEN")){
+								this.outParam(pw, 71);
+								title = "";
+								act = "";
+								other = "";
+								type = 1;
+							}
+							if(s.contains("】")){
+								type = 2;
+							}
+						}
+						
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("71 Failure" + e);
+		}
+	}
+
+	
+	private void outShimokitaReg(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.reg-r2.com/?page_id=7250&ym=2014-" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("div[class=textbody]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("td") && c.contains("date_")){
+						date = str.split(LINE_BREAK)[0];
+						date = date.replace(" ", "");
+						String[] split = date.split("/");
+						date = this.makeDate(this.removeEndSpace(split[0]), this.removeEndSpace(split[1]));
+					}else if(c.contains("live_title")){
+						title += str + LINE_BREAK;
+					}else if(c.equals("performer_name")){
+						act = str;
+						this.outParam(pw, 72);
+						title = "";
+						act = "";
+						other = "";
+					}else if(c.equals("time_price")){
+						other = str;
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("72 Failure" + e);
+		}
+	}
+
+	private void outDaikanyamaLoop(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/dl/schedule_14" + String.format("%02d", month) +".html").get();
+			Elements baseElements = doc.body().select("div[id=schedule]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("date")){
+						date = str.substring(0, 5);
+						String[] split = date.split("\\.");
+						date = this.makeDate(split[0], split[1]);
+					}else if(c.equals("title")){
+						title = str;
+					}else if(c.equals("name")){
+						act = str;
+					}else if(c.equals("info")){
+						other = str;
+						this.outParam(pw, 73);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("73 Failure" + e);
+		}
+	}
+	
+	private void outShibuyaLoopAnnex(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/sl/schedule_14" + String.format("%02d", month) +".html").get();
+			Elements baseElements = doc.body().select("div[id=schedule]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.equals("date")){
+						date = str.substring(0, 5);
+						String[] split = date.split("\\.");
+						date = this.makeDate(split[0], split[1]);
+					}else if(c.equals("title")){
+						title = str;
+					}else if(c.equals("name")){
+						act = str;
+					}else if(c.equals("info")){
+						other = str;
+						this.outParam(pw, 74);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("74 Failure" + e);
+		}
+	}
+	
+	
+	private void outTakadanobabaPhase(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.club-phase.com/contents/sched/14" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("table[id=sched]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.equals("sc_date")){
+						if(!title.equals("") || !act.equals("")){
+							this.outParam(pw, 75);
+							title = "";
+							act = "";
+							other = "";
+						}
+						date = this.makeDate(month, str);
+					}else if(t.equals("td")){
+						title = str;
+					}else if(c.equals("sc_artist")){
+						act = str;
+						title = title.replace(act, "");
+					}else if(c.equals("sc_price")){
+						other = str;
+						title = title.replace(other, "");
+						this.outParam(pw, 75);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("75. Failure" + e);
+		}
+	}
+
+	
+	
+	private void outDaikanyamaHaremame(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://mameromantic.com/?cat=1").get();
+			Elements baseElements = doc.body().select("div[class=entry]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(t.equals("h3")){
+						String[] split = str.split("｜");
+						date = split[0];
+						for(int i = 1;i < split.length;i++){
+							title += split[i];
+						}
+						
+						split = date.split("\\.");
+						date = this.makeDate(split[1], split[2]);
+					}else if(t.equals("p")){
+						act += str;
+						other = "時間・チケット価格は公式HPをご確認下さい。";
+						this.outParam(pw, 76);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("76 Failure" + e);
+		}
+	}
+	
+	private void outGakugeidaigakuMapleHouse(PrintWriter pw, int month)
+	{
+		try{
+			//TODO: HPのURLの作りが現時点で予想できない
+			Document doc = Jsoup.connect("http://www.maplehouse.jp/schedule/schedule.html").get();
+			Elements baseElements = doc.body().select("div[id=area-main]");
+			this.initParam();
+			
+			int type = 0;
+			String stage = "";
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.equals("fsize_l")){
+						if(e.hasAttr("style")){
+							if(e.attr("style").contains("#0514ff") || e.attr("style").contains("#ff0000")){
+								type = 1;
+							}else{
+								print("■77.continue::"+str);
+								continue;
+							}
+						}
+						
+						if(str.startsWith("[")){
+							type = 2;
+						}
+						if(str.startsWith("open") || str.contains("前売券") || str.contains("charge¥")){
+							type = 4;
+						}
+						switch(type){
+						case 0:
+							String monthString = str.split("月Live")[0];
+							month = Integer.valueOf(monthString);
+							break;
+						case 1:
+							if(str.contains("A-stage")){
+								stage = "A-stage";
+							}else if(str.contains("B-stage")){
+								stage = "B-stage";
+							}else{
+								stage = "";
+							}
+							date = str;
+							date = date.split("日")[0];
+							date = this.makeDate(month, date);
+							type = 3;
+							break;
+						case 2:
+							title = str + " " + stage;
+							type = 3;
+							break;
+						case 3:
+							act += str + LINE_BREAK;
+							break;
+						case 4:
+							other = str;
+							if(!title.equals("") || !act.equals("")){
+								this.outParam(pw, 77);
+							}
+							title = "";
+							act = "";
+							other = "";
+							type = 0;
+							break;
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("77 Failure" + e);
+		}
+	}
+	
+	private void outAoyamaTsukimiru(PrintWriter pw, int month)
+	{
+		try{
+			Document doc = Jsoup.connect("http://www.moonromantic.com/?cat=1").get();
+			Elements baseElements = doc.body().select("div[class=entry]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(t.equals("h3")){
+						String[] split = str.split("｜");
+						date = split[0];
+						for(int i = 1;i < split.length;i++){
+							title += split[i];
+						}
+						
+						split = date.split("\\.");
+						date = this.makeDate(split[1], split[2]);
+					}else if(t.equals("p")){
+						act += str;
+						other = "時間・チケット価格は公式HPをご確認下さい。";
+						this.outParam(pw, 78);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("78 Failure" + e);
+		}
+	}
+	
+	
+	private void outKichijyojiWarp(PrintWriter pw, int month)
+	{
+		try{
+			WebClient client = new WebClient(BrowserVersion.FIREFOX_24);
+			HtmlPage page = client.getPage("http://warp.rinky.info/schedules#prevnext");
+			
+			print(page.asXml());
+			
+			Document doc = Jsoup.connect("").get();
+			Elements baseElements = doc.body().select("");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				}
+			}
+		}catch(Exception e){
 			System.out.println(" Failure" + e);
 		}
 	}
@@ -2838,7 +3416,26 @@ public class ParseHtml
 //			System.out.println(" Failure" + e);
 //		}
 //	}
-	
+//	private void out(PrintWriter pw, int month)
+//	{
+//		try{
+//			Document doc = Jsoup.connect("").get();
+//			Elements baseElements = doc.body().select("");
+//			this.initParam();
+//			
+//			for(Element element : baseElements)
+//			{
+//				for(Element e : element.getAllElements())
+//				{
+//					String t = e.tagName();
+//					String c = e.className();
+//					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+//				}
+//			}
+//		}catch(Exception e){
+//			System.out.println(" Failure" + e);
+//		}
+//	}
 
 	private void outTenmadoProject(PrintWriter pw, Elements baseElements, int liveHouseNo, int month)
 	{
@@ -2876,7 +3473,7 @@ public class ParseHtml
 					else 	other += split[i] + LINE_BREAK;
 				}
 				if(!title.equals("") || !other.equals("")){
-					this.outParam(pw, 60);
+					this.outParam(pw, liveHouseNo);
 				}
 				title = "";
 				act = "";
