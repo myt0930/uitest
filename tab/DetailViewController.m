@@ -178,7 +178,12 @@
 
 - (void)screenShot:(UIBarButtonItem*)barButtonItem
 {
-	// キャプチャ対象をWindowに設定
+    [self performSelector:@selector(doScreenShot) withObject:nil afterDelay:0.2];
+}
+
+- (void)doScreenShot
+{
+    // キャプチャ対象をWindowに設定
 	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
 	
 	// キャプチャ画像を描画する対象を生成

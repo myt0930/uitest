@@ -24,9 +24,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
-	static boolean isOutDifficultLiveHouse = false;
-	static boolean isOutNormalLiveHouse = false;
+	static int debugFlag = 0;
+	static boolean isOutDifficultLiveHouse = true;
+	static boolean isOutNormalLiveHouse = true;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -45,7 +45,7 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 4;
+        int month = 5;
         
         parseHtml.currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         if(isOutDifficultLiveHouse){
@@ -419,34 +419,36 @@ public class ParseHtml
 						className.equals("sunday_date") )
 						
 					{						
-						pw.print("5" + TAB);	//ライブハウスNo
 						String str = stringReplaceLineBreakAndRemoveTag(e);
-						pw.print(String.format("%02d%02d", month, Integer.valueOf(str)) + TAB);
+						date = this.makeDate(month, str);
 					}
 					else if( className.equals("event") )
 					{
-						String event = stringReplaceLineBreakAndRemoveTag(e);
-						String title = "";
+						act = stringReplaceLineBreakAndRemoveTag(e);
+						
 						Elements eventTitle = e.select("span[class=event-title]");
 						if( eventTitle != null && eventTitle.size() > 0 )
 						{
 							title = stringReplaceLineBreakAndRemoveTag(eventTitle.first());
-							event = event.replace(title+"br2n ", "");
-							event = event.replace(title+" br2n", "");
-							event = event.replace(title+LINE_BREAK, "");
-							event = event.replace(title, "");
+							act = act.replace(title+"br2n ", "");
+							act = act.replace(title+" br2n", "");
+							act = act.replace(title+LINE_BREAK, "");
+							act = act.replace(title, "");
 						}
-						outTitle(pw, title);
-						pw.print(event + TAB);
 					}
 					else if( className.equals("o-s") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK);
+						other += stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
 					}
 					else if( className.equals("price") )
 					{
-						pw.print(stringReplaceLineBreakAndRemoveTag(e) + TAB);
-						pw.println();
+						other += stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
+						if(title.equals("") && act.equals("")){
+							this.outParam(pw, 5);							
+						}
+						title = "";
+						act = "";
+						other = "";
 					}
 				}	
 			}

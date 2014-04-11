@@ -86,6 +86,7 @@
 		5C0559D918CD23990080A0D7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0559D818CD23990080A0D7 /* MobileCoreServices.framework */; };
 		5C174A7218BA0C6C003F59C6 /* CKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */; };
 		5C174A7318BA0C6C003F59C6 /* CKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C174A7118BA0C6C003F59C6 /* CKViewController.m */; };
+		5C73569518F595CB00D90991 /* FelloPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C73569418F595CB00D90991 /* FelloPush.framework */; };
 		5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */; };
 		5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FED18AF1BF600AAC68B /* FavViewController.m */; };
 		5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */; };
@@ -95,7 +96,6 @@
 		5C84C55518D33FD80089045D /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 5C84C54D18D33FD80089045D /* CHANGELOG.md */; };
 		5C84C55618D33FD80089045D /* AppiraterLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5C84C54E18D33FD80089045D /* AppiraterLocalizable.strings */; };
 		5C84C55718D33FD80089045D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5C84C55118D33FD80089045D /* README.md */; };
-		5C8A31BF18D1E2BE002D548A /* FelloPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8A31BD18D1E2BE002D548A /* FelloPush.framework */; };
 		5C8A31C118D1E30E002D548A /* FelloPush.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C8A31C018D1E30E002D548A /* FelloPush.bundle */; };
 		5CBD701A18B502440078C409 /* SettingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD701918B502440078C409 /* SettingData.m */; };
 		5CF66CDC18CC987A00A55497 /* calendar_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CBE18CC987A00A55497 /* calendar_64@2x.png */; };
@@ -273,6 +273,7 @@
 		5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKCalendarView.m; sourceTree = "<group>"; };
 		5C174A7018BA0C6C003F59C6 /* CKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKViewController.h; sourceTree = "<group>"; };
 		5C174A7118BA0C6C003F59C6 /* CKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKViewController.m; sourceTree = "<group>"; };
+		5C73569418F595CB00D90991 /* FelloPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FelloPush.framework; path = tab/FelloPush.framework; sourceTree = "<group>"; };
 		5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		5C7E3FEC18AF1BF600AAC68B /* FavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavViewController.h; sourceTree = "<group>"; };
@@ -288,7 +289,6 @@
 		5C84C54F18D33FD80089045D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
 		5C84C55018D33FD80089045D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
 		5C84C55118D33FD80089045D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		5C8A31BD18D1E2BE002D548A /* FelloPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FelloPush.framework; path = ../Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release/FelloPush.framework; sourceTree = "<group>"; };
 		5C8A31C018D1E30E002D548A /* FelloPush.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FelloPush.bundle; path = tab/FelloPush.bundle; sourceTree = "<group>"; };
 		5CBD701818B502440078C409 /* SettingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingData.h; sourceTree = "<group>"; };
 		5CBD701918B502440078C409 /* SettingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingData.m; sourceTree = "<group>"; };
@@ -346,7 +346,7 @@
 				5C0559AE18CD22840080A0D7 /* libAdapterNend.a in Frameworks */,
 				5C0559A718CD22840080A0D7 /* libGoogleAdMobAds.a in Frameworks */,
 				3533436D18C84B3A0011D7DC /* Social.framework in Frameworks */,
-				5C8A31BF18D1E2BE002D548A /* FelloPush.framework in Frameworks */,
+				5C73569518F595CB00D90991 /* FelloPush.framework in Frameworks */,
 				5C0559AA18CD22840080A0D7 /* ASIHTTPRequest.framework in Frameworks */,
 				5C0559AB18CD22840080A0D7 /* imobileAds.framework in Frameworks */,
 				5C0559AD18CD22840080A0D7 /* libAdapterIMobile.a in Frameworks */,
@@ -392,8 +392,8 @@
 		353198B718A2147E00EBBC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C73569418F595CB00D90991 /* FelloPush.framework */,
 				5C8A31C018D1E30E002D548A /* FelloPush.bundle */,
-				5C8A31BD18D1E2BE002D548A /* FelloPush.framework */,
 				5C0559D818CD23990080A0D7 /* MobileCoreServices.framework */,
 				5C0559D618CD23910080A0D7 /* libz.dylib */,
 				5C0559D418CD23770080A0D7 /* Security.framework */,
@@ -1093,6 +1093,7 @@
 					"$(SRCROOT)/tab/Ad/imobile",
 					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
 					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
+					/Users/miyata/uitest/tab,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1130,6 +1131,7 @@
 					"$(SRCROOT)/tab/Ad/imobile",
 					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
 					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
+					/Users/miyata/uitest/tab,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
