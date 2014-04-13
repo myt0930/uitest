@@ -16,7 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
 //TODO: 出来たらやること
-//URL確認
+//20140412: QUATTROが正しく出ているか調査、野音の入力
 
 //ORG
 //RUIDO project
@@ -26,7 +26,7 @@ public class ParseHtml
 {
 	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = true;
-	static boolean isOutNormalLiveHouse = true;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -45,26 +45,10 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 5;
+        int month = 4;
         
         parseHtml.currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        if(isOutDifficultLiveHouse){
-        	//4. 新宿LOFT
-			parseHtml.outShinjukuLoft(pw,month);
-			//9. 下北沢SHELTER
-			parseHtml.outShimokitaShelter(pw, month);
-			//15. 東高円寺U.F.O.CLUB
-			parseHtml.outKoenjiUFO(pw, month);
-			//32. 池袋music org
-			parseHtml.outIkebukuroOrg(pw, month);
-			//33. 池袋RUIDO K3
-			parseHtml.outIkebukuroRuidoK3(pw, month);
-			//34. 渋谷RUIDO K2
-			parseHtml.outShibuyaRuidoK2(pw, month);
-			//35. 新宿RUIDO K4
-			parseHtml.outShinjukuRuidoK4(pw, month);
-			
-        }
+
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -73,7 +57,10 @@ public class ParseHtml
 			parseHtml.outShinjukuMarble(pw,month);
 			//3. 新宿Marz
 			parseHtml.outShinjukuMarz(pw,month);
-			
+			if(isOutDifficultLiveHouse){
+	        	//4. 新宿LOFT
+				parseHtml.outShinjukuLoft(pw,month);
+			}
 			//5. 秋葉原GOODMAN
 			parseHtml.outAkihabaraGoodman(pw,month);
 			//6. 下北沢BASEMENT BAR
@@ -82,7 +69,10 @@ public class ParseHtml
 			parseHtml.outShimokitaThree(pw, month);
 			//8. 下北沢DAISY BAR
 			parseHtml.outShimokitaDaisyBar(pw, month);
-			
+			if(isOutDifficultLiveHouse){
+				//9. 下北沢SHELTER
+				parseHtml.outShimokitaShelter(pw, month);
+			}
 			//10. 下北沢QUE
 			parseHtml.outShimokitaQue(pw, month);
 			//11. 下北沢251
@@ -93,7 +83,10 @@ public class ParseHtml
 			parseHtml.outShimokitaGarden(pw, month);
 			//14. 新代田FEVER
 			parseHtml.outShindaitaFever(pw, month);
-			
+			if(isOutDifficultLiveHouse){
+				//15. 東高円寺U.F.O.CLUB
+				parseHtml.outKoenjiUFO(pw, month);
+			}
 			//16. 東高円寺二万電圧
 			parseHtml.outKoenjiNiman(pw, month);
 			//17. 渋谷O-EAST
@@ -126,7 +119,17 @@ public class ParseHtml
 			parseHtml.outHarajukuAstroHall(pw, month);
 			//31. 恵比寿LIQUIDROOM
 			parseHtml.outEbisuLiquidroom(pw, month);
-			
+			if(isOutDifficultLiveHouse){
+				//32. 池袋music org
+				parseHtml.outIkebukuroOrg(pw, month);
+				//33. 池袋RUIDO K3
+				parseHtml.outIkebukuroRuidoK3(pw, month);
+				//34. 渋谷RUIDO K2
+				parseHtml.outShibuyaRuidoK2(pw, month);
+				//35. 新宿RUIDO K4
+				parseHtml.outShinjukuRuidoK4(pw, month);
+				
+	        }
 	        //36. 赤坂BLITZ
 	        parseHtml.outAkasakaBlitz(pw, month);
 	        //37. ZEPP TOKYO
@@ -179,7 +182,8 @@ public class ParseHtml
 	        parseHtml.outShinokuboEarthdom(pw, month);
 	        //64. 初台WALL
 	        parseHtml.outHatsudaiWall(pw, month);
-	        
+	        //65. 高円寺ROOTS
+	        parseHtml.outKoenjiRoots(pw, month);
 	        //66.渋谷La.mama
 	        parseHtml.outShibuyaLamama(pw, month);
 	        //67. 渋谷VISION
@@ -207,17 +211,15 @@ public class ParseHtml
 	        //78. 青山月見ル君想フ
 	        parseHtml.outAoyamaTsukimiru(pw, month);
         }        
-        //65. 高円寺ROOTS
-        parseHtml.outKoenjiRoots(pw, month);
-        
+        parseHtml.outTachikawaBabel(pw, month);
 		pw.close();
 		
 		System.out.println("done");
 	}
 	
-	private void outShinjukuMotion(PrintWriter pw, int month)
+	private boolean outShinjukuMotion(PrintWriter pw, int month)
 	{
-		try{
+		try{		
 			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").get();
 			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
 
@@ -284,10 +286,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("1.Motion Failure::" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuMotion(pw, ++month);
+		return true;
 	}
 
-	private void outShinjukuMarble(PrintWriter pw, int month) 
+	private boolean outShinjukuMarble(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule14" + String.format("%02d", month) + ".html").get();
@@ -341,10 +349,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("2.Marble Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuMarble(pw, ++month);
+		return true;
 	}
 	
-	private void outShinjukuMarz(PrintWriter pw, int month) 
+	private boolean outShinjukuMarz(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/" + String.format("%02d", month) + "/").get();
@@ -388,10 +402,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("3.Marz Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuMarz(pw, ++month);
+		return true;
 	}
 	
-	private void outShinjukuLoft(PrintWriter pw, int month) 
+	private boolean outShinjukuLoft(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/" + String.format("%02d", month)).get();
@@ -400,10 +420,16 @@ public class ParseHtml
 			outLoftProject(pw, baseElements, 4, month);
 		} catch(Exception e){
 			System.out.println("4.Loft Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuLoft(pw, ++month);
+		return true;
 	}
 	
-	private void outAkihabaraGoodman(PrintWriter pw, int month) 
+	private boolean outAkihabaraGoodman(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-" + String.format("%d", month) + ".html").get();
@@ -443,7 +469,11 @@ public class ParseHtml
 					else if( className.equals("price") )
 					{
 						other += stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
-						if(title.equals("") && act.equals("")){
+						title = this.removeStartEndLineBreak(title);
+						title = this.removeEndSpace(title);
+						act = this.removeStartEndLineBreak(act);
+						act = this.removeEndSpace(act);
+						if(!title.equals("") || !act.equals("")){
 							this.outParam(pw, 5);							
 						}
 						title = "";
@@ -454,10 +484,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("5.GOODMAN Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outAkihabaraGoodman(pw, ++month);
+		return true;
 	}
 	
-	private void outBasementBar(PrintWriter pw, int month) 
+	private boolean outBasementBar(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_" + String.format("%02d", month) + ".html").get();
@@ -516,10 +552,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("6.BASEMENT Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outBasementBar(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaThree(PrintWriter pw, int month) 
+	private boolean outShimokitaThree(PrintWriter pw, int month) 
 	{
 		try{
 			//TODO: 当月のURLが違う
@@ -564,10 +606,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("7.THREE Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaThree(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaDaisyBar(PrintWriter pw, int month) 
+	private boolean outShimokitaDaisyBar(PrintWriter pw, int month) 
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/14" + String.format("%02d", month) + ".html").get();
@@ -581,15 +629,12 @@ public class ParseHtml
 				{
 					date = stringReplaceLineBreakAndRemoveTag(element);
 					date = String.format("%02d%02d", month, Integer.valueOf(date));
-					pw.print("8" + TAB);
-					outDate(pw, date);
 				}
 				else if(className.equals("about"))
 				{
 					for(Element e : element.select("h3") )
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e);
-						this.outTitle(pw, title);
 					}
 					String spanText = "";
 					int count = 0;
@@ -609,16 +654,27 @@ public class ParseHtml
 					}
 					other += spanText;
 					other = other.replace("前売", LINE_BREAK + "前売");
-					this.outAct(pw, act, date);
-					this.outOther(pw, other, date);
+					
+					if(!title.equals("") || !act.equals("")){
+						this.outParam(pw, 8);
+					}
+					title = "";
+					act = "";
+					other = "";
 				}
 			}
 		} catch(Exception e){
 			System.out.println("8.DAISY BAR Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaDaisyBar(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaShelter(PrintWriter pw, int month)
+	private boolean outShimokitaShelter(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/" + String.format("%02d", month)).get();
@@ -627,13 +683,22 @@ public class ParseHtml
 			outLoftProject(pw, baseElements, 9, month);
 		} catch(Exception e){
 			System.out.println("9.Shelter Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaShelter(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaQue(PrintWriter pw, int month)
+	private boolean outShimokitaQue(PrintWriter pw, int month)
 	{
 		try{
 			//TODO:今月、来月っていう取り方しか出来ない
+			if(currentMonth + 2 <= month){
+				return false;
+			}
 			String url = month == currentMonth ? "http://www.ukproject.com/que/schedule/thismonth.html" : "http://www.ukproject.com/que/schedule/nextmonth.html";
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("tr tr");
@@ -694,7 +759,12 @@ public class ParseHtml
 								title = title.replace("\"", "");
 								act = this.removeStartEndLineBreak(act);
 								
-								this.outParam(pw, 10);
+								if(!title.equals("") || !act.equals("")){
+									this.outParam(pw, 10);
+								}
+								title = "";
+								act = "";
+								other = "";
 							}
 						}
 					}
@@ -702,10 +772,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("10.Que Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaQue(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokita251(PrintWriter pw, int month)
+	private boolean outShimokita251(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.club251.com/sche/14" + String.format("%02d", month) + ".html").get();
@@ -742,12 +818,19 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("11.251 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokita251(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaERA(PrintWriter pw, int month)
+	private boolean outShimokitaERA(PrintWriter pw, int month)
 	{
 		try{
+			if(month > 12)return true;
 			Document doc = Jsoup.connect("http://s-era.jp/2014/" + String.format("%02d", month) + "/?cat=20").get();
 			Elements baseElements = doc.body().select("div[id=schedule] div[class*=schedule-day]");
 			
@@ -784,61 +867,69 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("12.ERA Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaERA(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaGarden(PrintWriter pw, int month)
+	private boolean outShimokitaGarden(PrintWriter pw, int month)
 	{
 		try{
-			Document doc = Jsoup.connect("http://www.gar-den.in/pc/plist.php?m=2014" + String.format("%02d", month)).get();
-			Elements baseElements = doc.body().select("div[class=txt_box_ms] div");
+			Document doc = Jsoup.connect("http://gar-den.in/?m=2014" + String.format("%02d", month)).get();
+			Elements baseElements = doc.body().select("article[id*=post]");
 			
 			this.initParam();
-			for(Element element : baseElements)
-			{
-				String className = element.className();
-				if(className.equals("box_left"))
-				{
-					for(Element e : element.getAllElements())
-					{
-						className = e.className();
-						if(className.equals("day"))
-						{
-							other = "";
-							
-							date = this.stringReplaceLineBreakAndRemoveTag(e);
-							date = String.format("%02d", month) + date;
+			for(Element element : baseElements){
+				for(Element e : element.getAllElements()){
+					String c = e.className();
+					String t = e.tagName();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					if(c.contains("entry-date")){
+						date = this.makeDate(month, str.substring(0, 2));
+					}else if(c.equals("open")){
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(t.equals("h6")){
+								other += str + " ";
+							}else if(t.equals("p")){
+								other += str + LINE_BREAK;
+							}
+						} 
+					}else if(c.contains("entry-title")){
+						title = str;
+					}else if(c.contains("entry_headerpost")){
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							if(t.equals("p")){
+								act += this.stringReplaceLineBreakAndRemoveTag(e2);
+							}
 						}
-						else if(className.equals("m_black") )
-						{
-							other += this.stringReplaceLineBreakAndRemoveTag(e);
-						}
-						else if(className.equals("m_black_txt") )
-						{
-							other += this.stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
-						}
+						act = act.replace("■", "");
+						this.outParam(pw, 13);
 						
+						title = "";
+						act = "";
+						other = "";
 					}
-				}
-				else if(className.equals("box_right"))
-				{
-					for(Element e : element.select("div[class=title]"))
-					{
-						title = this.stringReplaceLineBreakAndRemoveTag(e);
-					}
-						
-					Element e = element.select("p").first();
-					act = this.stringReplaceLineBreakAndRemoveTag(e);
-					
-					this.outParam(pw, 13);
 				}
 			}
 		} catch(Exception e){
 			System.out.println("13.Garden Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaGarden(pw, ++month);
+		return true;
 	}
 	
-	private void outShindaitaFever(PrintWriter pw, int month)
+	private boolean outShindaitaFever(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/" + String.format("%02d", month) + "/").get();
@@ -882,14 +973,24 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("14.Fever Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShindaitaFever(pw, ++month);
+		return true;
 	}
 	
-	private void outKoenjiUFO(PrintWriter pw, int month)
+	private boolean outKoenjiUFO(PrintWriter pw, int month)
 	{
 		try{
 			print("UFOCLUB はちゃんとurlが更新されているか確認しないと危ない！");
-			Document doc = Jsoup.connect("http://www.ufoclub.jp/schedule/next-month").get();
+			if(currentMonth + 2 <= month){
+				return false;
+			}
+			String url = month == currentMonth ? "http://www.ufoclub.jp/schedule" : "http://www.ufoclub.jp/schedule/next-month";
+			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("tbody tr");
 			
 			this.initParam();
@@ -930,10 +1031,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("15.UFO Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoenjiUFO(pw, ++month);
+		return true;
 	}
 	
-	private void outKoenjiNiman(PrintWriter pw, int month)
+	private boolean outKoenjiNiman(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
@@ -994,10 +1101,16 @@ public class ParseHtml
 			}
 		} catch(Exception e){
 			System.out.println("16.20000 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoenjiNiman(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaEast(PrintWriter pw, int month)
+	private boolean outShibuyaEast(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/" + String.format("%02d", month)).get();
@@ -1006,9 +1119,15 @@ public class ParseHtml
 			this.outTsutayaOGroup(pw,baseElements, 17, month);
 		} catch(Exception e){
 			System.out.println("17.EAST FAILURE" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaEast(pw, ++month);
+		return true;
 	}
-	private void outShibuyaWest(PrintWriter pw, int month)
+	private boolean outShibuyaWest(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/" + String.format("%02d", month)).get();
@@ -1017,9 +1136,15 @@ public class ParseHtml
 			this.outTsutayaOGroup(pw,baseElements, 18, month);
 		} catch(Exception e){
 			System.out.println("18.WEST FAILURE" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaWest(pw, ++month);
+		return true;
 	}
-	private void outShibuyaNest(PrintWriter pw, int month)
+	private boolean outShibuyaNest(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/" + String.format("%02d", month)).get();
@@ -1028,9 +1153,15 @@ public class ParseHtml
 			this.outTsutayaOGroup(pw,baseElements, 19, month);
 		} catch(Exception e){
 			System.out.println("19.NEST FAILURE" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaNest(pw, ++month);
+		return true;
 	}
-	private void outShibuyaCrest(PrintWriter pw, int month)
+	private boolean outShibuyaCrest(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/" + String.format("%02d", month)).get();
@@ -1039,9 +1170,15 @@ public class ParseHtml
 			this.outTsutayaOGroup(pw,baseElements, 20, month);
 		} catch(Exception e){
 			System.out.println("20.CREST FAILURE" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaCrest(pw, ++month);
+		return true;
 	}
-	private void outShibuyaBurrow(PrintWriter pw, int month)
+	private boolean outShibuyaBurrow(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/" + String.format("%02d", month)).get();
@@ -1050,10 +1187,16 @@ public class ParseHtml
 			this.outTsutayaOGroup(pw,baseElements, 21, month);
 		} catch(Exception e){
 			System.out.println("21.BURROW FAILURE" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaBurrow(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaChelseaHotel(PrintWriter pw, int month)
+	private boolean outShibuyaChelseaHotel(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.chelseahotel.jp/14" + String.format("%02d", month) + ".html").get();
@@ -1069,12 +1212,19 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("22.ChelseaHotel Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaChelseaHotel(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaKinoto(PrintWriter pw, int month)
+	private boolean outShibuyaKinoto(PrintWriter pw, int month)
 	{
 		try{
+			String url = month == currentMonth ? "http://kinoto.jp/sched/2014/" : "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
 			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/" + String.format("%02d", month)).get();
 			Elements baseElements = doc.body().select("td");
 			
@@ -1110,10 +1260,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("23.KINOTO Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaKinoto(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaLush(PrintWriter pw, int month)
+	private boolean outShibuyaLush(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_2014" + String.format("%02d", month) + ".html").get();
@@ -1168,10 +1324,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("24.LUSH Failure" + e);
-			}
+			return false;
+		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaLush(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaQuattro(PrintWriter pw, int month)
+	private boolean outShibuyaQuattro(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=2014" + String.format("%02d", month)).get();
@@ -1226,10 +1388,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("25.QUATTRO Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaQuattro(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaWWW(PrintWriter pw, int month)
+	private boolean outShibuyaWWW(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/14" + String.format("%02d", month) + "/").get();
@@ -1295,10 +1463,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("26.WWW Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaWWW(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaDuo(PrintWriter pw, int month)
+	private boolean outShibuyaDuo(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/" + String.format("%02d", month) + "/index.html").get();
@@ -1348,10 +1522,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("28.Duo Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaDuo(pw, ++month);
+		return true;
 	}
 	
-	private void outDaikanyamaUnit(PrintWriter pw, int month)
+	private boolean outDaikanyamaUnit(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/" + String.format("%02d", month) + "/all_schedule.php").get();
@@ -1388,10 +1568,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("29.UNIT Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outDaikanyamaUnit(pw, ++month);
+		return true;
 	}
 	
-	private void outHarajukuAstroHall(PrintWriter pw, int month)
+	private boolean outHarajukuAstroHall(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=2014" + String.format("%02d", month)).get();
@@ -1435,10 +1621,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("30.ASTRO Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outHarajukuAstroHall(pw, ++month);
+		return true;
 	}
 	
-	private void outEbisuLiquidroom(PrintWriter pw, int month)
+	private boolean outEbisuLiquidroom(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/" + String.format("%02d", month)).get();
@@ -1504,10 +1696,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("31.LIQUID Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outEbisuLiquidroom(pw, ++month);
+		return true;
 	}
 	
-	private void outIkebukuroOrg(PrintWriter pw, int month)
+	private boolean outIkebukuroOrg(PrintWriter pw, int month)
 	{
 		try{
 			print("ORGは1ヶ月ごとの管理をしていない！");
@@ -1576,12 +1774,17 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("32.ORG Failure" + e);
+			return false;
 		}
+		return true;
 	}
 	
-	private void outIkebukuroRuidoK3(PrintWriter pw, int month)
+	private boolean outIkebukuroRuidoK3(PrintWriter pw, int month)
 	{
 		try{
+			if(currentMonth + 2 <= month){
+				return false;
+			}
 			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/next_month/";
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
@@ -1589,11 +1792,20 @@ public class ParseHtml
 			this.outRuidoProject(pw, baseElements, 33, month);
 		}catch(Exception e){
 			System.out.println("33.RuidoK3 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outIkebukuroRuidoK3(pw, ++month);
+		return true;
 	}
-	private void outShibuyaRuidoK2(PrintWriter pw, int month)
+	private boolean outShibuyaRuidoK2(PrintWriter pw, int month)
 	{
 		try{
+			if(currentMonth + 2 <= month){
+				return false;
+			}
 			String url = month == currentMonth ? "http://www.ruido.org/k2/schedule/month_this/" : "http://www.ruido.org/k2/schedule/next_month/";
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
@@ -1601,11 +1813,20 @@ public class ParseHtml
 			this.outRuidoProject(pw, baseElements, 34, month);
 		}catch(Exception e){
 			System.out.println("34.RuidoK2 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaRuidoK2(pw, ++month);
+		return true;
 	}
-	private void outShinjukuRuidoK4(PrintWriter pw, int month)
+	private boolean outShinjukuRuidoK4(PrintWriter pw, int month)
 	{
 		try{
+			if(currentMonth + 2 <= month){
+				return false;
+			}
 			String url = month == currentMonth ? "http://www.ruido.org/k4/schedule/month_this/" : "http://www.ruido.org/k4/schedule/next_month/";
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
@@ -1613,10 +1834,16 @@ public class ParseHtml
 			this.outRuidoProject(pw, baseElements, 35, month);
 		}catch(Exception e){
 			System.out.println("35.RuidoK4 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuRuidoK4(pw, ++month);
+		return true;
 	}
 	
-	private void outAkasakaBlitz(PrintWriter pw, int month)
+	private boolean outAkasakaBlitz(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule2014" + String.format("%02d", month) + ".html").get();
@@ -1661,10 +1888,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("36.BLITZ Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outAkasakaBlitz(pw, ++month);
+		return true;
 	}
 
-	private void outZeppTokyo(PrintWriter pw, int month)
+	private boolean outZeppTokyo(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
@@ -1673,10 +1906,16 @@ public class ParseHtml
 			this.outZeppProject(pw, baseElements, 37, month);
 		}catch(Exception e){
 			System.out.println("37.ZEPP TOKYO Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outZeppTokyo(pw, ++month);
+		return true;
 	}
 	
-	private void outZeppDiverCity(PrintWriter pw, int month)
+	private boolean outZeppDiverCity(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
@@ -1685,10 +1924,16 @@ public class ParseHtml
 			this.outZeppProject(pw, baseElements, 38, month);
 		}catch(Exception e){
 			System.out.println("38.ZEPP DiverCity Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outZeppDiverCity(pw, ++month);
+		return true;
 	}
 	
-	private void outShinjukuRedCloth(PrintWriter pw, int month)
+	private boolean outShinjukuRedCloth(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/14" + String.format("%02d", month) + ".html").get();
@@ -1739,11 +1984,17 @@ public class ParseHtml
 				this.outParam(pw, 39);
 			}
 		}catch(Exception e){
-			System.out.println(" Failure" + e);
+			System.out.println("39 RedCloth Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuRedCloth(pw, ++month);
+		return true;
 	}
 	
-	private void outKichijoujiWarp(PrintWriter pw, int month)
+	private boolean outKichijoujiWarp(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://warp.rinky.info/schedules").get();
@@ -1759,11 +2010,17 @@ public class ParseHtml
 //				}
 //			}
 		}catch(Exception e){
-			System.out.println(" Failure" + e);
+			System.out.println("40 warp Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKichijoujiWarp(pw, ++month);
+		return true;
 	}
 	
-	private void outShinkibaStudioCoast(PrintWriter pw, int month)
+	private boolean outShinkibaStudioCoast(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.studio-coast.com/schedule/2014/"+ String.format("%02d", month) +".html").get();
@@ -1812,11 +2069,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println(" Failure" + e);
+			System.out.println("42 coast Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinkibaStudioCoast(pw, ++month);
+		return true;
 	}
 	
-	private void outKoenjiHigh(PrintWriter pw, int month)
+	private boolean outKoenjiHigh(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://koenji-high.com/schedule/?sy=2014&sm=" + month).get();
@@ -1861,11 +2124,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println(" Failure" + e);
+			System.out.println("46 high Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoenjiHigh(pw, ++month);
+		return true;
 	}
 	
-	private void outKoiwaBushbash(PrintWriter pw, int month)
+	private boolean outKoiwaBushbash(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://bushbash.org/schedule14" + String.format("%02d", month) + ".html").get();
@@ -1910,10 +2179,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("47 bushbash Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoiwaBushbash(pw, ++month);
+		return true;
 	}
 	
-	private void outKoenjiMissions(PrintWriter pw, int month)
+	private boolean outKoenjiMissions(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.live-missions.com/schedule.html?ym=2014-"+String.format("%02d", month)).get();
@@ -1959,10 +2234,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("48.Missions Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoenjiMissions(pw, ++month);
+		return true;
 	}
 	
-	private void outHachiojiMatchBox(PrintWriter pw, int month)
+	private boolean outHachiojiMatchBox(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://matchvox.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
@@ -2018,10 +2299,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("49.MatchBox Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outHachiojiMatchBox(pw, ++month);
+		return true;
 	}
 	
-	private void outHachiojiRIPS(PrintWriter pw, int month)
+	private boolean outHachiojiRIPS(PrintWriter pw, int month)
 	{
 		try{
 			String url = "http://rips.rinky.info/schedule/rips_s.cgi?form=2&year=2014&mon="+month;
@@ -2070,10 +2357,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("50.RIPS Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outHachiojiRIPS(pw, ++month);
+		return true;
 	}
 	
-	private void outNishiOgikuboFLAT(PrintWriter pw, int month)
+	private boolean outNishiOgikuboFLAT(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://flat.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
@@ -2129,10 +2422,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("51.FLAT Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outNishiOgikuboFLAT(pw, ++month);
+		return true;
 	}
 	
-	private void outShinjukuJam(PrintWriter pw, int month)
+	private boolean outShinjukuJam(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://jam.rinky.info/sche/sche10.cgi?mode=main&year=2014&mon=" + month).get();
@@ -2187,10 +2486,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("52.JAM Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuJam(pw, ++month);
+		return true;
 	}
 	
-	private void outShinjukuNineSpices(PrintWriter pw, int month)
+	private boolean outShinjukuNineSpices(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://9spices.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
@@ -2254,10 +2559,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("53.NINESPICES Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuNineSpices(pw, ++month);
+		return true;
 	}
 	
-	private void outOtsukaMeets(PrintWriter pw, int month)
+	private boolean outOtsukaMeets(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://meets.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
@@ -2321,10 +2632,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("54.MEETS Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outOtsukaMeets(pw, ++month);
+		return true;
 	}
 	
-	private void outTakadanobabaArea(PrintWriter pw, int month)
+	private boolean outTakadanobabaArea(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.xxxrecords.jp/area/sche_14" + String.format("%02d", month) +".html").get();
@@ -2366,10 +2683,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("55.AREA Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outTakadanobabaArea(pw, ++month);
+		return true;
 	}
 	
-	private void outIkebukuroEdge(PrintWriter pw, int month)
+	private boolean outIkebukuroEdge(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://edge-ikebukuro.com/2014"+ String.format("%02d", month) +".html").get();
@@ -2413,10 +2736,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("56.EDGE Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outIkebukuroEdge(pw, ++month);
+		return true;
 	}
 	
-	private void outTachikawaBabel(PrintWriter pw, int month)
+	private boolean outTachikawaBabel(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.babel-rocktower.net/schedule/2014" + String.format("%02d", month) + ".html").get();
@@ -2448,16 +2777,24 @@ public class ParseHtml
 						}
 						
 						this.outParam(pw, 57);
-						
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
 		}catch(Exception e){
 			System.out.println("57.BABEL Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outTachikawaBabel(pw, ++month);
+		return true;
 	}
 	
-	private void outShimokitaMosaic(PrintWriter pw, int month)
+	private boolean outShimokitaMosaic(PrintWriter pw, int month)
 	{
 		try{
 			String url = month == currentMonth ? "http://www.studio-museum.com/mosaic/schedule/index.html" : "http://www.studio-museum.com/mosaic/schedule/2014" + String.format("%02d", month) +".html";
@@ -2502,10 +2839,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("58.mosaic Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaMosaic(pw, ++month);
+		return true;
 	}
 	
-	private void outYotsuyaOutBreak(PrintWriter pw, int month)
+	private boolean outYotsuyaOutBreak(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.hor-outbreak.com/live.php?ym=2014-" + String.format("%02d", month)).get();
@@ -2559,10 +2902,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("59.OUTBREAK Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outYotsuyaOutBreak(pw, ++month);
+		return true;
 	}
 	
-	private void outYotsuyaTenmado(PrintWriter pw, int month)
+	private boolean outYotsuyaTenmado(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.otonami.com/tenmado/schedule/14" + String.format("%02d", month) +".htm").get();
@@ -2570,11 +2919,17 @@ public class ParseHtml
 			
 			this.outTenmadoProject(pw, baseElements, 60, month);
 		}catch(Exception e){
-			System.out.println("60. Failure" + e);
+			System.out.println("60.tenmado Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outYotsuyaTenmado(pw, ++month);
+		return true;
 	}
 	
-	private void outYotsuyaTenmadoComfort(PrintWriter pw, int month)
+	private boolean outYotsuyaTenmadoComfort(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.otonami.com/comfort/schedule/14" + String.format("%02d", month) +".htm").get();
@@ -2582,11 +2937,17 @@ public class ParseHtml
 			
 			this.outTenmadoProject(pw, baseElements, 61, month);
 		}catch(Exception e){
-			System.out.println("61. Failure" + e);
+			System.out.println("61.comfort Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outYotsuyaTenmadoComfort(pw, ++month);
+		return true;
 	}
 	
-	private void outEbisuTenmadoSwitch(PrintWriter pw, int month)
+	private boolean outEbisuTenmadoSwitch(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.otonami.com/ebisu/schedule/14" + String.format("%02d", month) +".htm").get();
@@ -2594,11 +2955,17 @@ public class ParseHtml
 			
 			this.outTenmadoProject(pw, baseElements, 62, month);
 		}catch(Exception e){
-			System.out.println("62. Failure" + e);
+			System.out.println("62.switch Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outEbisuTenmadoSwitch(pw, ++month);
+		return true;
 	}
 	
-	private void outShinokuboEarthdom(PrintWriter pw, int month)
+	private boolean outShinokuboEarthdom(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www1.odn.ne.jp/~cfs81480/index.html/2014." + String.format("%02d", month) + ".html").get();
@@ -2634,13 +3001,19 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("63 Failure" + e);
+			System.out.println("63 earthdom Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinokuboEarthdom(pw, ++month);
+		return true;
 	}
 	
 	
 	
-	private void outHatsudaiWall(PrintWriter pw, int month)
+	private boolean outHatsudaiWall(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://wall-moonstep.com/wall/wall_mobile/schedule/2014/2014_" + String.format("%02d", month) + "_mobile.html").get();
@@ -2680,13 +3053,19 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("64 Failure" + e);
+			System.out.println("64 wall Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outHatsudaiWall(pw, ++month);
+		return true;
 	}
 	
 	
 	
-	private void outKoenjiRoots(PrintWriter pw, int month)
+	private boolean outKoenjiRoots(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.muribushi.jp/schedule/2014/" + String.format("%02d", month) + ".html").get();
@@ -2731,11 +3110,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("65 Failure" + e);
+			System.out.println("65 roots Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outKoenjiRoots(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaLamama(PrintWriter pw, int month)
+	private boolean outShibuyaLamama(PrintWriter pw, int month)
 	{
 		try{
 			String url = month == currentMonth ? "http://lamama.net/staticpages/index.php/schedule" : "http://lamama.net/staticpages/index.php/schedule2014" + String.format("%02d", month);
@@ -2781,11 +3166,17 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("66 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaLamama(pw, ++month);
+		return true;
 	}
 	
 	
-	private void outShibuyaVision(PrintWriter pw, int month)
+	private boolean outShibuyaVision(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.vision-tokyo.com/schedule/2014-" + String.format("%02d", month)).get();
@@ -2824,11 +3215,17 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("67 Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaVision(pw, ++month);
+		return true;
 	}
 	
 	
-	private void outShibuyaEggman(PrintWriter pw, int month)
+	private boolean outShibuyaEggman(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://eggman.jp/daytime/schedule/2014/" + String.format("%02d", month)).get();
@@ -2859,12 +3256,18 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("68 Failure" + e);
+			System.out.println("68 eggman Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaEggman(pw, ++month);
+		return true;
 	}
 	
 
-	private void outShinjukuBlaze(PrintWriter pw, int month)
+	private boolean outShinjukuBlaze(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shinjuku-blaze.com/event/date/2014/" + String.format("%02d", month)).get();
@@ -2910,12 +3313,18 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("69 Failure" + e);
+			System.out.println("69 blaze Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShinjukuBlaze(pw, ++month);
+		return true;
 	}
 
 	
-	private void outShimokitaGarage(PrintWriter pw, int month)
+	private boolean outShimokitaGarage(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.garage.or.jp/wp/2014" + String.format("%02d", month) +"sch").get();
@@ -2971,11 +3380,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("70 Failure" + e);
+			System.out.println("70 garage Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaGarage(pw, ++month);
+		return true;
 	}
 
-	private void outShimokitaYaneura(PrintWriter pw, int month)
+	private boolean outShimokitaYaneura(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://shimoyane.com/cgi-bin/el-calendar/index.php").get();
@@ -3035,12 +3450,14 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("71 Failure" + e);
+			System.out.println("71　屋根裏 Failure" + e);
+			return false;
 		}
+		return true;
 	}
 
 	
-	private void outShimokitaReg(PrintWriter pw, int month)
+	private boolean outShimokitaReg(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.reg-r2.com/?page_id=7250&ym=2014-" + String.format("%02d", month)).get();
@@ -3074,11 +3491,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("72 Failure" + e);
+			System.out.println("72 ReG Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaReg(pw, ++month);
+		return true;
 	}
 
-	private void outDaikanyamaLoop(PrintWriter pw, int month)
+	private boolean outDaikanyamaLoop(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/dl/schedule_14" + String.format("%02d", month) +".html").get();
@@ -3110,11 +3533,17 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("73 Failure" + e);
+			System.out.println("73 LOOP Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outDaikanyamaLoop(pw, ++month);
+		return true;
 	}
 	
-	private void outShibuyaLoopAnnex(PrintWriter pw, int month)
+	private boolean outShibuyaLoopAnnex(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/sl/schedule_14" + String.format("%02d", month) +".html").get();
@@ -3146,12 +3575,18 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("74 Failure" + e);
+			System.out.println("74 LOOP Annex Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outShibuyaLoopAnnex(pw, ++month);
+		return true;
 	}
 	
 	
-	private void outTakadanobabaPhase(PrintWriter pw, int month)
+	private boolean outTakadanobabaPhase(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.club-phase.com/contents/sched/14" + String.format("%02d", month) + ".html").get();
@@ -3190,13 +3625,19 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("75. Failure" + e);
+			System.out.println("75.Phase Failure" + e);
+			return false;
 		}
+		if(month >= 12){
+			return true;
+		}
+		outTakadanobabaPhase(pw, ++month);
+		return true;
 	}
 
 	
 	
-	private void outDaikanyamaHaremame(PrintWriter pw, int month)
+	private boolean outDaikanyamaHaremame(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://mameromantic.com/?cat=1").get();
@@ -3231,13 +3672,16 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println("76 Failure" + e);
+			return false;
 		}
+		return true;
 	}
 	
-	private void outGakugeidaigakuMapleHouse(PrintWriter pw, int month)
+	private boolean outGakugeidaigakuMapleHouse(PrintWriter pw, int month)
 	{
 		try{
-			//TODO: HPのURLの作りが現時点で予想できない
+			//TODO:
+			print("HPのURLの作りが現時点で予想できない");
 			Document doc = Jsoup.connect("http://www.maplehouse.jp/schedule/schedule.html").get();
 			Elements baseElements = doc.body().select("div[id=area-main]");
 			this.initParam();
@@ -3308,11 +3752,13 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("77 Failure" + e);
+			System.out.println("77 MapleHouse Failure" + e);
+			return false;
 		}
+		return true;
 	}
 	
-	private void outAoyamaTsukimiru(PrintWriter pw, int month)
+	private boolean outAoyamaTsukimiru(PrintWriter pw, int month)
 	{
 		try{
 			Document doc = Jsoup.connect("http://www.moonromantic.com/?cat=1").get();
@@ -3346,12 +3792,14 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("78 Failure" + e);
+			System.out.println("78 月見る Failure" + e);
+			return false;
 		}
+		return true;
 	}
 	
 	
-	private void outKichijyojiWarp(PrintWriter pw, int month)
+	private boolean outKichijyojiWarp(PrintWriter pw, int month)
 	{
 		try{
 			WebClient client = new WebClient(BrowserVersion.FIREFOX_24);
@@ -3374,7 +3822,9 @@ public class ParseHtml
 			}
 		}catch(Exception e){
 			System.out.println(" Failure" + e);
+			return false;
 		}
+		return true;
 	}
 	
 	//TODO: 最終ライン
@@ -3614,7 +4064,7 @@ public class ParseHtml
 						outOther(pw, other, date);
 						if( other.contains("..."))
 						{
-							print("■■" + liveHouseNo + "::" + date + "::other Failure");
+						//	print("■■" + liveHouseNo + "::" + date + "::other Failure");
 						}
 					}
 				}
