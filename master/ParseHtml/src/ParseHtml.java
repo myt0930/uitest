@@ -211,7 +211,7 @@ public class ParseHtml
 	        //78. 青山月見ル君想フ
 	        parseHtml.outAoyamaTsukimiru(pw, month);
         }        
-        parseHtml.outTachikawaBabel(pw, month);
+        parseHtml.outShindaitaFever(pw, month);
 		pw.close();
 		
 		System.out.println("done");
@@ -970,6 +970,9 @@ public class ParseHtml
 				
 				other = other.replace("ADV", LINE_BREAK + "ADV");
 				this.outParam(pw, 14);
+				title = "";
+				act = "";
+				other = "";
 			}
 		} catch(Exception e){
 			System.out.println("14.Fever Failure" + e);
@@ -1224,8 +1227,8 @@ public class ParseHtml
 	private boolean outShibuyaKinoto(PrintWriter pw, int month)
 	{
 		try{
-			String url = month == currentMonth ? "http://kinoto.jp/sched/2014/" : "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
-			Document doc = Jsoup.connect("http://kinoto.jp/sched/2014/" + String.format("%02d", month)).get();
+			String url = month == currentMonth ? "http://kinoto.jp/sched/2014/" + String.format("%02d", month) : "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
+			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("td");
 			
 			this.initParam();
@@ -1254,7 +1257,9 @@ public class ParseHtml
 						act = act.replace("※", LINE_BREAK+"※");
 						
 						this.outParam(pw, 23);
-						
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
