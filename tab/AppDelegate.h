@@ -15,4 +15,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property TlsIndicatorView *indicator;
+@property BOOL isResume;
 @end

@@ -77,6 +77,17 @@ enum UPDATE_STATE
     [alertView show];
 }
 
++ (void)showAppRecommendDialog:(void(^)(NSInteger))block
+{
+    SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
+                                                                      title:@"おすすめアプリ"
+                                                                    message:@"今後のアプリ運営のために、おすすめアプリを表示させて頂きます。\n\n全て開発者自らセレクトして、2・3日ごとに更新されます。"
+                                                                      block:block
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"OK", nil];
+    [alertView show];
+}
+
 - (id)initWithTitle:(NSString *)title
 			message:(NSString *)message
          buttonType:(enum ALERT_BUTTON_TYPE)type

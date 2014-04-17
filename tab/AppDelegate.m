@@ -18,7 +18,7 @@
 
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
-
+#import "appCCloud.h"
 
 
 @implementation AppDelegate
@@ -53,6 +53,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    _isResume = YES;
 	[self checkUpdateMaster];
 	[Appirater appEnteredForeground:YES];
     
@@ -98,8 +99,16 @@
 		
 		if( state == MASTER_UPDATE_NONE || state == MASTER_UPDATE_NETWORK_ERROR )
 		{
+            //更新無し
+            
 			[self loadMaster];
-			return;	//更新無し
+
+            //アプリ表示
+            if(arc4random() % 2 == 0)
+            {
+                [self openAppRecomend];
+            }
+			return;
 		}
 		//「更新がある」ダイアログ
 		[TlsAlertView showNeedUpdateDialog:^(NSInteger index) {
@@ -202,6 +211,27 @@
 - (void)onLaunchFromNotification:(NSString *)notificationsId message:(NSString *)message extra:(NSDictionary *)extra
 {
     NSLog(@"ここでextraの中身にひもづいたインセンティブの付与などを行うことが出来ます");
+}
+
+- (void)openAppRecomend
+{
+    if([[SettingData instance] isShowDetailDialog])
+    {
+        [TlsAlertView showAppRecommendDialog:^(NSInteger index)
+        {
+            [self startIndicator];
+            [self performSelector:@selector(openAppRecomendBlock) withObject:nil afterDelay:0.8];
+        }];
+    }
+}
+
+- (void)openAppRecomendBlock
+{
+    [self endIndicator];
+    [appCCloud setupAppCWithMediaKey:@"60b12829000287197bd3b54b4c69a0b78a1b35c0"
+                              option:APPC_CLOUD_AD];
+    [appCCloud setSplashLogo:NO];
+    [appCCloud openWebView];
 }
 
 @end
