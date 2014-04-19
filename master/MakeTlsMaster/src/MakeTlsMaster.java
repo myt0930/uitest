@@ -41,6 +41,9 @@ public class MakeTlsMaster{
 				   break;
 			   }
 		   }
+		   
+		   //広告表示確率[%]
+		   mast.putInt16(in, out);
 
 		   out.close();
 		   fout.close();

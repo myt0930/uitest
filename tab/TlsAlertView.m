@@ -81,7 +81,7 @@ enum UPDATE_STATE
 {
     SSGentleAlertView *alertView = [[SSGentleAlertView alloc] initWithStyle:SSGentleAlertViewStyleBlack
                                                                       title:@"おすすめアプリ"
-                                                                    message:@"今後のアプリ運営のために、おすすめアプリを表示させて頂きます。\n\n全て開発者自らセレクトして、2・3日ごとに更新されます。"
+                                                                    message:@"今後のアプリ運営のために、おすすめアプリを表示させて頂きます。\n\n全て開発者自らセレクトして、2・3日ごとに更新していますので是非ご覧下さい。"
                                                                       block:block
                                                           cancelButtonTitle:nil
                                                           otherButtonTitles:@"OK", nil];

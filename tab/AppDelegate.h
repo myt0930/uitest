@@ -16,4 +16,5 @@
 @property (strong, nonatomic) UIWindow *window;
 @property TlsIndicatorView *indicator;
 @property BOOL isResume;
+@property int showrecommendAppRate;
 @end

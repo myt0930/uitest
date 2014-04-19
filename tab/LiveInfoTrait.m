@@ -10,6 +10,7 @@
 #import "LoadData.h"
 #import "SettingData.h"
 #import "Common.h"
+#import "LiveHouseTrait.h"
 
 static NSMutableArray* traitList;
 static NSDate *minDate;
@@ -154,6 +155,9 @@ static NSDate *maxDate;
         _uniqueID		= [NSString stringWithFormat:@"%@%d%03d", [NSString stringWithDateFormat:@"yyyyMMdd" date:_liveDate], _subNo, _liveHouseNo];
         
         _dayOfWeek      = [_liveDate weekDay];
+        
+        const LiveHouseTrait *liveHouseTrait = [LiveHouseTrait traitOfLiveHouseNo:_liveHouseNo];
+        _sortNo         = liveHouseTrait.sortNo;
         
         if( !minDate || [minDate timeIntervalSinceDate:_liveDate] > 0 )
         {

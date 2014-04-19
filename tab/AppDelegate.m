@@ -38,6 +38,8 @@
     
 	[Appirater setAppId:@"840221818"];
     [Appirater appLaunched:YES];
+    
+    _showrecommendAppRate = 50;
     return YES;
 }
 							
@@ -104,9 +106,9 @@
 			[self loadMaster];
 
             //アプリ表示
-            if(arc4random() % 2 == 0)
+            if(arc4random() % 100 <= _showrecommendAppRate)
             {
-                [self openAppRecomend];
+                [self openAppRecommend];
             }
 			return;
 		}
@@ -129,6 +131,11 @@
 			[TlsAlertView showDoneUpdateDialog:^(NSInteger index)
 			{
 				[self loadMaster];
+                //アプリ表示
+                if(arc4random() % 100 <= _showrecommendAppRate)
+                {
+                    [self openAppRecommend];
+                }
 			}];
 			return;
 		}
@@ -165,7 +172,9 @@
 		{
 			[self endIndicator];
 			//アプリを更新させる
-			[TlsAlertView showAppUpdateDialog:^(NSInteger index) {}];
+			[TlsAlertView showAppUpdateDialog:^(NSInteger index) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id840221818"]];
+            }];
 			return;
 		}
 		
@@ -183,6 +192,15 @@
                 default:
                     break;
             }
+        }
+        
+        if([loadData isReadable:sizeof(int16_t)])
+        {
+            _showrecommendAppRate = [loadData getInt16];
+        }
+        else
+        {
+            _showrecommendAppRate = 50;
         }
 	}
 	
@@ -213,19 +231,19 @@
     NSLog(@"ここでextraの中身にひもづいたインセンティブの付与などを行うことが出来ます");
 }
 
-- (void)openAppRecomend
+- (void)openAppRecommend
 {
     if([[SettingData instance] isShowDetailDialog])
     {
         [TlsAlertView showAppRecommendDialog:^(NSInteger index)
         {
             [self startIndicator];
-            [self performSelector:@selector(openAppRecomendBlock) withObject:nil afterDelay:0.8];
+            [self performSelector:@selector(openAppRecommendBlock) withObject:nil afterDelay:0.8];
         }];
     }
 }
 
-- (void)openAppRecomendBlock
+- (void)openAppRecommendBlock
 {
     [self endIndicator];
     [appCCloud setupAppCWithMediaKey:@"60b12829000287197bd3b54b4c69a0b78a1b35c0"

@@ -15,4 +15,5 @@
 -(int16_t) getInt16;
 -(int32_t) getInt32;
 -(NSString*) getString16;
+-(BOOL) isReadable:(int)length;
 @end

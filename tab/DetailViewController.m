@@ -178,7 +178,8 @@
 
 - (void)screenShot:(UIBarButtonItem*)barButtonItem
 {
-    [self performSelector:@selector(doScreenShot) withObject:nil afterDelay:0.2];
+    [[TlsIndicatorView instance] startAnimating];
+    [self performSelector:@selector(doScreenShot) withObject:nil afterDelay:1.50];
 }
 
 - (void)doScreenShot
@@ -190,9 +191,15 @@
 	UIGraphicsBeginImageContextWithOptions(window.bounds.size, NO, 0.0f);
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
+    [[TlsIndicatorView instance] stopAnimating];
 	// Windowの現在の表示内容を１つずつ描画
+    CALayer *sublayer = [CALayer layer];
 	for (UIWindow *aWindow in [[UIApplication sharedApplication] windows]) {
-		[aWindow.layer renderInContext:context];
+        CALayer *layer = aWindow.layer;
+        sublayer.backgroundColor = WHITE_COLOR.CGColor;
+        sublayer.frame = CGRectMake(0, layer.frame.size.height - 50, 320, 50);
+        [layer addSublayer:sublayer];
+		[layer renderInContext:context];
 	}
 	
 	// 描画した内容をUIImageとして受け取り
@@ -200,8 +207,8 @@
 	
 	// 描画を終了
 	UIGraphicsEndImageContext();
-	
-	[[TlsIndicatorView instance] startAnimating];
+    
+    [sublayer removeFromSuperlayer];
 	
 	//画像保存完了時のセレクタ指定
 	SEL selector = @selector(onCompleteCapture:didFinishSavingWithError:contextInfo:);
@@ -213,7 +220,6 @@
 - (void)onCompleteCapture:(UIImage *)screenImage
  didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-	[[TlsIndicatorView instance] stopAnimating];
 	if (error)
 	{
 		[TlsAlertView dialogWithTitle:nil
@@ -232,6 +238,7 @@
 										//twitter投稿
 										SLComposeViewController *composeCtl = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
 										composeCtl.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+                                        [composeCtl setInitialText:@"アプリDL：http://t.co/ZJO9HedW8w"];
 										[composeCtl addImage:screenImage];
 										
 										[composeCtl setCompletionHandler:^(SLComposeViewControllerResult result) {
