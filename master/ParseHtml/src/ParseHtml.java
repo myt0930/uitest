@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.List;
+
+import net.sourceforge.htmlunit.corejs.javascript.Function;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -12,7 +15,11 @@ import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 
 //TODO: 出来たらやること
@@ -138,12 +145,14 @@ public class ParseHtml
 	        parseHtml.outZeppDiverCity(pw, month);
 	        //39. 新宿RedCloth
 	        parseHtml.outShinjukuRedCloth(pw, month);
-	        //40. 
+	        //40. warp
 	        
 	        //41.
 	        
 	        //42. 新木場STUDIO COAST
 	        parseHtml.outShinkibaStudioCoast(pw, month);
+	        //43. 新宿JAM 
+	        
 	        //46. 高円寺HIGH
 	        parseHtml.outKoenjiHigh(pw, month);
 			//47. 小岩bushbash
@@ -211,7 +220,7 @@ public class ParseHtml
 	        //78. 青山月見ル君想フ
 	        parseHtml.outAoyamaTsukimiru(pw, month);
         }        
-        parseHtml.outShindaitaFever(pw, month);
+        parseHtml.outKichijoujiWarp(pw, month);
 		pw.close();
 		
 		System.out.println("done");
@@ -1999,32 +2008,6 @@ public class ParseHtml
 		return true;
 	}
 	
-	private boolean outKichijoujiWarp(PrintWriter pw, int month)
-	{
-		try{
-			Document doc = Jsoup.connect("http://warp.rinky.info/schedules").get();
-			print(doc.body().html());
-			
-			this.initParam();
-//			for(Element element : baseElements)
-//			{
-//				for(Element e : element.getAllElements())
-//				{
-//					String tagName = e.tagName();
-//					String className = e.className();
-//				}
-//			}
-		}catch(Exception e){
-			System.out.println("40 warp Failure" + e);
-			return false;
-		}
-		if(month >= 12){
-			return true;
-		}
-		outKichijoujiWarp(pw, ++month);
-		return true;
-	}
-	
 	private boolean outShinkibaStudioCoast(PrintWriter pw, int month)
 	{
 		try{
@@ -3804,16 +3787,34 @@ public class ParseHtml
 	}
 	
 	
-	private boolean outKichijyojiWarp(PrintWriter pw, int month)
+	private boolean outKichijoujiWarp(PrintWriter pw, int month)
 	{
 		try{
+			//TODO: まだ不完全。１ヶ月ずつ確実に取る。
 			WebClient client = new WebClient(BrowserVersion.FIREFOX_24);
-			HtmlPage page = client.getPage("http://warp.rinky.info/schedules#prevnext");
-			
-			print(page.asXml());
-			
-			Document doc = Jsoup.connect("").get();
-			Elements baseElements = doc.body().select("");
+			String url = month == currentMonth ? "http://warp.rinky.info/schedules/calendarSchedules" : "http://warp.rinky.info/schedules/";
+			HtmlPage page = client.getPage(url);
+			String body;
+			if(month == currentMonth)
+			{
+				body = page.asXml();
+			}else{
+				int count = month - currentMonth;
+				if(count >= 2){
+					//翌月まで取得
+					return true;
+				}
+				HtmlPage nextPage = null;
+				HtmlSpan article = ((List<HtmlSpan>)page.getByXPath("//span[@id='next']")).get(0);
+				
+				for(int i = 0;i < count;i++){
+		            nextPage = article.click();
+		        }
+				body = nextPage.asXml();
+			}
+			print(body);
+			Document doc = Jsoup.parse(body);
+			Elements baseElements = doc.body().select("div[class=scheduleInner]");
 			this.initParam();
 			
 			for(Element element : baseElements)
@@ -3823,10 +3824,39 @@ public class ParseHtml
 					String t = e.tagName();
 					String c = e.className();
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.equals("day")){
+						date = this.makeDate(month, str);
+					}else if(c.equals("contents")){
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							
+							if(t.equals("h2")){
+								title = str + LINE_BREAK;
+							}else if(t.equals("h3")){
+								title += str;
+							}else if(c.equals("artist")){
+								act = str;
+							}
+						}
+					}else if(c.equals("time")){
+						other = str + LINE_BREAK;
+					}else if(c.equals("price")){
+						other += str;
+						if(!act.contains("comming soon") && !(title.equals("") && act.equals(""))){
+							this.outParam(pw, 40);
+						}
+						title = "";
+						act = "";
+						other = "";
+					}
 				}
 			}
+			outKichijoujiWarp(pw, ++month);
 		}catch(Exception e){
-			System.out.println(" Failure" + e);
+			System.out.println("40.WARP Failure" + e);
 			return false;
 		}
 		return true;
