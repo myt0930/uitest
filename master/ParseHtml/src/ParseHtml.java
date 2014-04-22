@@ -33,7 +33,7 @@ public class ParseHtml
 {
 	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = true;
-	static boolean isOutNormalLiveHouse = false;
+	static boolean isOutNormalLiveHouse = true;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -46,6 +46,7 @@ public class ParseHtml
 	String other = "";
 	
 	int currentMonth;
+	int currentDate;
 	
 	public static void main(String[] args) throws IOException 
 	{
@@ -54,8 +55,9 @@ public class ParseHtml
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
         int month = 4;
         
-        parseHtml.currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-
+        parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
+        parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
+        
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -64,10 +66,10 @@ public class ParseHtml
 			parseHtml.outShinjukuMarble(pw,month);
 			//3. 新宿Marz
 			parseHtml.outShinjukuMarz(pw,month);
-			if(isOutDifficultLiveHouse){
-	        	//4. 新宿LOFT
-				parseHtml.outShinjukuLoft(pw,month);
-			}
+//			if(isOutDifficultLiveHouse){
+//	        	//4. 新宿LOFT
+//				parseHtml.outShinjukuLoft(pw,month);
+//			}
 			//5. 秋葉原GOODMAN
 			parseHtml.outAkihabaraGoodman(pw,month);
 			//6. 下北沢BASEMENT BAR
@@ -76,10 +78,10 @@ public class ParseHtml
 			parseHtml.outShimokitaThree(pw, month);
 			//8. 下北沢DAISY BAR
 			parseHtml.outShimokitaDaisyBar(pw, month);
-			if(isOutDifficultLiveHouse){
-				//9. 下北沢SHELTER
-				parseHtml.outShimokitaShelter(pw, month);
-			}
+//			if(isOutDifficultLiveHouse){
+//				//9. 下北沢SHELTER
+//				parseHtml.outShimokitaShelter(pw, month);
+//			}
 			//10. 下北沢QUE
 			parseHtml.outShimokitaQue(pw, month);
 			//11. 下北沢251
@@ -90,10 +92,10 @@ public class ParseHtml
 			parseHtml.outShimokitaGarden(pw, month);
 			//14. 新代田FEVER
 			parseHtml.outShindaitaFever(pw, month);
-			if(isOutDifficultLiveHouse){
-				//15. 東高円寺U.F.O.CLUB
-				parseHtml.outKoenjiUFO(pw, month);
-			}
+//			if(isOutDifficultLiveHouse){
+//				//15. 東高円寺U.F.O.CLUB
+//				parseHtml.outKoenjiUFO(pw, month);
+//			}
 			//16. 東高円寺二万電圧
 			parseHtml.outKoenjiNiman(pw, month);
 			//17. 渋谷O-EAST
@@ -126,17 +128,17 @@ public class ParseHtml
 			parseHtml.outHarajukuAstroHall(pw, month);
 			//31. 恵比寿LIQUIDROOM
 			parseHtml.outEbisuLiquidroom(pw, month);
-			if(isOutDifficultLiveHouse){
-				//32. 池袋music org
-				parseHtml.outIkebukuroOrg(pw, month);
-				//33. 池袋RUIDO K3
-				parseHtml.outIkebukuroRuidoK3(pw, month);
-				//34. 渋谷RUIDO K2
-				parseHtml.outShibuyaRuidoK2(pw, month);
-				//35. 新宿RUIDO K4
-				parseHtml.outShinjukuRuidoK4(pw, month);
-				
-	        }
+//			if(isOutDifficultLiveHouse){
+//				//32. 池袋music org
+//				parseHtml.outIkebukuroOrg(pw, month);
+//				//33. 池袋RUIDO K3
+//				parseHtml.outIkebukuroRuidoK3(pw, month);
+//				//34. 渋谷RUIDO K2
+//				parseHtml.outShibuyaRuidoK2(pw, month);
+//				//35. 新宿RUIDO K4
+//				parseHtml.outShinjukuRuidoK4(pw, month);
+//				
+//	        }
 	        //36. 赤坂BLITZ
 	        parseHtml.outAkasakaBlitz(pw, month);
 	        //37. ZEPP TOKYO
@@ -146,11 +148,15 @@ public class ParseHtml
 	        //39. 新宿RedCloth
 	        parseHtml.outShinjukuRedCloth(pw, month);
 	        //40. warp
-	        
+//	        if(isOutDifficultLiveHouse){
+//	        	parseHtml.outKichijoujiWarp(pw, month);
+//	        }
 	        //41.
 	        
 	        //42. 新木場STUDIO COAST
-	        parseHtml.outShinkibaStudioCoast(pw, month);
+//	        if(isOutDifficultLiveHouse){
+//	        	parseHtml.outShinkibaStudioCoast(pw, month);
+//	        }
 	        //43. 新宿JAM 
 	        
 	        //46. 高円寺HIGH
@@ -220,7 +226,38 @@ public class ParseHtml
 	        //78. 青山月見ル君想フ
 	        parseHtml.outAoyamaTsukimiru(pw, month);
         }        
-        parseHtml.outKichijoujiWarp(pw, month);
+        
+        if(isOutDifficultLiveHouse){
+        	//4. 新宿LOFT
+			parseHtml.outShinjukuLoft(pw,month);
+		}
+        if(isOutDifficultLiveHouse){
+			//9. 下北沢SHELTER
+			parseHtml.outShimokitaShelter(pw, month);
+		}
+        if(isOutDifficultLiveHouse){
+			//15. 東高円寺U.F.O.CLUB
+			parseHtml.outKoenjiUFO(pw, month);
+		}
+        if(isOutDifficultLiveHouse){
+			//32. 池袋music org
+			parseHtml.outIkebukuroOrg(pw, month);
+			//33. 池袋RUIDO K3
+			parseHtml.outIkebukuroRuidoK3(pw, month);
+			//34. 渋谷RUIDO K2
+			parseHtml.outShibuyaRuidoK2(pw, month);
+			//35. 新宿RUIDO K4
+			parseHtml.outShinjukuRuidoK4(pw, month);
+			
+        }
+        if(isOutDifficultLiveHouse){
+        	//parseHtml.outKichijoujiWarp(pw, month);
+        }
+        if(isOutDifficultLiveHouse){
+        	//read　timeoutが多い
+        	parseHtml.outShinkibaStudioCoast(pw, month);
+        }
+        
 		pw.close();
 		
 		System.out.println("done");
@@ -4333,6 +4370,15 @@ public class ParseHtml
 	}
 	
 	private void outParam(PrintWriter pw, int liveHouseNo){
+		if( date.compareTo(this.makeDate(currentMonth, String.valueOf(currentDate))) < 0 )
+		{
+			return;
+		}
+		if((title.contains("ホールレンタル") 	&& act.equals("")) ||  
+			(title.contains("HALL RENTAL") 	&& act.equals("")) ||
+			(title.contains("") 			&& act.equals("")) ){
+			return;
+		}
 		pw.print(liveHouseNo + TAB);
 		this.outDate(pw, date);
 		this.outTitle(pw, title);
