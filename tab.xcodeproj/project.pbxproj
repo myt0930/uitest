@@ -1314,7 +1314,7 @@
 					FelloPush,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9BB35907-4A76-4204-AAE7-42E76EE2BBC4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1353,7 +1353,7 @@
 					FelloPush,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9BB35907-4A76-4204-AAE7-42E76EE2BBC4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

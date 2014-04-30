@@ -194,11 +194,30 @@
     [[TlsIndicatorView instance] stopAnimating];
 	// Windowの現在の表示内容を１つずつ描画
     CALayer *sublayer = [CALayer layer];
+    CALayer *sublayerTop = [CALayer layer];
 	for (UIWindow *aWindow in [[UIApplication sharedApplication] windows]) {
         CALayer *layer = aWindow.layer;
-        sublayer.backgroundColor = WHITE_COLOR.CGColor;
-        sublayer.frame = CGRectMake(0, layer.frame.size.height - 50, 320, 50);
+        //広告の上に描画
+        sublayer.backgroundColor    = WHITE_COLOR.CGColor;
+        sublayer.frame      = CGRectMake(0, layer.frame.size.height - 50, 320, 50);
         [layer addSublayer:sublayer];
+        
+        if( SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+        {
+            sublayerTop.backgroundColor = WHITE_COLOR.CGColor;
+            sublayerTop.frame   = CGRectMake(0, 0, 320, 64);
+            [layer addSublayer:sublayerTop];
+            
+            CATextLayer *label = [[CATextLayer alloc] init];
+            label.contentsScale = [[UIScreen mainScreen] scale];
+            [label setFont:@"HiraKakuProN-W6"];
+            [label setFontSize:14];
+            [label setFrame:sublayerTop.frame];
+            [label setPosition:CGPointMake(250, 70)];
+            [label setForegroundColor:BLACK_COLOR.CGColor];
+            [label setString:self.navigationItem.title];
+            [sublayerTop addSublayer:label];
+        }
 		[layer renderInContext:context];
 	}
 	
@@ -209,6 +228,7 @@
 	UIGraphicsEndImageContext();
     
     [sublayer removeFromSuperlayer];
+    [sublayerTop removeFromSuperlayer];
 	
 	//画像保存完了時のセレクタ指定
 	SEL selector = @selector(onCompleteCapture:didFinishSavingWithError:contextInfo:);

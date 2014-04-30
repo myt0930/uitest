@@ -32,8 +32,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = true;
-	static boolean isOutNormalLiveHouse = true;
+	static boolean isOutDifficultLiveHouse = false;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -53,7 +53,7 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 4;
+        int month = 5;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
@@ -258,6 +258,30 @@ public class ParseHtml
         	parseHtml.outShinkibaStudioCoast(pw, month);
         }
         
+        //test
+        //2. 新宿Marble
+		parseHtml.outShinjukuMarble(pw,month);
+        //32. 池袋music org
+		parseHtml.outIkebukuroOrg(pw, month);
+		//33. 池袋RUIDO K3
+		parseHtml.outIkebukuroRuidoK3(pw, month);
+		//34. 渋谷RUIDO K2
+		parseHtml.outShibuyaRuidoK2(pw, month);
+		//35. 新宿RUIDO K4
+		parseHtml.outShinjukuRuidoK4(pw, month);
+		//60. 四谷天窓
+        parseHtml.outYotsuyaTenmado(pw, month);
+        //61. 四谷天窓.comfort
+        parseHtml.outYotsuyaTenmadoComfort(pw, month);
+        //62. 恵比寿天窓.switch
+        parseHtml.outEbisuTenmadoSwitch(pw, month);
+        //78. 青山月見ル君想フ
+        parseHtml.outAoyamaTsukimiru(pw, month);
+      //64. 初台WALL
+        parseHtml.outHatsudaiWall(pw, month);
+      //77. 学芸大学MAPLEHOUSE
+        parseHtml.outGakugeidaigakuMapleHouse(pw, month);
+        
 		pw.close();
 		
 		System.out.println("done");
@@ -359,9 +383,15 @@ public class ParseHtml
 						String str = this.stringReplaceLineBreakAndRemoveTag(e);
 						if(className.equals("font_bold"))
 						{
-							title = "";
-							act = "";
-							other = "";
+							if(!title.equals("") || !act.equals("")){
+								this.outParam(pw, 2);
+								title = "";
+								act = "";
+								other = "";
+								
+								title = str;
+								continue;
+							}
 							
 							String[] split = str.split(LINE_BREAK);
 							for(int i = 1;i < split.length;i++)
@@ -384,11 +414,12 @@ public class ParseHtml
 							else if(str.contains("お問合せ：Marble") || str.contains("22時以降は18歳未満の方は入場出来ません"))
 							{
 								this.outParam(pw, 2);
+								title = "";
+								act = "";
+								other = "";
 							}
-							else
-							{
-								act += str;
-							}
+						}else if(className.equals("linehi_12")){
+							act += str;
 						}
 					}
 				}
@@ -1836,7 +1867,7 @@ public class ParseHtml
 			if(currentMonth + 2 <= month){
 				return false;
 			}
-			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/next_month/";
+			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/month_" + String.format("%d", month);
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
@@ -3970,23 +4001,25 @@ public class ParseHtml
 			String t = e.tagName();
 			String c = e.className();
 			String str = this.stringReplaceLineBreakAndRemoveTag(e);
-			if(c.equals("style13")){
-				for(Element e2 : e.getAllElements()){
-					t = e2.tagName();
-					if(t.equals("img")){
-						String srcAttr = e2.attr("src");
-						String[] split = srcAttr.split("/");
-						srcAttr = split[split.length - 1];
-						srcAttr = srcAttr.split("\\.")[0];
-						if(srcAttr.matches("^[0-9]{1,2}$")) {
-							date = this.makeDate(month, srcAttr);
-						}
-						break;
-					}
+			
+			if(t.equals("img")){
+				String width = e.attr("width");
+				if(!width.equals("23")){
+					continue;
+				}
+				String srcAttr = e.attr("src");
+				String[] split = srcAttr.split("/");
+				srcAttr = split[split.length - 1];
+				srcAttr = srcAttr.split("\\.")[0];
+				if(srcAttr.matches("^[0-9]{1,2}$")) {
+					date = this.makeDate(month, srcAttr);
 				}
 			}else if(c.equals("style20")){
 				title = str;
 			}else if(t.equals("tr")){
+				if(!str.contains("op/") && !str.contains("ド別")){
+					continue;
+				}
 				String[] split = str.split(LINE_BREAK);
 				boolean isAct = true;
 				for(int i = 0;i < split.length;i++){
