@@ -259,26 +259,14 @@ public class ParseHtml
         }
         
         //test
-        //2. 新宿Marble
-		parseHtml.outShinjukuMarble(pw,month);
-        //32. 池袋music org
-		parseHtml.outIkebukuroOrg(pw, month);
+
 		//33. 池袋RUIDO K3
 		parseHtml.outIkebukuroRuidoK3(pw, month);
 		//34. 渋谷RUIDO K2
 		parseHtml.outShibuyaRuidoK2(pw, month);
 		//35. 新宿RUIDO K4
 		parseHtml.outShinjukuRuidoK4(pw, month);
-		//60. 四谷天窓
-        parseHtml.outYotsuyaTenmado(pw, month);
-        //61. 四谷天窓.comfort
-        parseHtml.outYotsuyaTenmadoComfort(pw, month);
-        //62. 恵比寿天窓.switch
-        parseHtml.outEbisuTenmadoSwitch(pw, month);
-        //78. 青山月見ル君想フ
-        parseHtml.outAoyamaTsukimiru(pw, month);
-      //64. 初台WALL
-        parseHtml.outHatsudaiWall(pw, month);
+
       //77. 学芸大学MAPLEHOUSE
         parseHtml.outGakugeidaigakuMapleHouse(pw, month);
         
@@ -3754,7 +3742,7 @@ public class ParseHtml
 					
 					if(c.equals("fsize_l")){
 						if(e.hasAttr("style")){
-							if(e.attr("style").contains("#0514ff") || e.attr("style").contains("#ff0000")){
+							if(e.attr("style").contains("#0000ff") || e.attr("style").contains("#ff0000") || e.attr("style").contains("#ff00")){
 								type = 1;
 							}else{
 								print("■77.continue::"+str);
@@ -4409,7 +4397,7 @@ public class ParseHtml
 		}
 		if((title.contains("ホールレンタル") 	&& act.equals("")) ||  
 			(title.contains("HALL RENTAL") 	&& act.equals("")) ||
-			(title.contains("") 			&& act.equals("")) ){
+			(title.equals("") 				&& act.equals("")) ){
 			return;
 		}
 		pw.print(liveHouseNo + TAB);
