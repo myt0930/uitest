@@ -33,7 +33,7 @@ public class ParseHtml
 {
 	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = false;
-	static boolean isOutNormalLiveHouse = true;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -57,6 +57,10 @@ public class ParseHtml
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
+        
+        parseHtml.outKoenjiNiman(pw, month, 16);
+        parseHtml.outIkebukuroOrg(pw, month, 32);
+        parseHtml.outShindaitaFever(pw, month, 14);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -252,7 +256,7 @@ public class ParseHtml
 			
         }
         if(isOutDifficultLiveHouse){
-        	//parseHtml.outKichijoujiWarp(pw, month, 40);
+        	parseHtml.outKichijoujiWarp(pw, month, 40);
         }
         if(isOutDifficultLiveHouse){
         	//read　timeoutが多い
@@ -568,6 +572,11 @@ public class ParseHtml
 				String date = "";
 				if( count == 1 )
 				{
+					String str = element.text();
+					if(str.contains("BASEMENT BAR 19th ANNIVERSARY")){
+						count = 0;
+						continue;
+					}
 					date = String.format("%02d%02d", month, Integer.valueOf(element.text()));
 					pw.print("6" + TAB);
 					outDate(pw, date);
@@ -1126,7 +1135,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule-2").get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
 			this.initParam();
