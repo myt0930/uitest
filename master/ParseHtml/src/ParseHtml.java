@@ -58,9 +58,7 @@ public class ParseHtml
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-        parseHtml.outKoenjiNiman(pw, month, 16);
-        parseHtml.outIkebukuroOrg(pw, month, 32);
-        parseHtml.outShindaitaFever(pw, month, 14);
+        parseHtml.outShibuyaKinoto(pw, month, 32);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -1323,7 +1321,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			String url = month == currentMonth ? "http://kinoto.jp/sched/2014/" + String.format("%02d", month) : "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
+			String url = "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
 			Document doc = Jsoup.connect(url).get();
 			Elements baseElements = doc.body().select("td");
 			
