@@ -53,12 +53,12 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 5;
+        int month = 6;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-        parseHtml.outShibuyaKinoto(pw, month, 32);
+        parseHtml.outBasementBar(pw, month, 6);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -616,7 +616,12 @@ public class ParseHtml
 					other = other.replace("●", LINE_BREAK + "●");
 					outTitle(pw, title);
 					outAct(pw, act, date);
-					outOther(pw, other, date);	
+					outOther(pw, other, date);
+					
+					//その場しのぎ
+					if(act.contains("Mounthill's Orchestra / Yees. / オレモリカエル / THE BABA BAND")){
+						count = 2;
+					}
 				}
 					
 			}
