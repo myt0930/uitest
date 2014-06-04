@@ -58,7 +58,13 @@ public class ParseHtml
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-        parseHtml.outBasementBar(pw, month, 6);
+      //1. 新宿Motion
+		parseHtml.outShinjukuMotion(pw, month, 1);
+		//2. 新宿Marble
+		parseHtml.outShinjukuMarble(pw,month, 2);
+        parseHtml.outHachiojiRIPS(pw, month, 50);
+      //77. 学芸大学MAPLEHOUSE
+        parseHtml.outGakugeidaigakuMapleHouse(pw, month, 77);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -2410,7 +2416,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			String url = "http://rips.rinky.info/schedule/rips_s.cgi?form=2&year=2014&mon="+month;
+			String url = "http://rips.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon="+month;
 			Document doc = Jsoup.parse(new URL(url).openStream(),"Shift_JIS", url);
 			Elements baseElements = doc.body().select("tr");
 			this.initParam();
@@ -2423,28 +2429,21 @@ public class ParseHtml
 					String c = e.className();
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 					
-					if(t.equals("font")){
-						String fontSize = e.attr("size"); 
-						if(fontSize.equals("+1")){
-							date = String.format("%02d%02d", month, Integer.valueOf(str));
-						}else if(fontSize.equals("3")){
-							title = str;
-						}else if(fontSize.equals("-1")){
-							if(str.equals(LINE_BREAK)){
-								continue;
-							}
-							other += str;
-						}else if(fontSize.equals("2")){
-							act = str;
-							if(title.contains("HALL RENTAL")){
-								continue;
-							}
-							String[] split = act.split(LINE_BREAK);
-							for(String s : split){
-								if(s.startsWith("チケット：")){
-									other += LINE_BREAK + s;
-									act = act.replace(s, "");
-								}
+					if(t.equals("td")){
+						if(e.attr("height").equals("20")){
+							String[] split = str.split("\\)");
+							title = split[1];
+							date = split[0];
+							date = date.split("年")[1];
+							date = date.split("\\(")[0];
+							split = date.split("月");
+							date = this.makeDate(split[0], split[1].replace("日", ""));
+						}else if(e.attr("colspan").equals("2")){
+							String[] split = str.split("OPEN");
+							act = split[0];
+							if(split.length > 1)
+							{
+								other = "OPEN" + split[1];
 							}
 							this.outParam(pw, 50);
 							title = "";
@@ -2452,6 +2451,36 @@ public class ParseHtml
 							other = "";
 						}
 					}
+					
+//					if(t.equals("font")){
+//						String fontSize = e.attr("size"); 
+//						if(fontSize.equals("+1")){
+//							date = String.format("%02d%02d", month, Integer.valueOf(str));
+//						}else if(fontSize.equals("3")){
+//							title = str;
+//						}else if(fontSize.equals("-1")){
+//							if(str.equals(LINE_BREAK)){
+//								continue;
+//							}
+//							other += str;
+//						}else if(fontSize.equals("2")){
+//							act = str;
+//							if(title.contains("HALL RENTAL")){
+//								continue;
+//							}
+//							String[] split = act.split(LINE_BREAK);
+//							for(String s : split){
+//								if(s.startsWith("チケット：")){
+//									other += LINE_BREAK + s;
+//									act = act.replace(s, "");
+//								}
+//							}
+//							this.outParam(pw, 50);
+//							title = "";
+//							act = "";
+//							other = "";
+//						}
+//					}
 				}
 			}
 		}catch(Exception e){
