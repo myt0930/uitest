@@ -58,14 +58,7 @@ public class ParseHtml
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-      //1. 新宿Motion
-		parseHtml.outShinjukuMotion(pw, month, 1);
-		//2. 新宿Marble
-		parseHtml.outShinjukuMarble(pw,month, 2);
-        parseHtml.outHachiojiRIPS(pw, month, 50);
-      //77. 学芸大学MAPLEHOUSE
-        parseHtml.outGakugeidaigakuMapleHouse(pw, month, 77);
-        
+        parseHtml.outShimokitaThree(pw, month, 7);
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -681,6 +674,9 @@ public class ParseHtml
 				}
 				
 				String[] dateSplits = date.split("\\.");
+				if(dateSplits.length < 3){
+					continue;
+				}
 				date = String.format("%02d%02d", Integer.valueOf(dateSplits[1]),Integer.valueOf(dateSplits[2]));
 				act = text;
 				
@@ -1144,7 +1140,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule-2").get();
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
 			this.initParam();
@@ -1527,6 +1523,7 @@ public class ParseHtml
 					if(className.equals("date"))
 					{
 						date = String.format("%02d%02d", month, Integer.valueOf(str));
+						
 					}
 					else if(tagName.equals("h3"))
 					{
@@ -1534,7 +1531,11 @@ public class ParseHtml
 						Element span = e.getElementsByTag("span").first();
 						if(span != null)
 						{
-							title = title.replaceFirst(this.stringReplaceLineBreakAndRemoveTag(span), "");
+							if(date.equals("0723"))
+							{
+							}else{
+								title = title.replaceFirst(this.stringReplaceLineBreakAndRemoveTag(span), "");
+							}
 						}
 					}
 					else if(className.equals("data"))
@@ -3172,7 +3173,7 @@ public class ParseHtml
 				if(t.equals("font")){
 					String size = e.attr("size");
 					if(size.equals("5")){
-						if(!title.contains("") || !title.contains("----")){
+						if(!title.equals("") && !title.contains("----")){
 							this.outParam(pw, 64);
 							title = "";
 							act = "";
