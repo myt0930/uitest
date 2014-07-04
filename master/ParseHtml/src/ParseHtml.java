@@ -54,7 +54,7 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 6;
+        int month = 7;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
@@ -224,7 +224,11 @@ public class ParseHtml
 	        parseHtml.outGakugeidaigakuMapleHouse(pw, month, 77);
 	        //78. 青山月見ル君想フ
 	        parseHtml.outAoyamaTsukimiru(pw, month, 78);
-        }        
+	        //79. 千葉LOOK
+	        parseHtml.outChibaLook(pw, month, 79);
+        }
+
+        parseHtml.outChibaLook(pw, month, 79);
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -259,8 +263,6 @@ public class ParseHtml
         	//read　timeoutが多い
         	parseHtml.outShinkibaStudioCoast(pw, month, 42);
         }
-        
-        parseHtml.outShimokitaReg(pw, month, 72);
         
 		pw.close();
 		
@@ -1102,6 +1104,7 @@ public class ParseHtml
 					{
 						other = "";
 						act = "";
+						title = "";
 						date = this.stringReplaceLineBreakAndRemoveTag(e);
 						date = String.format("%02d%02d", month,Integer.valueOf(date));
 					}
@@ -1109,23 +1112,33 @@ public class ParseHtml
 					{
 						other += this.stringReplaceLineBreakAndRemoveTag(e) + LINE_BREAK;
 					}
-					else if(tagName.equals("strong"))
-					{
-						title = this.stringReplaceLineBreakAndRemoveTag(e);
-						act = act.replace(title, "");
-					}
+//					else if(tagName.equals("strong"))
+//					{
+//						title += this.stringReplaceLineBreakAndRemoveTag(e);
+//						act = act.replace(title, "");
+//						
+//					}
 					else if(tagName.equals("td"))
 					{
-						if(e.html().contains("strong")){
-							act += this.stringReplaceLineBreakAndRemoveTag(e);
-							act = act.replace("/LIVE; ", "");
-							act = act.replace(",", " /");
+						String str = this.stringReplaceLineBreakAndRemoveTag(e);
+						String[] split = str.split("br2n");
+						
+						for(int i = 0;i < split.length;i++){
+							if(i==0){
+								title = split[0];
+							}else{
+								act += split[i];
+							}
 						}
+						
+						act = act.replace("/LIVE; ", "");
+						act = act.replace(",", " /");
 					}
 				}
 				if(date=="")continue;
 				other = this.removeStartEndLineBreak(other);
 				this.outParam(pw, 15);
+				title = "";
 			}
 		} catch(Exception e){
 			System.out.println("15.UFO Failure" + e);
@@ -3971,6 +3984,69 @@ public class ParseHtml
 		return true;
 	}
 	
+	private boolean outChibaLook(PrintWriter pw, int month, int liveHouseNo)
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://inochigake.com/schedule/index.html").get();
+			Elements baseElements = doc.body().select("table[width=560] td");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(e.attr("width").equals("560")){
+						title = "";
+						act = "";
+						other = "";
+						
+						String[] split = str.split(" ");
+						if(split.length > 2){
+							date = this.makeDate(month, split[2]);
+						}
+						else
+						{
+							print(str + " continue");
+						}
+					}else if(e.attr("width").equals("480")){
+						String[] split = str.split("br2n");
+						title = split[0];
+						
+						for(int i = 0;i < split.length;i++){
+							if(i == 0){
+								title = split[i];
+							}else{
+								act += split[i] + "br2n";
+							}
+						}
+						act = act.split("＊")[0];
+					}else if(e.attr("width").equals("50")){
+						if(other.equals("")){
+							other += "OPEN:";
+						}else{
+							other += "CHARGE:";
+						}
+						other += str + "br2n";
+						if(other.contains("￥")){
+							this.outParam(pw, liveHouseNo);
+							title = "";
+							act = "";
+							other = "";
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("79 LOOK Failure" + e);
+			return false;
+		}
+		return true;
+	}
 	
 	private boolean outKichijoujiWarp(PrintWriter pw, int month, int liveHouseNo)
 	{
