@@ -32,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 0;
+	static int debugFlag = 1;
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
@@ -226,9 +226,11 @@ public class ParseHtml
 	        parseHtml.outAoyamaTsukimiru(pw, month, 78);
 	        //79. 千葉LOOK
 	        parseHtml.outChibaLook(pw, month, 79);
+	        //80. 新松戸FIREBIRD
+	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
         }
 
-        parseHtml.outChibaLook(pw, month, 79);
+        parseHtml.outShinmatsudoFirebird(pw, month, 80);
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -4038,6 +4040,52 @@ public class ParseHtml
 							act = "";
 							other = "";
 						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("79 LOOK Failure" + e);
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean outShinmatsudoFirebird(PrintWriter pw, int month, int liveHouseNo)
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://www.aj-group.co.jp/schedule/2014/" + String.format("%02d", month) +".html").get();
+			Elements baseElements = doc.body().select("body");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("h4")){
+						title = "";
+						act = "";
+						other = "";
+						
+						String[] split = str.split("\\(");						
+						split = split[0].split("/");
+						date = this.makeDate(split[0], split[1]);
+						
+						split = str.split("\\)");
+						for(int i = 1;i < split.length;i++){
+							title += split[1];
+						}
+					}else if(t.equals("b")){
+						act = str;
+						other = "時間・チケット価格は公式HPをご確認下さい。";
+						this.outParam(pw, liveHouseNo);
+						title = "";
+						act = "";
+						other = "";
 					}
 				}
 			}
