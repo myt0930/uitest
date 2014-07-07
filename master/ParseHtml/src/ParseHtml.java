@@ -230,7 +230,7 @@ public class ParseHtml
 	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
         }
 
-        parseHtml.outShinmatsudoFirebird(pw, month, 80);
+        parseHtml.outYokohamaBaysis(pw, month, 81);
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -4090,11 +4090,62 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
+			System.out.println("80 FIREBIRD Failure" + e);
+			return false;
+		}
+		this.outShinmatsudoFirebird(pw, ++month, liveHouseNo);
+		return true;
+	}
+	
+	private boolean outYokohamaBaysis(PrintWriter pw, int month, int liveHouseNo)
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			int count = month - currentMonth;
+			if(month > 12){
+				return true;
+			}
+			Document doc = Jsoup.connect("http://www.yokohamabaysis.com/schedule.php?mt=" + count + "#schedule_list").get();
+			Elements baseElements = doc.body().select("div[class=sbox clearfix]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.equals("day")){
+						date = this.makeDate(month, str.substring(0, 2));
+					}else if(t.equals("h4")){
+						title = str;
+					}else if(c.equals("guest")){
+						act = str;
+					}else if(c.equals("open")){
+						other = str;
+						other = other.replace("│", "br2n");
+						other = other.replace("L:", "br2nL:");
+						this.outParam(pw, liveHouseNo);
+						
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
 			System.out.println("79 LOOK Failure" + e);
 			return false;
 		}
+		
+		this.outYokohamaBaysis(pw, ++month, liveHouseNo);
+		
 		return true;
 	}
+	
+	
 	
 	private boolean outKichijoujiWarp(PrintWriter pw, int month, int liveHouseNo)
 	{
