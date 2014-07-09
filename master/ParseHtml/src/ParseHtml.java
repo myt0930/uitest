@@ -228,9 +228,11 @@ public class ParseHtml
 	        parseHtml.outChibaLook(pw, month, 79);
 	        //80. 新松戸FIREBIRD
 	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
+	        //81. 横浜BAYSIS
+	        parseHtml.outYokohamaBaysis(pw, month, 81);
         }
 
-        parseHtml.outYokohamaBaysis(pw, month, 81);
+        parseHtml.outYokohamaGalaxy(pw, month, 82);
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -4136,7 +4138,7 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("79 LOOK Failure" + e);
+			System.out.println("81 BAYSIS Failure" + e);
 			return false;
 		}
 		
@@ -4145,7 +4147,70 @@ public class ParseHtml
 		return true;
 	}
 	
-	
+	private boolean outYokohamaGalaxy(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://yokohama-galaxy.com/htdocs/wordpress/?yr=2014&month=" + month + "&dy=&cid=all").get();
+			Elements baseElements = doc.body().select("ul[class=mc-list]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(c.equals("event-date")){
+						String[] split = str.split("日");
+						split = split[0].split("月");
+						date = this.makeDate(month, split[1]);
+					}else if(c.equals("details")){
+						for(Element e2 : e.getAllElements()){
+							t = e2.tagName();
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							
+							if(t.equals("h3")){
+								title = str;
+							}else if(c.equals("longdesc")){
+								for(Element e3 : e2.select("p")){
+									str = this.stringReplaceLineBreakAndRemoveTag(e3);
+									if(str.contains("info)")){
+										continue;
+									}
+									
+									if(str.contains("open") && str.contains("/")){
+										other += str;
+										continue;
+									}
+									act += str + "br2n";
+								}
+								
+								this.outParam(pw, liveHouseNo);
+								title = "";
+								act = "";
+								other = "";
+							}
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("82 Galaxy Failure" + e);
+			return false;
+		}
+		
+		this.outYokohamaGalaxy(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
 	
 	private boolean outKichijoujiWarp(PrintWriter pw, int month, int liveHouseNo)
 	{
