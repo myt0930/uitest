@@ -243,9 +243,11 @@ public class ParseHtml
 	        parseHtml.outYokohamaLizard(pw, month, 84);
 	        
 	        parseHtml.outYokohamaBBStreat(pw, month, 85);
+	        
+	        parseHtml.outMachidaSDR(pw, month, 86);
         }
 
-        parseHtml.outMachidaSDR(pw, month, 86);
+        parseHtml.outYokohama7thAvenue(pw, month, 87);
         
         
         
@@ -4489,11 +4491,56 @@ public class ParseHtml
 				}
 			}
 		}catch(Exception e){
-			System.out.println("85 BBStreat Failure" + e);
+			System.out.println("86 SDR Failure" + e);
 			return false;
 		}
 		
 		this.outMachidaSDR(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outYokohama7thAvenue(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://www2.big.or.jp/~7th/schedule/14" + String.format("%02d", month) + ".html").get();
+			Elements baseElements = doc.body().select("div[id=content] div[class=span6] div");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				
+					if(c.contains("day d")){
+						String[] split = str.split("/");
+						date = this.makeDate(split[0], split[1]);
+					}else if(c.equals("title")){
+						title = str;
+					}else if(c.equals("artist")){
+						act = str;
+					}else if(c.equals("ticket")){
+						other = str;
+						this.outParam(pw, liveHouseNo);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("87 7th Avenue Failure" + e);
+			return false;
+		}
+		
+		this.outYokohama7thAvenue(pw, ++month, liveHouseNo);
 		
 		return true;
 	}
