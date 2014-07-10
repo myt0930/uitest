@@ -36,6 +36,11 @@ public class ParseHtml
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
+	static int FAD_THIS_MONTH_PAGEID = 3;
+	static int FAD_NEXT_MONTH_PAGEID = 13284;
+	static int LIZARD_THIS_MONTH_PAGEID = 29;
+	static int LIZARD_NEXT_MONTH_PAGEID = 5360;
+	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
 	final static String TAB = "\t";
@@ -230,9 +235,17 @@ public class ParseHtml
 	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
 	        //81. 横浜BAYSIS
 	        parseHtml.outYokohamaBaysis(pw, month, 81);
+	        //82. 横浜Galaxy
+	        parseHtml.outYokohamaGalaxy(pw, month, 82);
+	        
+	        parseHtml.outYokohamaFAD(pw, month, 83);
+	        
+	        parseHtml.outYokohamaLizard(pw, month, 84);
         }
 
-        parseHtml.outYokohamaGalaxy(pw, month, 82);
+        parseHtml.outYokohamaBBStreat(pw, month, 85);
+        
+        
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -4208,6 +4221,211 @@ public class ParseHtml
 		}
 		
 		this.outYokohamaGalaxy(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outYokohamaFAD(PrintWriter pw, int month, int liveHouseNo)
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			int count = month - currentMonth;
+			
+			int pageId = FAD_THIS_MONTH_PAGEID;
+			if(count==1){
+				pageId = FAD_NEXT_MONTH_PAGEID;
+			}else if(count > 1){
+				return true;
+			}
+			
+			//TODO: URLがよくわからない
+			Document doc = Jsoup.connect("http://www.fad-music.com/fad/?page_id=" + pageId).get();
+			Elements baseElements = doc.body().select("div[class=section] p");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(!t.equals("p")){
+						continue;
+					}
+					
+					if(!str.startsWith(String.format("%02d", month)) && !str.startsWith(String.format("%d", month))){
+						continue;
+					}
+					
+					String[] split = str.split("br2n");
+					date = split[0];
+					{
+						String[] dateSplit = date.split("\\.");
+						date = this.makeDate(month, dateSplit[1].substring(0, 2));
+					}
+					title = split[1];
+					for(int i = 2;i < split.length;i++){
+						if(split[i].startsWith("OPEN") || split[i].startsWith(" OPEN") ){
+							other = split[i];
+							break;
+						}
+						act += split[i] + "br2n";
+					}
+					
+					this.outParam(pw, liveHouseNo);
+					
+					title = "";
+					act = "";
+					other = "";
+				}
+			}
+		}catch(Exception e){
+			System.out.println("83 FAD Failure" + e);
+			return false;
+		}
+		
+		this.outYokohamaFAD(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outYokohamaLizard(PrintWriter pw, int month, int liveHouseNo)
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			int count = month - currentMonth;
+			
+			int pageId = LIZARD_THIS_MONTH_PAGEID;
+			if(count==1){
+				pageId = LIZARD_NEXT_MONTH_PAGEID;
+			}else if(count > 1){
+				return true;
+			}
+			
+			//TODO: URLがよくわからない
+			Document doc = Jsoup.connect("http://www.club-lizard.com/lizard/?page_id=" + pageId).get();
+			Elements baseElements = doc.body().select("div[class=entry-content] p");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(!t.equals("p")){
+						continue;
+					}
+					
+					if(!str.startsWith(String.format("%02d", month)) && !str.startsWith(String.format("%d", month))){
+						continue;
+					}
+					
+					String[] split = str.split("br2n");
+					date = split[0];
+					{
+						String[] dateSplit = date.split("\\.");
+						date = this.makeDate(month, dateSplit[1].substring(0, 2));
+					}
+					title = split[1];
+					for(int i = 2;i < split.length;i++){
+						if(split[i].startsWith("OPEN") || split[i].startsWith(" OPEN") ){
+							other = split[i];
+							other = other.replace("【チケット予約】", "");
+							break;
+						}
+						act += split[i] + "br2n";
+					}
+					
+					this.outParam(pw, liveHouseNo);
+					
+					title = "";
+					act = "";
+					other = "";
+				}
+			}
+		}catch(Exception e){
+			System.out.println("84 Lizard Failure" + e);
+			return false;
+		}
+		
+		this.outYokohamaLizard(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outYokohamaBBStreat(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			//TODO: URLがよくわからない
+			Document doc = Jsoup.connect("http://www.bbstreet.com/2014/" + month +"?cat=5").get();
+			Elements baseElements = doc.body().select("div[class=topline]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(t.equals("h2")){
+						String[] split = str.split("日");
+						date = this.makeDate(month, split[0].split("月")[1]);
+						
+						split = str.split("\\)");
+						if(split.length < 2){
+							split = str.split("）");
+						}
+						title = split[1];
+					}else if(c.equals("detail line-b clearfix")){
+						String[] split = str.split(LINE_BREAK);
+						
+						boolean isOther = false;
+						for(int i = 0;i < split.length;i++){
+							String s = split[i];
+							if(s.contains("open/") ||
+							   s.contains("start/") ||
+							   s.contains("adv/") ||
+							   s.contains("charge/") ||
+							   s.contains("door/")){
+								isOther = true;
+							}
+							
+							if(isOther){
+								other += s + LINE_BREAK;
+							}else{
+								act += s + LINE_BREAK;
+							}
+							
+							if(s.contains("adv/") ||
+							   s.contains("charge/") ||
+						       s.contains("door/")){
+								break;
+							}
+						}
+						this.outParam(pw, liveHouseNo);
+						title = "";
+						act = "";
+						other = "";
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("85 BBStreat Failure" + e);
+			return false;
+		}
+		
+		this.outYokohamaBBStreat(pw, ++month, liveHouseNo);
 		
 		return true;
 	}
