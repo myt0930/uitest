@@ -241,9 +241,11 @@ public class ParseHtml
 	        parseHtml.outYokohamaFAD(pw, month, 83);
 	        
 	        parseHtml.outYokohamaLizard(pw, month, 84);
+	        
+	        parseHtml.outYokohamaBBStreat(pw, month, 85);
         }
 
-        parseHtml.outYokohamaBBStreat(pw, month, 85);
+        parseHtml.outMachidaSDR(pw, month, 86);
         
         
         
@@ -4365,7 +4367,6 @@ public class ParseHtml
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			//TODO: URLがよくわからない
 			Document doc = Jsoup.connect("http://www.bbstreet.com/2014/" + month +"?cat=5").get();
 			Elements baseElements = doc.body().select("div[class=topline]");
 			this.initParam();
@@ -4426,6 +4427,73 @@ public class ParseHtml
 		}
 		
 		this.outYokohamaBBStreat(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outMachidaSDR(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://www.m-sdr.com/schedule/index.cgi?year=2014&mon=" + month).get();
+			Elements baseElements = doc.body().select("table[cellpadding=0] tr");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					
+					if(!t.equals("tr")){
+						continue;
+					}
+					String[] split = str.split("\\)");
+					date = split[0];
+					
+					String content = str.replace(split[0] + ")", "");
+					
+					date = this.makeDate(month, date.split(" ")[0]);
+					split = content.split(LINE_BREAK + LINE_BREAK);
+					if(split.length == 1){
+						continue;
+					}
+					for(int i = 0;i < split.length;i++)
+					{
+						switch(i){
+						case 0:
+							title = split[i];
+							break;
+						case 1:
+							act = split[i];
+							break;
+						default:
+							other += split[i];
+							break;
+						}
+					}
+					
+					if(title.equals("") && act.equals("")){
+						continue;
+					}
+					
+					this.outParam(pw, liveHouseNo);
+					title = "";
+					act = "";
+					other = "";
+				}
+			}
+		}catch(Exception e){
+			System.out.println("85 BBStreat Failure" + e);
+			return false;
+		}
+		
+		this.outMachidaSDR(pw, ++month, liveHouseNo);
 		
 		return true;
 	}
