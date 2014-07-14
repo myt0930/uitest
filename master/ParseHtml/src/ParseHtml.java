@@ -32,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
+	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
@@ -231,23 +231,26 @@ public class ParseHtml
 	        parseHtml.outAoyamaTsukimiru(pw, month, 78);
 	        //79. 千葉LOOK
 	        parseHtml.outChibaLook(pw, month, 79);
-	        //80. 新松戸FIREBIRD
-	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
-	        //81. 横浜BAYSIS
-	        parseHtml.outYokohamaBaysis(pw, month, 81);
-	        //82. 横浜Galaxy
-	        parseHtml.outYokohamaGalaxy(pw, month, 82);
 	        
-	        parseHtml.outYokohamaFAD(pw, month, 83);
-	        
-	        parseHtml.outYokohamaLizard(pw, month, 84);
-	        
-	        parseHtml.outYokohamaBBStreat(pw, month, 85);
-	        
-	        parseHtml.outMachidaSDR(pw, month, 86);
         }
-
+        //80. 新松戸FIREBIRD
+        parseHtml.outShinmatsudoFirebird(pw, month, 80);
+        //81. 横浜BAYSIS
+        parseHtml.outYokohamaBaysis(pw, month, 81);
+        //82. 横浜Galaxy
+        parseHtml.outYokohamaGalaxy(pw, month, 82);
+        //83. 横浜F.A.D
+        parseHtml.outYokohamaFAD(pw, month, 83);
+        //84. 横浜CLUB LIZARD
+        parseHtml.outYokohamaLizard(pw, month, 84);
+        //85. 横浜B.B.Street
+        parseHtml.outYokohamaBBStreat(pw, month, 85);
+        //86. 町田SDR
+        parseHtml.outMachidaSDR(pw, month, 86);
+        //87. 横浜7th AVENUE
         parseHtml.outYokohama7thAvenue(pw, month, 87);
+        //88. 横須賀かぼちゃ屋
+        parseHtml.outYokosukaKabotyaya(pw, month, 88);
         
         
         
@@ -4086,6 +4089,9 @@ public class ParseHtml
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 					
 					if(t.equals("h4")){
+						if(!title.equals("") || !act.equals("")){
+							this.outParam(pw, liveHouseNo);
+						}
 						title = "";
 						act = "";
 						other = "";
@@ -4099,14 +4105,17 @@ public class ParseHtml
 							title += split[1];
 						}
 					}else if(t.equals("b")){
-						act = str;
+						act += str + LINE_BREAK;
 						other = "時間・チケット価格は公式HPをご確認下さい。";
-						this.outParam(pw, liveHouseNo);
-						title = "";
-						act = "";
-						other = "";
 					}
 				}
+				
+				if(!title.equals("") || !act.equals("")){
+					this.outParam(pw, liveHouseNo);
+				}
+				title = "";
+				act = "";
+				other = "";
 			}
 		}catch(Exception e){
 			System.out.println("80 FIREBIRD Failure" + e);
@@ -4541,6 +4550,68 @@ public class ParseHtml
 		}
 		
 		this.outYokohama7thAvenue(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outYokosukaKabotyaya(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://members3.jcom.home.ne.jp/3354319402/SCHEDULE.html").get();
+			Elements baseElements = doc.body().select("tbody tr");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				
+					String[] split = str.split(LINE_BREAK + " " + LINE_BREAK);
+					
+					if(!t.equals("tr")){
+						continue;
+					}
+					
+					if(split.length <= 1){
+						continue;
+					}
+					
+					String[] dateTitle = split[0].split("\\)");
+					date = dateTitle[0].split(LINE_BREAK)[0];
+					date = this.makeDate(month, date.split("/")[1]);
+					title = dateTitle[1];
+					
+					if(split.length > 1){
+						String s = split[1];
+						if(s.contains("OPEN/") || s.contains("START/") || s.contains("ADV/") || s.contains("DOOR/")){
+							other += s;
+						}else{
+							act = s;
+						}
+					}
+					if(split.length > 2){
+						other += split[2];
+					}
+					
+					if(!title.equals("") || !act.equals("")){
+						this.outParam(pw, liveHouseNo);
+					}
+					title = "";
+					act = "";
+					other = "";
+				}
+			}
+		}catch(Exception e){
+			System.out.println("88 Kabotyaya Failure" + e);
+			return false;
+		}
 		
 		return true;
 	}
