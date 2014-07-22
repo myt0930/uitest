@@ -32,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 0;
+	static int debugFlag = 1;
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
@@ -231,28 +231,30 @@ public class ParseHtml
 	        parseHtml.outAoyamaTsukimiru(pw, month, 78);
 	        //79. 千葉LOOK
 	        parseHtml.outChibaLook(pw, month, 79);
-	        
+	        //80. 新松戸FIREBIRD
+	        parseHtml.outShinmatsudoFirebird(pw, month, 80);
+	        //81. 横浜BAYSIS
+	        parseHtml.outYokohamaBaysis(pw, month, 81);
+	        //82. 横浜Galaxy
+	        parseHtml.outYokohamaGalaxy(pw, month, 82);
+	        //83. 横浜F.A.D
+	        parseHtml.outYokohamaFAD(pw, month, 83);
+	        //84. 横浜CLUB LIZARD
+	        parseHtml.outYokohamaLizard(pw, month, 84);
+	        //85. 横浜B.B.Street
+	        parseHtml.outYokohamaBBStreat(pw, month, 85);
+	        //86. 町田SDR
+	        parseHtml.outMachidaSDR(pw, month, 86);
+	        //87. 横浜7th AVENUE
+	        parseHtml.outYokohama7thAvenue(pw, month, 87);
+	        //88. 横須賀かぼちゃ屋
+	        parseHtml.outYokosukaKabotyaya(pw, month, 88);
+	        //89. 新宿Wild Side Tokyo
+	        parseHtml.outShinjukuWildSideTokyo(pw, month, 89);
         }
-        //80. 新松戸FIREBIRD
-        parseHtml.outShinmatsudoFirebird(pw, month, 80);
-        //81. 横浜BAYSIS
-        parseHtml.outYokohamaBaysis(pw, month, 81);
-        //82. 横浜Galaxy
-        parseHtml.outYokohamaGalaxy(pw, month, 82);
-        //83. 横浜F.A.D
-        parseHtml.outYokohamaFAD(pw, month, 83);
-        //84. 横浜CLUB LIZARD
-        parseHtml.outYokohamaLizard(pw, month, 84);
-        //85. 横浜B.B.Street
-        parseHtml.outYokohamaBBStreat(pw, month, 85);
-        //86. 町田SDR
-        parseHtml.outMachidaSDR(pw, month, 86);
-        //87. 横浜7th AVENUE
-        parseHtml.outYokohama7thAvenue(pw, month, 87);
-        //88. 横須賀かぼちゃ屋
-        parseHtml.outYokosukaKabotyaya(pw, month, 88);
         
-        
+        //90. 吉祥寺Planet K
+        parseHtml.outKichijoujiPlanetK(pw, month, 90);
         
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
@@ -297,7 +299,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{		
-			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
 
 			this.initParam();
@@ -376,7 +378,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://marble-web.jp/html/schedule14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[width=510] td[colspan=3]");
 
 			this.initParam();
@@ -447,7 +449,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/" + String.format("%02d", month) + "/").get();
+			Document doc = Jsoup.connect("http://www.marz.jp/schedule/2014/" + String.format("%02d", month) + "/").timeout(10000).get();
 			Elements baseElements = doc.body().select("article");
 			
 			final String weekday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -501,7 +503,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/loft/date/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("tr");
 			
 			outLoftProject(pw, baseElements, 4, month);
@@ -520,7 +522,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-" + String.format("%d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule14-" + String.format("%d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table tbody tr[class!=head_line]");// getElementsByTag("tr");
 			
 			for( Element element : baseElements)
@@ -587,7 +589,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.toos.co.jp/basementbar/schedule/bb2014_" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("Table[width*=62] tr[valign=middle] td");
 			
 			int count = 0;
@@ -669,7 +671,7 @@ public class ParseHtml
 		try{
 			//TODO: 当月のURLが違う
 			String url = month == currentMonth ? "http://www.toos.co.jp/3/3_schedule.html" : "http://www.toos.co.jp/3/3_schedule_14" + String.format("%02d", month) +".html";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("table[width=625][border=0][cellspacing=2][cellpadding=1] tr");
 			
 			this.initParam();
@@ -730,7 +732,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.daisybar.jp/schedule/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("tbody tr td");
 			
 			this.initParam();
@@ -790,7 +792,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.loft-prj.co.jp/schedule/shelter/date/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("tr");
 			
 			outLoftProject(pw, baseElements, 9, month);
@@ -814,7 +816,7 @@ public class ParseHtml
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ukproject.com/que/schedule/thismonth.html" : "http://www.ukproject.com/que/schedule/nextmonth.html";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("tr tr");
 			
 			this.initParam();
@@ -899,7 +901,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.club251.com/sche/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.club251.com/sche/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=day clearfix]");
 			
 			for(Element element : baseElements)
@@ -947,7 +949,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			if(month > 12)return true;
-			Document doc = Jsoup.connect("http://s-era.jp/2014/" + String.format("%02d", month) + "/?cat=20").get();
+			Document doc = Jsoup.connect("http://s-era.jp/2014/" + String.format("%02d", month) + "/?cat=20").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule] div[class*=schedule-day]");
 			
 			for(Element element : baseElements)
@@ -998,7 +1000,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://gar-den.in/?m=2014" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://gar-den.in/?m=2014" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("article[id*=post]");
 			
 			this.initParam();
@@ -1052,7 +1054,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/" + String.format("%02d", month) + "/").get();
+			Document doc = Jsoup.connect("http://www.fever-popo.com/schedule/2014/" + String.format("%02d", month) + "/").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id*=entry-][class=entry-asset asset hentry]");
 			
 			this.initParam();
@@ -1114,7 +1116,7 @@ public class ParseHtml
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ufoclub.jp/schedule" : "http://www.ufoclub.jp/schedule/next-month";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("tbody tr");
 			
 			this.initParam();
@@ -1179,7 +1181,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").get();
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2014-" + String.format("%d", month) + "-schedule").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
 			this.initParam();
@@ -1250,7 +1252,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/east/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 17, month);
@@ -1268,7 +1270,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/west/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 18, month);
@@ -1286,7 +1288,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/nest/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 19, month);
@@ -1304,7 +1306,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/crest/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 20, month);
@@ -1322,7 +1324,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shibuya-o.com/burrow/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=post-list]");
 			
 			this.outTsutayaOGroup(pw,baseElements, 21, month);
@@ -1341,7 +1343,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.chelseahotel.jp/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.chelseahotel.jp/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("");
 			
 			this.initParam();
@@ -1368,7 +1370,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			String url = "http://kinoto.jp/sched/" + String.format("%02d", month) +"-2014/";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			
 			this.initParam();
@@ -1418,7 +1420,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_2014" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.toos.co.jp/lush/l_schedule/l_2014" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[cellpadding=5] tr");
 			
 			this.initParam();
@@ -1483,7 +1485,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=2014" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.club-quattro.com/shibuya/schedule/?ym=2014" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().getAllElements();
 			
 			this.initParam();
@@ -1548,7 +1550,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/14" + String.format("%02d", month) + "/").get();
+			Document doc = Jsoup.connect("http://www-shibuya.jp/schedule/14" + String.format("%02d", month) + "/").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=contents] div[class*=event]");
 			
 			this.initParam();
@@ -1629,7 +1631,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/" + String.format("%02d", month) + "/index.html").get();
+			Document doc = Jsoup.connect("http://www.duomusicexchange.com/schedule/2014/" + String.format("%02d", month) + "/index.html").timeout(10000).get();
 			Elements baseElements = doc.body().select("td[width=670]");
 			
 			this.initParam();
@@ -1689,7 +1691,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/" + String.format("%02d", month) + "/all_schedule.php").get();
+			Document doc = Jsoup.connect("http://www.unit-tokyo.com/schedule//2014/" + String.format("%02d", month) + "/all_schedule.php").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=content]");
 			
 			this.initParam();
@@ -1736,7 +1738,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=2014" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.astro-hall.com/category/schedule/?d=2014" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=content]");
 			
 			this.initParam();
@@ -1790,7 +1792,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.liquidroom.net/schedule/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("dl[class=schedulelist clfx]");
 			
 			this.initParam();
@@ -1867,7 +1869,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			print("ORGは1ヶ月ごとの管理をしていない！");
-			Document doc = Jsoup.connect("http://minamiikebukuromusic.org/category/schedule/").get();	//月ごとの管理は無い
+			Document doc = Jsoup.connect("http://minamiikebukuromusic.org/category/schedule/").timeout(10000).get();	//月ごとの管理は無い
 			Elements baseElements = doc.body().select("div[class=entry-summary]");
 			
 			this.initParam();
@@ -1945,7 +1947,7 @@ public class ParseHtml
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/month_" + String.format("%d", month);
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 33, month);
@@ -1967,7 +1969,7 @@ public class ParseHtml
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k2/schedule/month_this/" : "http://www.ruido.org/k2/schedule/next_month/";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 34, month);
@@ -1989,7 +1991,7 @@ public class ParseHtml
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k4/schedule/month_this/" : "http://www.ruido.org/k4/schedule/next_month/";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule_place]");
 			
 			this.outRuidoProject(pw, baseElements, 35, month);
@@ -2008,7 +2010,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule2014" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.tbs.co.jp/blitz/schedule_a/schedule2014" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("tr[id*=s20]");
 			
 			this.initParam();
@@ -2063,7 +2065,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://hall.zepp.co.jp/tokyo/schedule.html?year=2014&month=" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class*=date_box]");
 			
 			this.outZeppProject(pw, baseElements, 37, month);
@@ -2082,7 +2084,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://hall.zepp.co.jp/divercity/schedule.html?year=2014&month=" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class*=date_box]");
 			
 			this.outZeppProject(pw, baseElements, 38, month);
@@ -2101,7 +2103,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.sputniklab.com/redcloth/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[width=480][cellpadding=0] tr");
 			
 			this.initParam();
@@ -2163,7 +2165,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.studio-coast.com/schedule/2014/"+ String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://www.studio-coast.com/schedule/2014/"+ String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("section[id*=event]");
 			
 			this.initParam();
@@ -2223,7 +2225,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://koenji-high.com/schedule/?sy=2014&sm=" + month).get();
+			Document doc = Jsoup.connect("http://koenji-high.com/schedule/?sy=2014&sm=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=eventlist clearfix]");
 			
 			this.initParam();
@@ -2279,7 +2281,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://bushbash.org/schedule14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://bushbash.org/schedule14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			
 			this.initParam();
@@ -2334,7 +2336,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.live-missions.com/schedule.html?ym=2014-"+String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.live-missions.com/schedule.html?ym=2014-"+String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("section[id*= liveDate]");
 			this.initParam();
 			
@@ -2390,7 +2392,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://matchvox.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://matchvox.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			this.initParam();
 			
@@ -2538,7 +2540,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://flat.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://flat.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			this.initParam();
 			
@@ -2604,7 +2606,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://jam.rinky.info/sche/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://jam.rinky.info/sche/sche10.cgi?mode=main&year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			this.initParam();
 			
@@ -2669,7 +2671,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://9spices.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://9spices.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			this.initParam();
 			
@@ -2743,7 +2745,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://meets.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://meets.rinky.info/schedule/sche10.cgi?mode=main&year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("td");
 			this.initParam();
 			
@@ -2817,7 +2819,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.xxxrecords.jp/area/sche_14" + String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://www.xxxrecords.jp/area/sche_14" + String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[class=style1] tr");
 			this.initParam();
 			
@@ -2869,7 +2871,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://edge-ikebukuro.com/2014"+ String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://edge-ikebukuro.com/2014"+ String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=contents] tr");
 			this.initParam();
 			
@@ -2923,7 +2925,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.babel-rocktower.net/schedule/2014" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.babel-rocktower.net/schedule/2014" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("dl[class=schesettxt]");
 			this.initParam();
 			
@@ -2974,7 +2976,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			String url = month == currentMonth ? "http://www.studio-museum.com/mosaic/schedule/index.html" : "http://www.studio-museum.com/mosaic/schedule/2014" + String.format("%02d", month) +".html";
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			
 			Elements baseElements = doc.body().select("td[align=center]");
 			this.initParam();
@@ -3028,7 +3030,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.hor-outbreak.com/live.php?ym=2014-" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.hor-outbreak.com/live.php?ym=2014-" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("section");
 			this.initParam();
 			
@@ -3092,7 +3094,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.otonami.com/tenmado/schedule/14" + String.format("%02d", month) +".htm").get();
+			Document doc = Jsoup.connect("http://www.otonami.com/tenmado/schedule/14" + String.format("%02d", month) +".htm").timeout(10000).get();
 			Elements baseElements = doc.body().getAllElements();
 			
 			this.outTenmadoProject(pw, baseElements, 60, month);
@@ -3111,7 +3113,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.otonami.com/comfort/schedule/14" + String.format("%02d", month) +".htm").get();
+			Document doc = Jsoup.connect("http://www.otonami.com/comfort/schedule/14" + String.format("%02d", month) +".htm").timeout(10000).get();
 			Elements baseElements = doc.body().getAllElements();
 			
 			this.outTenmadoProject(pw, baseElements, 61, month);
@@ -3130,7 +3132,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.otonami.com/ebisu/schedule/14" + String.format("%02d", month) +".htm").get();
+			Document doc = Jsoup.connect("http://www.otonami.com/ebisu/schedule/14" + String.format("%02d", month) +".htm").timeout(10000).get();
 			Elements baseElements = doc.body().getAllElements();
 			
 			this.outTenmadoProject(pw, baseElements, 62, month);
@@ -3149,7 +3151,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www1.odn.ne.jp/~cfs81480/index.html/2014." + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www1.odn.ne.jp/~cfs81480/index.html/2014." + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("tr td");
 			this.initParam();
 			
@@ -3200,7 +3202,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://wall-moonstep.com/wall/wall_mobile/schedule/2014/2014_" + String.format("%02d", month) + "_mobile.html").get();
+			Document doc = Jsoup.connect("http://wall-moonstep.com/wall/wall_mobile/schedule/2014/2014_" + String.format("%02d", month) + "_mobile.html").timeout(10000).get();
 			Elements baseElements = doc.body().getAllElements();
 			this.initParam();
 			
@@ -3255,7 +3257,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.muribushi.jp/schedule/2014/" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.muribushi.jp/schedule/2014/" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("tr td[valign=top]");
 			this.initParam();
 			
@@ -3312,7 +3314,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			String url = month == currentMonth ? "http://lamama.net/staticpages/index.php/schedule" : "http://lamama.net/staticpages/index.php/schedule2014" + String.format("%02d", month);
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect(url).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=block-center] tr td p");
 			this.initParam();
 			
@@ -3368,7 +3370,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.vision-tokyo.com/schedule/2014-" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.vision-tokyo.com/schedule/2014-" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("td[class*=tribe-events-thismonth]");
 			this.initParam();
 			
@@ -3418,7 +3420,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://eggman.jp/daytime/schedule/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://eggman.jp/daytime/schedule/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("dl");
 			this.initParam();
 			
@@ -3461,7 +3463,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shinjuku-blaze.com/event/date/2014/" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://shinjuku-blaze.com/event/date/2014/" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=eventlist]");
 			this.initParam();
 			
@@ -3519,7 +3521,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.garage.or.jp/wp/2014" + String.format("%02d", month) +"sch").get();
+			Document doc = Jsoup.connect("http://www.garage.or.jp/wp/2014" + String.format("%02d", month) +"sch").timeout(10000).get();
 			Elements baseElements = doc.body().select("table");
 			this.initParam();
 			
@@ -3586,7 +3588,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://shimoyane.com/cgi-bin/el-calendar/index.php").get();
+			Document doc = Jsoup.connect("http://shimoyane.com/cgi-bin/el-calendar/index.php").timeout(10000).get();
 			Elements baseElements = doc.body().select("tr td");
 			this.initParam();
 			
@@ -3654,7 +3656,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.reg-r2.com/?page_id=7250&ym=2014-" + String.format("%02d", month)).get();
+			Document doc = Jsoup.connect("http://www.reg-r2.com/?page_id=7250&ym=2014-" + String.format("%02d", month)).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=textbody]");
 			this.initParam();
 			
@@ -3699,7 +3701,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/dl/schedule_14" + String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/dl/schedule_14" + String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule]");
 			this.initParam();
 			
@@ -3742,7 +3744,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/sl/schedule_14" + String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://www.live-loop.com/schedule/sl/schedule_14" + String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=schedule]");
 			this.initParam();
 			
@@ -3786,7 +3788,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.club-phase.com/contents/sched/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www.club-phase.com/contents/sched/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[id=sched]");
 			this.initParam();
 			
@@ -3838,7 +3840,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://mameromantic.com/?cat=1").get();
+			Document doc = Jsoup.connect("http://mameromantic.com/?cat=1").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=entry]");
 			this.initParam();
 			
@@ -3881,7 +3883,7 @@ public class ParseHtml
 		try{
 			//TODO:
 			print("HPのURLの作りが現時点で予想できない");
-			Document doc = Jsoup.connect("http://www.maplehouse.jp/schedule/schedule.html").get();
+			Document doc = Jsoup.connect("http://www.maplehouse.jp/schedule/schedule.html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=area-main]");
 			this.initParam();
 			
@@ -3971,7 +3973,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.moonromantic.com/?cat=1").get();
+			Document doc = Jsoup.connect("http://www.moonromantic.com/?cat=1").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=entry]");
 			this.initParam();
 			
@@ -4012,7 +4014,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://inochigake.com/schedule/index.html").get();
+			Document doc = Jsoup.connect("http://inochigake.com/schedule/index.html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table[width=560] td");
 			this.initParam();
 			
@@ -4076,7 +4078,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.aj-group.co.jp/schedule/2014/" + String.format("%02d", month) +".html").get();
+			Document doc = Jsoup.connect("http://www.aj-group.co.jp/schedule/2014/" + String.format("%02d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("body");
 			this.initParam();
 			
@@ -4133,7 +4135,7 @@ public class ParseHtml
 			if(month > 12){
 				return true;
 			}
-			Document doc = Jsoup.connect("http://www.yokohamabaysis.com/schedule.php?mt=" + count + "#schedule_list").get();
+			Document doc = Jsoup.connect("http://www.yokohamabaysis.com/schedule.php?mt=" + count + "#schedule_list").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=sbox clearfix]");
 			this.initParam();
 			
@@ -4181,7 +4183,7 @@ public class ParseHtml
 		
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://yokohama-galaxy.com/htdocs/wordpress/?yr=2014&month=" + month + "&dy=&cid=all").get();
+			Document doc = Jsoup.connect("http://yokohama-galaxy.com/htdocs/wordpress/?yr=2014&month=" + month + "&dy=&cid=all").timeout(10000).get();
 			Elements baseElements = doc.body().select("ul[class=mc-list]");
 			this.initParam();
 			
@@ -4252,7 +4254,7 @@ public class ParseHtml
 			}
 			
 			//TODO: URLがよくわからない
-			Document doc = Jsoup.connect("http://www.fad-music.com/fad/?page_id=" + pageId).get();
+			Document doc = Jsoup.connect("http://www.fad-music.com/fad/?page_id=" + pageId).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=section] p");
 			this.initParam();
 			
@@ -4318,7 +4320,7 @@ public class ParseHtml
 			}
 			
 			//TODO: URLがよくわからない
-			Document doc = Jsoup.connect("http://www.club-lizard.com/lizard/?page_id=" + pageId).get();
+			Document doc = Jsoup.connect("http://www.club-lizard.com/lizard/?page_id=" + pageId).timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=entry-content] p");
 			this.initParam();
 			
@@ -4378,7 +4380,7 @@ public class ParseHtml
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.bbstreet.com/2014/" + month +"?cat=5").get();
+			Document doc = Jsoup.connect("http://www.bbstreet.com/2014/" + month +"?cat=5").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=topline]");
 			this.initParam();
 			
@@ -4449,7 +4451,7 @@ public class ParseHtml
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.m-sdr.com/schedule/index.cgi?year=2014&mon=" + month).get();
+			Document doc = Jsoup.connect("http://www.m-sdr.com/schedule/index.cgi?year=2014&mon=" + month).timeout(10000).get();
 			Elements baseElements = doc.body().select("table[cellpadding=0] tr");
 			this.initParam();
 			
@@ -4516,7 +4518,7 @@ public class ParseHtml
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www2.big.or.jp/~7th/schedule/14" + String.format("%02d", month) + ".html").get();
+			Document doc = Jsoup.connect("http://www2.big.or.jp/~7th/schedule/14" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=content] div[class=span6] div");
 			this.initParam();
 			
@@ -4561,7 +4563,7 @@ public class ParseHtml
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://members3.jcom.home.ne.jp/3354319402/SCHEDULE.html").get();
+			Document doc = Jsoup.connect("http://members3.jcom.home.ne.jp/3354319402/SCHEDULE.html").timeout(10000).get();
 			Elements baseElements = doc.body().select("tbody tr");
 			this.initParam();
 			
@@ -4612,6 +4614,94 @@ public class ParseHtml
 			System.out.println("88 Kabotyaya Failure" + e);
 			return false;
 		}
+		
+		return true;
+	}
+	
+	private boolean outShinjukuWildSideTokyo(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://ws-tokyo.com/?m=2014"+ String.format("%02d", month) +"&cat=3").timeout(10000).timeout(10000).get();
+			Elements baseElements = doc.body().select("a[class=sche_list]");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				
+					if(c.equals("day")){
+						String[] split = str.split("/");
+						date = this.makeDate(month, split[1]);
+					}else if(c.equals("ttl")){
+						title = str;
+					}else if(c.equals("bands")){
+						act = str;
+					}else if(c.equals("price")){
+						other = str + LINE_BREAK;
+					}else if(c.equals("time")){
+						other += str;
+					}
+				}
+				this.outParam(pw, liveHouseNo);
+				title = "";
+				act = "";
+				other = "";
+						
+			}
+		}catch(Exception e){
+			System.out.println("89 WildSideTokyo Failure" + e);
+			return false;
+		}
+		
+		this.outShinjukuWildSideTokyo(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outKichijoujiPlanetK(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return true;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			Document doc = Jsoup.connect("http://inter-planets.net/schedule2014/planetk2014"+ String.format("%02d", month) +".html").timeout(10000).get();
+			Elements baseElements = doc.body().select("table tr td table tr[valign=top] p");
+			this.initParam();
+			
+			for(Element element : baseElements)
+			{
+				for(Element e : element.getAllElements())
+				{
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+				
+					if(t == "p"){
+						print(str);						
+					}
+
+				}
+//				this.outParam(pw, liveHouseNo);
+//				title = "";
+//				act = "";
+//				other = "";
+						
+			}
+		}catch(Exception e){
+			System.out.println("90 Planet K Failure" + e);
+			return false;
+		}
+		
+		this.outKichijoujiPlanetK(pw, ++month, liveHouseNo);
 		
 		return true;
 	}
@@ -4696,7 +4786,7 @@ public class ParseHtml
 //	private void out(PrintWriter pw, int month, int liveHouseNo)
 //	{
 //		try{
-//			Document doc = Jsoup.connect("").get();
+//			Document doc = Jsoup.connect("").timeout(10000).get();
 //			Elements baseElements = doc.body().select("");
 //			this.initParam();
 //			
@@ -4716,7 +4806,7 @@ public class ParseHtml
 //	private void out(PrintWriter pw, int month, int liveHouseNo)
 //	{
 //		try{
-//			Document doc = Jsoup.connect("").get();
+//			Document doc = Jsoup.connect("").timeout(10000).get();
 //			Elements baseElements = doc.body().select("");
 //			this.initParam();
 //			
@@ -4736,7 +4826,7 @@ public class ParseHtml
 //	private void out(PrintWriter pw, int month, int liveHouseNo)
 //	{
 //		try{
-//			Document doc = Jsoup.connect("").get();
+//			Document doc = Jsoup.connect("").timeout(10000).get();
 //			Elements baseElements = doc.body().select("");
 //			this.initParam();
 //			
