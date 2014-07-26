@@ -32,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
+	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
@@ -63,6 +63,8 @@ public class ParseHtml
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
+        
+        parseHtml.outYokosukaKabotyaya(pw, month, 88);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -158,9 +160,7 @@ public class ParseHtml
 	        //41.
 	        
 	        //42. 新木場STUDIO COAST
-//	        if(isOutDifficultLiveHouse){
-//	        	parseHtml.outShinkibaStudioCoast(pw, month, 42);
-//	        }
+        	parseHtml.outShinkibaStudioCoast(pw, month, 42);
 	        //43. 新宿JAM 
 	        
 	        //46. 高円寺HIGH
@@ -253,9 +253,6 @@ public class ParseHtml
 	        parseHtml.outShinjukuWildSideTokyo(pw, month, 89);
         }
         
-        //90. 吉祥寺Planet K
-        parseHtml.outKichijoujiPlanetK(pw, month, 90);
-        
         if(isOutDifficultLiveHouse){
         	//4. 新宿LOFT
 			parseHtml.outShinjukuLoft(pw,month, 4);
@@ -284,10 +281,6 @@ public class ParseHtml
         }
         if(isOutDifficultLiveHouse){
         	parseHtml.outKichijoujiWarp(pw, month, 40);
-        }
-        if(isOutDifficultLiveHouse){
-        	//read　timeoutが多い
-        	parseHtml.outShinkibaStudioCoast(pw, month, 42);
         }
         
 		pw.close();
@@ -427,6 +420,8 @@ public class ParseHtml
 								title = "";
 								act = "";
 								other = "";
+							}else{
+								act += str;
 							}
 						}else if(className.equals("linehi_12")){
 							act += str;
@@ -595,64 +590,45 @@ public class ParseHtml
 			int count = 0;
 			for( Element element : baseElements)
 			{
-				count++;
-				String date = "";
-				if( count == 1 )
+				for(Element e : element.getAllElements())
 				{
-					String str = element.text();
-					if(str.contains("BASEMENT BAR 19th ANNIVERSARY")){
-						count = 0;
-						continue;
-					}
-					date = String.format("%02d%02d", month, Integer.valueOf(element.text()));
-					pw.print("6" + TAB);
-					outDate(pw, date);
-				}
-				else if(count == 2)
-				{
-					//do nothing
-				}
-				else
-				{
-					count = 0;
+					String t = e.tagName();
+					String c = e.className();
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 					
-					String title = "";
-					String act = "";
-					String other = "";
-					//タイトル
-					for( Element e : element.getElementsByTag("font") )
-					{
-						String str = this.stringReplaceLineBreakAndRemoveTag(e);
-						if(e.text().equals(""))
-						{
-							continue;
-						}
-						String color = e.attr("color");
-						
-						if( color.contains("#000099") )
-						{
-							title += str;
-						}
-						else if( color.contains("#006699") )
-						{
-							other += str;
-						}
-						else
-						{
-							act += str;
+					if(t.equals("td")){
+						if(e.attr("width").equals("14")){
+							date = this.makeDate(month, str);
+						}else if(e.attr("align").equals("left")){
+							for(Element e2 : e.getElementsByTag("font")){
+								str = this.stringReplaceLineBreakAndRemoveTag(e2);
+								if(e.text().equals(""))
+								{
+									continue;
+								}
+								String color = e2.attr("color");
+								
+								if( color.contains("#000099") )
+								{
+									title += str;
+								}
+								else if( color.contains("#006699") )
+								{
+									other += str;
+								}
+								else
+								{
+									act += str;
+								}
+							}
+							
+							this.outParam(pw, liveHouseNo);
+							title = "";
+							act = "";
+							other = "";
 						}
 					}
-					other = other.replace("●", LINE_BREAK + "●");
-					outTitle(pw, title);
-					outAct(pw, act, date);
-					outOther(pw, other, date);
-					
-					//その場しのぎ
-					if(act.contains("Mounthill's Orchestra / Yees. / オレモリカエル / THE BABA BAND")){
-						count = 2;
-					}
-				}
-					
+				}					
 			}
 		} catch(Exception e){
 			System.out.println("6.BASEMENT Failure" + e);
@@ -4587,7 +4563,7 @@ public class ParseHtml
 					
 					String[] dateTitle = split[0].split("\\)");
 					date = dateTitle[0].split(LINE_BREAK)[0];
-					date = this.makeDate(month, date.split("/")[1]);
+					date = this.makeDate(date.split("/")[0], date.split("/")[1]);
 					title = dateTitle[1];
 					
 					if(split.length > 1){
@@ -4686,7 +4662,8 @@ public class ParseHtml
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 				
 					if(t == "p"){
-						print(str);						
+						String[] split = str.split("\\)");
+											
 					}
 
 				}
@@ -4993,16 +4970,11 @@ public class ParseHtml
 					{
 						title = stringReplaceLineBreakAndRemoveTag(e2);
 						title = removeStartEndLineBreak(title);
-						
-						pw.print(liveHouseNo + TAB);
-						outDate(pw, date);
-						outTitle(pw, title);
 					}
 					for( Element e2 : e.select("p[class=month_content]") )
 					{
 						act = stringReplaceLineBreakAndRemoveTag(e2);
 						act = removeStartEndLineBreak(act);
-						outAct(pw, act, date);
 						if( act.contains("..."))
 						{
 							print("■■" + liveHouseNo + "::" + date + "::act Failure");
@@ -5017,11 +4989,10 @@ public class ParseHtml
 						other += stringReplaceLineBreakAndRemoveTag(e2);
 						String[] split = other.split("【");
 						other = split[0];
-						other = removeStartEndLineBreak(other);
-						outOther(pw, other, date);
-						if( other.contains("..."))
+						
+						if(!title.equals("") || !act.equals(""))
 						{
-						//	print("■■" + liveHouseNo + "::" + date + "::other Failure");
+							this.outParam(pw, liveHouseNo);
 						}
 					}
 				}
