@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 0;
+	static int debugFlag = 1;
 	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
@@ -59,13 +60,13 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 7;
+        int month = 8;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-        parseHtml.outYokosukaKabotyaya(pw, month, 88);
-        
+        parseHtml.outShinjukuAntiknock(pw, month, 91);
+		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -251,6 +252,8 @@ public class ParseHtml
 	        parseHtml.outYokosukaKabotyaya(pw, month, 88);
 	        //89. 新宿Wild Side Tokyo
 	        parseHtml.outShinjukuWildSideTokyo(pw, month, 89);
+	        //90. 池袋Adm
+	        parseHtml.outIkebukuroAdm(pw, month, 90);
         }
         
         if(isOutDifficultLiveHouse){
@@ -4642,16 +4645,96 @@ public class ParseHtml
 		return true;
 	}
 	
-	private boolean outKichijoujiPlanetK(PrintWriter pw, int month, int liveHouseNo)
+	private boolean outIkebukuroAdm(PrintWriter pw, int month, int liveHouseNo)
 	{
 		if(month > 12){
 			return true;
 		}
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://inter-planets.net/schedule2014/planetk2014"+ String.format("%02d", month) +".html").timeout(10000).get();
-			Elements baseElements = doc.body().select("table tr td table tr[valign=top] p");
+			String url = "http://www.adm-rock.com/sche2/index.html";
+			if(month != currentMonth){
+				url = "http://www.adm-rock.com/sche2/2014"+ String.format("%02d", month) +".html";
+			}
+			Document doc = Jsoup.connect(url).timeout(10000).get();
+			Elements baseElements = doc.body().select("div[class=content]");
 			this.initParam();
+			
+			ArrayList<String> dayTitleList = new ArrayList<String>();
+			for(Element element : baseElements)
+			{
+				//日付とタイトルを取得
+				for(Element e : element.select("h3")){
+					String str = this.stringReplaceLineBreakAndRemoveTag(e);
+					dayTitleList.add(str);
+				}
+				
+				String t = element.tagName();
+				String c = element.className();
+				String str = this.stringReplaceLineBreakAndRemoveTag(element);
+				str = str.replace("br>>", "br>");
+				
+				String[] split = str.split(LINE_BREAK + " " + LINE_BREAK);
+				for(int i = 0;i < split.length;i++){
+					String dateStr = null;
+					for(String s : dayTitleList){
+						if(split[i].contains(s)){
+							dateStr = s;
+						}
+					}
+					if(dateStr == null){
+						continue;
+					}
+					
+					act = split[i].replace(dateStr, "");
+					
+					String[] dayTitle = dateStr.split("\\)");
+					date = dayTitle[0].split("\\(")[0];
+					date = date.split("/")[1];
+					date = this.makeDate(month, date);
+					
+					for(int j = 1;j < dayTitle.length;j++){
+						title += dayTitle[j];
+					}
+					
+					i++;
+					other = split[i];
+					
+					// もし次の予定がotherに入っている場合はカウンターを戻す
+					for(String s : dayTitleList){
+						if(other.contains(s)){
+							i--;
+							other = "";
+							break;
+						}
+					}
+						
+					this.outParam(pw, liveHouseNo);
+					title = "";
+					act = "";
+					other = "";
+					
+				}						
+			}
+		}catch(Exception e){
+			System.out.println("90 Planet K Failure" + e);
+			return false;
+		}
+		
+		this.outIkebukuroAdm(pw, ++month, liveHouseNo);
+		
+		return true;
+	}
+	
+	private boolean outShinjukuAntiknock(PrintWriter pw, int month, int liveHouseNo)
+	{
+		if(!checkMonth(month,liveHouseNo)){
+			return true;
+		}
+		
+		try{
+			String url = "http://www.antiknock.net/schedule/2014/" + String.format("%02d", month) + "/";
+			Elements baseElements = this.getElementsWithURL(url, "div[class=sche_list_box] div");
 			
 			for(Element element : baseElements)
 			{
@@ -4660,27 +4743,87 @@ public class ParseHtml
 					String t = e.tagName();
 					String c = e.className();
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
-				
-					if(t == "p"){
-						String[] split = str.split("\\)");
-											
+					
+					if(c.equals("sche_box_left")){
+						for(Element e2 : e.getAllElements()){
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(c.contains("sche_date_")){
+								date = this.makeDate(month, str);
+							}
+						}
+					}else if(c.equals("sche_box_right")){
+						for(Element e2 : e.getAllElements()){
+							c = e2.className();
+							str = this.stringReplaceLineBreakAndRemoveTag(e2);
+							if(c.equals("sche_event_ttl")){
+								title = str;
+							}else if(c.equals("artist_text")){
+								act = str;
+							}else if(c.equals("top_pickup_eventtime")){
+								int count = 0;
+								for(Element e3 : e2.getAllElements())
+								{
+									str = this.stringReplaceLineBreakAndRemoveTag(e3);
+									if(e3.className().equals("top_picup_eventtime_td")){
+										switch (count) {
+										case 0:
+											other += "OPEN:" + str;
+											break;
+										case 1:
+											other += "START:" + str;
+											break;
+										case 2:
+											other += "ADV:" + str;
+											break;
+										case 3:
+											other += "DOOR:" + str;
+											break;
+										default:
+											break;
+										}
+										other += LINE_BREAK;
+										count++;
+									}
+								}
+							}else if(c.equals("top_event_comment_more")){
+								this.outParam(pw, liveHouseNo);
+								title = "";
+								act = "";
+								other = "";
+							}
+						}
 					}
-
+					
 				}
-//				this.outParam(pw, liveHouseNo);
-//				title = "";
-//				act = "";
-//				other = "";
-						
 			}
 		}catch(Exception e){
-			System.out.println("90 Planet K Failure" + e);
+			System.out.println(" Failure" + e);
 			return false;
 		}
 		
-		this.outKichijoujiPlanetK(pw, ++month, liveHouseNo);
+		this.outShinjukuAntiknock(pw, ++month, liveHouseNo);
+		return true;
+	}
+	
+	 
+	
+	private boolean checkMonth(int month, int liveHouseNo)
+	{
+		if(month > 12){
+			return false;
+		}
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		
 		return true;
+	}
+	
+	private Elements getElementsWithURL(String url, String select) throws IOException 
+	{
+		Document doc = Jsoup.connect(url).timeout(10000).get();
+		Elements baseElements = doc.body().select(select);
+		this.initParam();
+		return baseElements;
 	}
 	
 	private boolean outKichijoujiWarp(PrintWriter pw, int month, int liveHouseNo)
