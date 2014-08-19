@@ -33,14 +33,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class ParseHtml
 {
-	static int debugFlag = 1;
+	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = false;
-	static boolean isOutNormalLiveHouse = false;
+	static boolean isOutNormalLiveHouse = true;
 	
 	static int FAD_THIS_MONTH_PAGEID = 3;
-	static int FAD_NEXT_MONTH_PAGEID = 13284;
+	static int FAD_NEXT_MONTH_PAGEID = 13485;
 	static int LIZARD_THIS_MONTH_PAGEID = 29;
-	static int LIZARD_NEXT_MONTH_PAGEID = 5360;
+	static int LIZARD_NEXT_MONTH_PAGEID = 5370;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -64,9 +64,7 @@ public class ParseHtml
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
-        
-        parseHtml.outShinjukuAntiknock(pw, month, 91);
-		
+
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -296,7 +294,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{		
 			Document doc = Jsoup.connect("http://motion-web.jp/html/2014" + String.format("%02d", month) + ".html").timeout(10000).get();
-			Elements baseElements = doc.body().select("table[width=450] td[colspan=4]");
+			Elements baseElements = doc.body().select("td[colspan=4]");
 
 			this.initParam();
 			for( Element element : baseElements)
