@@ -34,8 +34,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = false;
-	static boolean isOutNormalLiveHouse = true;
+	static boolean isOutDifficultLiveHouse = true;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static int FAD_THIS_MONTH_PAGEID = 3;
 	static int FAD_NEXT_MONTH_PAGEID = 13485;
