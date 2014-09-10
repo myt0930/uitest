@@ -34,7 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = true;
+	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
 	static int FAD_THIS_MONTH_PAGEID = 3;
@@ -60,11 +60,13 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 8;
+        int month = 9;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
 
+        parseHtml.outIkebukuroOrg(pw, month, 32);
+		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -3859,13 +3861,13 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			//TODO:
-			print("HPのURLの作りが現時点で予想できない");
 			Document doc = Jsoup.connect("http://www.maplehouse.jp/schedule/schedule.html").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[id=area-main]");
 			this.initParam();
 			
 			int type = 0;
 			String stage = "";
+			boolean isStartSchedule = false;
 			for(Element element : baseElements)
 			{
 				for(Element e : element.getAllElements())
@@ -3874,18 +3876,19 @@ public class ParseHtml
 					String c = e.className();
 					String str = this.stringReplaceLineBreakAndRemoveTag(e);
 					
+					if(str.equals("8月") || str.equals("＜")){
+						continue;
+					}
+					
 					if(c.equals("fsize_l")){
-						if(e.hasAttr("style")){
-							if(e.attr("style").contains("#0000ff") || e.attr("style").contains("#ff0000") || e.attr("style").contains("#ff00ff") || e.attr("style").contains("#4e4650")){
-								type = 1;
-							}else{
-								print("■77.continue::"+str);
-								continue;
-							}
-						}
-						if(str.equals("3000-")){
-							continue;
-						}
+//						if(e.hasAttr("style")){
+//							if(e.attr("style").contains("#0000ff") || e.attr("style").contains("#ff0000") || e.attr("style").contains("#ff00ff") || e.attr("style").contains("#4e4650")){
+//								type = 1;
+//							}else{
+//								print("■77.continue::"+str);
+//								continue;
+//							}
+//						}
 						
 						if(str.startsWith("[")){
 							type = 2;
@@ -3895,8 +3898,9 @@ public class ParseHtml
 						}
 						switch(type){
 						case 0:
-							String monthString = str.split("月Live")[0];
+							String monthString = str.split("月")[0];
 							month = Integer.valueOf(monthString);
+							type = 1;
 							break;
 						case 1:
 							if(str.contains("A-stage")){
@@ -3933,7 +3937,7 @@ public class ParseHtml
 							title = "";
 							act = "";
 							other = "";
-							type = 0;
+							type = 1;
 							break;
 						}
 					}
