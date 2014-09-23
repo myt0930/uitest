@@ -34,7 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = false;
+	static boolean isOutDifficultLiveHouse = true;
 	static boolean isOutNormalLiveHouse = false;
 	
 	static int FAD_THIS_MONTH_PAGEID = 3;
@@ -64,8 +64,6 @@ public class ParseHtml
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
-
-        parseHtml.outIkebukuroOrg(pw, month, 32);
 		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
