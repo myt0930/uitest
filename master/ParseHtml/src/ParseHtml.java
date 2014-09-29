@@ -34,13 +34,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = true;
+	static boolean isOutDifficultLiveHouse = false;
 	static boolean isOutNormalLiveHouse = false;
 	
 	static int FAD_THIS_MONTH_PAGEID = 3;
-	static int FAD_NEXT_MONTH_PAGEID = 13485;
+	static int FAD_NEXT_MONTH_PAGEID = 13738;
 	static int LIZARD_THIS_MONTH_PAGEID = 29;
-	static int LIZARD_NEXT_MONTH_PAGEID = 5370;
+	static int LIZARD_NEXT_MONTH_PAGEID = 5691;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -64,6 +64,9 @@ public class ParseHtml
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
+		
+        parseHtml.outYokohamaBaysis(pw, month, 81);
+        parseHtml.outYokohama7thAvenue(pw, month, 87);
 		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
