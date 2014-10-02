@@ -60,13 +60,15 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 9;
+        int month = 10;
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
 		
-        parseHtml.outYokohamaBaysis(pw, month, 81);
-        parseHtml.outYokohama7thAvenue(pw, month, 87);
+        parseHtml.outGakugeidaigakuMapleHouse(pw, month, 77);
+        //79. 千葉LOOK
+        parseHtml.outChibaLook(pw, month, 79);
+
 		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
