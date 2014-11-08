@@ -41,7 +41,7 @@ public class ParseHtml
 	static HashMap<Integer,Integer> fadMap = new HashMap<Integer,Integer>();
 	static HashMap<Integer,Integer> lizardMap = new HashMap<Integer,Integer>();
 	static int FAD_THIS_MONTH_PAGEID = 3;
-	static int LIZARD_THIS_MONTH_PAGEID = 29;
+	static int LIZARD_THIS_MONTH_PAGEID = 5859;
 	
 	static ParseHtml parseHtml = new ParseHtml();
 	static String[] lineBreakCode = {"< br/>","< br/ >", "<br/>", "<br />", "< BR/>", "< BR/ >", "<BR/>","<BR />"};
@@ -61,37 +61,21 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 10;
+        int month = 11;
         
         fadMap.put(11, 13970);
         fadMap.put(12, 14214);
         
-        lizardMap.put(11, 5691);
+        lizardMap.put(11, 5859);
+        lizardMap.put(12, 5874);
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
-		
-        //1. 新宿Motion
-		parseHtml.outShinjukuMotion(pw, month, 1);
+        
 		//2. 新宿Marble
 		parseHtml.outShinjukuMarble(pw,month, 2);
-        parseHtml.outKoenjiNiman(pw, month, 16);
-        parseHtml.outShimokitaDaisyBar(pw, month, 8);
-        parseHtml.outIkebukuroEdge(pw, month, 56);
-      //60. 四谷天窓
-        parseHtml.outYotsuyaTenmado(pw, month, 60);
-        //61. 四谷天窓.comfort
-        parseHtml.outYotsuyaTenmadoComfort(pw, month, 61);
-        parseHtml.outChibaLook(pw, month, 79);
-        //80. 新松戸FIREBIRD
-        parseHtml.outShinmatsudoFirebird(pw, month, 80);
-        //81. 横浜BAYSIS
-        parseHtml.outYokohamaBaysis(pw, month, 81);
-        
-        parseHtml.outYokohamaLizard(pw, month, 84);
-        //87. 横浜7th AVENUE
-        parseHtml.outYokohama7thAvenue(pw, month, 87);
-        
+		parseHtml.outChibaLook(pw, month, 79);
+		
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
