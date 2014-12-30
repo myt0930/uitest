@@ -86,7 +86,6 @@
 		5C0559D918CD23990080A0D7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0559D818CD23990080A0D7 /* MobileCoreServices.framework */; };
 		5C174A7218BA0C6C003F59C6 /* CKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */; };
 		5C174A7318BA0C6C003F59C6 /* CKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C174A7118BA0C6C003F59C6 /* CKViewController.m */; };
-		5C73569518F595CB00D90991 /* FelloPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C73569418F595CB00D90991 /* FelloPush.framework */; };
 		5C7E3FEB18AF12BC00AAC68B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */; };
 		5C7E3FEE18AF1BF600AAC68B /* FavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FED18AF1BF600AAC68B /* FavViewController.m */; };
 		5C7E3FF118AF227100AAC68B /* LiveHouseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E3FF018AF227100AAC68B /* LiveHouseViewController.m */; };
@@ -134,7 +133,6 @@
 		5C86291C18FEC5E600B3770C /* appcc_web_splash_cayto.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8628EC18FEC5E600B3770C /* appcc_web_splash_cayto.png */; };
 		5C86291D18FEC5E600B3770C /* appcc_web_splash_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8628ED18FEC5E600B3770C /* appcc_web_splash_logo.png */; };
 		5C86291E18FEC5E600B3770C /* libappCCloud.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8628F818FEC5E600B3770C /* libappCCloud.a */; };
-		5C8A31C118D1E30E002D548A /* FelloPush.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C8A31C018D1E30E002D548A /* FelloPush.bundle */; };
 		5CBD701A18B502440078C409 /* SettingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD701918B502440078C409 /* SettingData.m */; };
 		5CF66CDC18CC987A00A55497 /* calendar_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CBE18CC987A00A55497 /* calendar_64@2x.png */; };
 		5CF66CDD18CC987A00A55497 /* home_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CBF18CC987A00A55497 /* home_64@2x.png */; };
@@ -166,6 +164,8 @@
 		5CF66CF718CC987A00A55497 /* settings_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CD918CC987A00A55497 /* settings_64@2x.png */; };
 		5CF66CF818CC987A00A55497 /* star_64_f5f5f5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CDA18CC987A00A55497 /* star_64_f5f5f5@2x.png */; };
 		5CF66CF918CC987A00A55497 /* star_outline_64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF66CDB18CC987A00A55497 /* star_outline_64@2x.png */; };
+		84FF09E91A32024700F59DC3 /* FelloPush.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84FF09E71A32024700F59DC3 /* FelloPush.bundle */; };
+		84FF09EA1A32024700F59DC3 /* FelloPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FF09E81A32024700F59DC3 /* FelloPush.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,7 +311,6 @@
 		5C174A6F18BA0C6C003F59C6 /* CKCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKCalendarView.m; sourceTree = "<group>"; };
 		5C174A7018BA0C6C003F59C6 /* CKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKViewController.h; sourceTree = "<group>"; };
 		5C174A7118BA0C6C003F59C6 /* CKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKViewController.m; sourceTree = "<group>"; };
-		5C73569418F595CB00D90991 /* FelloPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FelloPush.framework; path = tab/FelloPush.framework; sourceTree = "<group>"; };
 		5C7E3FE918AF12BC00AAC68B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		5C7E3FEA18AF12BC00AAC68B /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		5C7E3FEC18AF1BF600AAC68B /* FavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavViewController.h; sourceTree = "<group>"; };
@@ -377,7 +376,6 @@
 		5C8628F618FEC5E600B3770C /* appCMoveIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appCMoveIconView.h; sourceTree = "<group>"; };
 		5C8628F718FEC5E600B3770C /* appCSimpleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appCSimpleView.h; sourceTree = "<group>"; };
 		5C8628F818FEC5E600B3770C /* libappCCloud.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libappCCloud.a; sourceTree = "<group>"; };
-		5C8A31C018D1E30E002D548A /* FelloPush.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FelloPush.bundle; path = tab/FelloPush.bundle; sourceTree = "<group>"; };
 		5CBD701818B502440078C409 /* SettingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingData.h; sourceTree = "<group>"; };
 		5CBD701918B502440078C409 /* SettingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingData.m; sourceTree = "<group>"; };
 		5CF66CBE18CC987A00A55497 /* calendar_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar_64@2x.png"; path = "resource/calendar_64@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -410,6 +408,8 @@
 		5CF66CD918CC987A00A55497 /* settings_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings_64@2x.png"; path = "resource/settings_64@2x.png"; sourceTree = SOURCE_ROOT; };
 		5CF66CDA18CC987A00A55497 /* star_64_f5f5f5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_64_f5f5f5@2x.png"; path = "resource/star_64_f5f5f5@2x.png"; sourceTree = SOURCE_ROOT; };
 		5CF66CDB18CC987A00A55497 /* star_outline_64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_outline_64@2x.png"; path = "resource/star_outline_64@2x.png"; sourceTree = SOURCE_ROOT; };
+		84FF09E71A32024700F59DC3 /* FelloPush.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FelloPush.bundle; path = tab/Ad/PushSDK/Debug/FelloPush.bundle; sourceTree = "<group>"; };
+		84FF09E81A32024700F59DC3 /* FelloPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FelloPush.framework; path = tab/Ad/PushSDK/Debug/FelloPush.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +422,7 @@
 				5C0559D518CD23770080A0D7 /* Security.framework in Frameworks */,
 				352EF68318C71BF0001908AA /* SystemConfiguration.framework in Frameworks */,
 				5C0559D318CD23500080A0D7 /* StoreKit.framework in Frameworks */,
+				84FF09EA1A32024700F59DC3 /* FelloPush.framework in Frameworks */,
 				5C0559D118CD234A0080A0D7 /* MessageUI.framework in Frameworks */,
 				5C0559CF18CD23430080A0D7 /* CoreTelephony.framework in Frameworks */,
 				353198BB18A2147E00EBBC82 /* CoreGraphics.framework in Frameworks */,
@@ -434,7 +435,6 @@
 				5C0559AE18CD22840080A0D7 /* libAdapterNend.a in Frameworks */,
 				5C0559A718CD22840080A0D7 /* libGoogleAdMobAds.a in Frameworks */,
 				3533436D18C84B3A0011D7DC /* Social.framework in Frameworks */,
-				5C73569518F595CB00D90991 /* FelloPush.framework in Frameworks */,
 				5C0559AA18CD22840080A0D7 /* ASIHTTPRequest.framework in Frameworks */,
 				5C0559AB18CD22840080A0D7 /* imobileAds.framework in Frameworks */,
 				5C0559AD18CD22840080A0D7 /* libAdapterIMobile.a in Frameworks */,
@@ -481,8 +481,8 @@
 		353198B718A2147E00EBBC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5C73569418F595CB00D90991 /* FelloPush.framework */,
-				5C8A31C018D1E30E002D548A /* FelloPush.bundle */,
+				84FF09E71A32024700F59DC3 /* FelloPush.bundle */,
+				84FF09E81A32024700F59DC3 /* FelloPush.framework */,
 				5C0559D818CD23990080A0D7 /* MobileCoreServices.framework */,
 				5C0559D618CD23910080A0D7 /* libz.dylib */,
 				5C0559D418CD23770080A0D7 /* Security.framework */,
@@ -1020,6 +1020,7 @@
 				5C86291D18FEC5E600B3770C /* appcc_web_splash_logo.png in Resources */,
 				5C86291B18FEC5E600B3770C /* appcc_simple_appc_icon@2x.png in Resources */,
 				5CF66CE618CC987A00A55497 /* Icon-Small-50.png in Resources */,
+				84FF09E91A32024700F59DC3 /* FelloPush.bundle in Resources */,
 				5C84C55518D33FD80089045D /* CHANGELOG.md in Resources */,
 				5CF66CEE18CC987A00A55497 /* launch.png in Resources */,
 				5C86290218FEC5E600B3770C /* appc_cutin_close@2x.png in Resources */,
@@ -1089,7 +1090,6 @@
 				35AB07CA18BF45BE002115A2 /* SSGentleAlertViewBlack.xib in Resources */,
 				5C86290118FEC5E600B3770C /* appc_cutin_btn_other_on@2x.png in Resources */,
 				353198CC18A2147E00EBBC82 /* Main.storyboard in Resources */,
-				5C8A31C118D1E30E002D548A /* FelloPush.bundle in Resources */,
 				5C86290618FEC5E600B3770C /* appc_game_logo@2x.png in Resources */,
 				5CF66CE118CC987A00A55497 /* Icon-60@2x.png in Resources */,
 				5CF66CEF18CC987A00A55497 /* launch320x480.png in Resources */,
@@ -1290,10 +1290,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/tab/Ad/imobile",
-					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
-					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
-					/Users/miyata/uitest/tab,
+					"$(SRCROOT)/tab/Ad/PushSDK/Debug",
+					"$(SRCROOT)/tab/Ad/PushSDK/Release",
+					"$(SRCROOT)/tab",
+					"$(PROJECT_DIR)/tab/Ad/PushSDK/Debug",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1303,10 +1303,9 @@
 					"$(inherited)",
 					"$(SRCROOT)/tab/Ad/AdMob",
 					"$(SRCROOT)/tab/Ad/AdMob_iAdAdapter",
-					"$(SRCROOT)/tab/Ad/imobile/libAdapterIMobile",
 					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
 					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
-					/Users/miyata/uitest/tab/appCCloud,
+					"$(SRCROOT)/tab/appCCloud",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1329,10 +1328,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/tab/Ad/imobile",
-					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Debug,
-					/Users/miyata/Downloads/NotificationSDK_iOS_14030301/NotificationsSDK/Release,
-					/Users/miyata/uitest/tab,
+					"$(SRCROOT)/tab/Ad/PushSDK/Debug",
+					"$(SRCROOT)/tab/Ad/PushSDK/Release",
+					"$(SRCROOT)/tab",
+					"$(PROJECT_DIR)/tab/Ad/PushSDK/Debug",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tab/tab-Prefix.pch";
@@ -1342,10 +1341,9 @@
 					"$(inherited)",
 					"$(SRCROOT)/tab/Ad/AdMob",
 					"$(SRCROOT)/tab/Ad/AdMob_iAdAdapter",
-					"$(SRCROOT)/tab/Ad/imobile/libAdapterIMobile",
 					"$(SRCROOT)/tab/Ad/Nend/AdMobMediationAdapter",
 					"$(SRCROOT)/tab/Ad/Nend/Nend/NendAd",
-					/Users/miyata/uitest/tab/appCCloud,
+					"$(SRCROOT)/tab/appCCloud",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
