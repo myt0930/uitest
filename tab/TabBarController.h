@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class GADBannerView;
 
 @interface TabBarController : UITabBarController<UITabBarControllerDelegate>
-@property GADBannerView *bannerView;
 
 
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;

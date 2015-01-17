@@ -7,7 +7,6 @@
 //
 
 #import "TabBarController.h"
-#import "GADBannerView.h"
 #import <iAd/iAd.h>
 
 @interface TabBarController ()
@@ -38,16 +37,6 @@
     UIView *adView = [[UIView alloc] initWithFrame:CGRectMake(0, advertisementPosY, 320, 50)];
 	adView.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:adView];
-    
-    _bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    _bannerView.adUnitID = @"ca-app-pub-1765913310078571/1222145443";
-    _bannerView.rootViewController = self;
-    
-    CGRect frame = _bannerView.frame;
-    frame.origin.y = advertisementPosY;
-    _bannerView.frame = frame;
-    [self.view addSubview:_bannerView];
-    [_bannerView loadRequest:[GADRequest request]];
 }
 
 

@@ -73,9 +73,34 @@
     
     //出演者名
 	{
+        // URL文字列を事前に取得
+        id dataDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+        NSArray *resultArray = [dataDetector matchesInString:_liveTrait.act
+                                                     options:0
+                                                       range:NSMakeRange(0,[_liveTrait.act length])];
+        NSMutableArray* urlDetectorList = [NSMutableArray array];
+        for (NSTextCheckingResult *result in resultArray)
+        {
+            if ([result resultType] == NSTextCheckingTypeLink)
+            {
+                NSURL *url = [result URL];
+                NSString* urlString = [url description];
+                NSLog(@"url:%@",urlString);
+                [urlDetectorList addObject:[urlString stringByReplacingOccurrencesOfString:@"/" withString:@"\n"]];
+            }
+        }
+
+        // スラッシュを改行コードに置き換え
         NSString *actText = [_liveTrait.act stringByReplacingOccurrencesOfString:@"/" withString:@"\n"];
         actText = [actText stringByReplacingOccurrencesOfString:@"／" withString:@"/"];
         actText = [actText stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
+        
+        // URLのスラッシュも改行コードになっているので元に戻す
+        for(NSString* str in urlDetectorList)
+        {
+            NSString* urlStr = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"/"];
+            actText = [actText stringByReplacingOccurrencesOfString:str withString:urlStr];
+        }
         
         CGRect rect = _act.frame;
         _act.frame = CGRectMake(rect.origin.x, labelHeight, rect.size.width, rect.size.height);

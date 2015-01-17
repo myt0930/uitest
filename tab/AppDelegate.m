@@ -19,6 +19,7 @@
 #import "LiveHouseTrait.h"
 #import "LiveInfoTrait.h"
 #import "appCCloud.h"
+#import <FelloPush/KonectNotificationsAPI.h>
 
 
 @implementation AppDelegate
@@ -34,7 +35,7 @@
 	[self performSelectorInBackground:@selector(checkUpdateMaster) withObject:nil];
 	
     NSString* appId = @"10562";
-    [KonectNotificationsAPI initialize:self launchOptions:launchOptions appId:appId];
+    [KonectNotificationsAPI initialize:nil launchOptions:launchOptions appId:appId];
     
 	[Appirater setAppId:@"840221818"];
     [Appirater appLaunched:YES];
@@ -80,6 +81,20 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
 	
 
+}
+
+// デバイストークンを受信した際の処理
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
+{
+    // 渡ってきたデバイストークンを渡す
+    [KonectNotificationsAPI setupNotifications:devToken];
+}
+
+// プッシュ通知を受信した際の処理
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    // 渡ってきたuserInfoを渡す
+    [KonectNotificationsAPI processNotifications:userInfo];
 }
 
 //----------------------------
@@ -210,19 +225,6 @@
 													  userInfo:nil];
 	
 	[self endIndicator];
-}
-
-// デバイストークンを受信した際の処理
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
-{
-    [KonectNotificationsAPI setupNotifications:devToken];
-}
-
-// プッシュ通知を受信した際の処理
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    // 渡ってきたuserInfoを渡す
-    [KonectNotificationsAPI processNotifications:userInfo];
 }
 
 // このメソッドで、プッシュ通知からの起動後の処理を行うことが出来る

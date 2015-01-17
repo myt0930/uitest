@@ -47,6 +47,7 @@ extern NSString* const RICHPAGE_CLOSE_REASON;
 + (NSArray*)getMessages;
 + (NSInteger)getUnreadMessageCount;
 + (void)markMessagesRead:(NSArray*)messageIds;
++ (void)setMessageCenterEnabled:(BOOL)enabled;
 + (void)setAutoBadgeEnabled:(BOOL)enabled;
 + (NSString*)JSONToString:(NSDictionary*)obj;
 

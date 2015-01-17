@@ -28,8 +28,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = true;
-	static boolean isOutNormalLiveHouse = true;
+	static boolean isOutDifficultLiveHouse = false;
+	static boolean isOutNormalLiveHouse = false;
 	
 	static HashMap<Integer,Integer> fadMap = new HashMap<Integer,Integer>();
 	static HashMap<Integer,Integer> lizardMap = new HashMap<Integer,Integer>();
@@ -56,15 +56,23 @@ public class ParseHtml
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
         int month = 1;
         
-        fadMap.put(11, 13970);
-        fadMap.put(12, 14214);
         
-        lizardMap.put(11, 5859);
-        lizardMap.put(12, 5874);
+        fadMap.put(2, 14702);
+        lizardMap.put(2, 6402);
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
-		
+        
+        parseHtml.outShimokitaYaneura(pw, month, 71);
+        parseHtml.outKoenjiRoots(pw, month, 65);
+        parseHtml.outShibuyaBurrow(pw, month, 21);
+        parseHtml.outShinjukuMarble(pw,month, 2);
+        parseHtml.outChibaLook(pw, month, 79);
+        //82. 横浜Galaxy
+        parseHtml.outYokohamaGalaxy(pw, month, 82);
+
+        
+        
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
 	        //1. 新宿Motion
@@ -271,7 +279,7 @@ public class ParseHtml
 		}
         if(isOutDifficultLiveHouse){
 			//32. 池袋music org
-			parseHtml.outIkebukuroOrg(pw, month, 32);
+//			parseHtml.outIkebukuroOrg(pw, month, 32);
 			//33. 池袋RUIDO K3
 			parseHtml.outIkebukuroRuidoK3(pw, month, 33);
 			//34. 渋谷RUIDO K2
@@ -518,7 +526,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule15-" + String.format("%d", month) + ".html").timeout(10000).get();
+			Document doc = Jsoup.connect("http://clubgoodman.com/schedule/schedule15-" + String.format("%02d", month) + ".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("table tbody tr[class!=head_line]");// getElementsByTag("tr");
 			
 			for( Element element : baseElements)
@@ -789,7 +797,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			//TODO:今月、来月っていう取り方しか出来ない
-			if(currentMonth + 2 <= month){
+			if(((currentMonth + 2) % 12) <= month){
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ukproject.com/que/schedule/thismonth.html" : "http://www.ukproject.com/que/schedule/nextmonth.html";
@@ -1089,7 +1097,7 @@ public class ParseHtml
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
 			print("UFOCLUB はちゃんとurlが更新されているか確認しないと危ない！");
-			if(currentMonth + 2 <= month){
+			if(((currentMonth + 2) % 12) <= month){
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ufoclub.jp/schedule" : "http://www.ufoclub.jp/schedule/next-month";
@@ -1158,7 +1166,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2015-" + String.format("%d", month) + "-schedule-2").timeout(10000).get();
+			Document doc = Jsoup.connect("http://www.den-atsu.com/?schedule=2015-" + String.format("%d", month) + "-schedule").timeout(10000).get();
 			Elements baseElements = doc.body().select("div[class=hpb-entry-content] p");
 			
 			this.initParam();
@@ -1923,7 +1931,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			if(currentMonth + 2 <= month){
+			if(((currentMonth + 2) % 12) <= month){
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k3/schedule/month_this/" : "http://www.ruido.org/k3/schedule/month_" + String.format("%d", month);
@@ -1945,7 +1953,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			if(currentMonth + 2 <= month){
+			if(((currentMonth + 2) % 12) <= month){
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k2/schedule/month_this/" : "http://www.ruido.org/k2/schedule/next_month/";
@@ -1967,7 +1975,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			if(currentMonth + 2 <= month){
+			if(((currentMonth + 2) % 12) <= month){
 				return false;
 			}
 			String url = month == currentMonth ? "http://www.ruido.org/k4/schedule/month_this/" : "http://www.ruido.org/k4/schedule/next_month/";
@@ -4060,7 +4068,7 @@ public class ParseHtml
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
 		try{
-			Document doc = Jsoup.connect("http://www.aj-group.co.jp/schedule/2015/" + String.format("%02d", month) +".html").timeout(10000).get();
+			Document doc = Jsoup.connect("http://www.aj-group.co.jp/schedule/2015/" + String.format("%d", month) +".html").timeout(10000).get();
 			Elements baseElements = doc.body().select("body");
 			this.initParam();
 			
@@ -4255,6 +4263,11 @@ public class ParseHtml
 					}
 					
 					if(!str.startsWith(String.format("%02d", month)) && !str.startsWith(String.format("%d", month))){
+						continue;
+					}
+					
+					if(str.startsWith("1日"))
+					{
 						continue;
 					}
 					
