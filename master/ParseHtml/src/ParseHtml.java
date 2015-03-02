@@ -28,7 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 public class ParseHtml
 {
 	static int debugFlag = 0;
-	static boolean isOutDifficultLiveHouse = false;
+	static boolean isOutDifficultLiveHouse = true;
 	static boolean isOutNormalLiveHouse = false;
 	
 	static HashMap<Integer,Integer> fadMap = new HashMap<Integer,Integer>();
@@ -54,24 +54,26 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 1;
+        int month = 2;
         
         
         fadMap.put(2, 14702);
+        fadMap.put(3, 14942);
+        fadMap.put(4, 15230);
         lizardMap.put(2, 6402);
+        lizardMap.put(3, 6649);
+        lizardMap.put(4, 6910);
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
         
-        parseHtml.outShimokitaYaneura(pw, month, 71);
-        parseHtml.outKoenjiRoots(pw, month, 65);
-        parseHtml.outShibuyaBurrow(pw, month, 21);
-        parseHtml.outShinjukuMarble(pw,month, 2);
-        parseHtml.outChibaLook(pw, month, 79);
-        //82. 横浜Galaxy
-        parseHtml.outYokohamaGalaxy(pw, month, 82);
-
-        
+//        parseHtml.outShimokitaYaneura(pw, month, 71);
+//        parseHtml.outKoenjiRoots(pw, month, 65);
+//        parseHtml.outShibuyaBurrow(pw, month, 21);
+//        parseHtml.outShinjukuMarble(pw,month, 2);
+//        parseHtml.outChibaLook(pw, month, 79);
+//        //82. 横浜Galaxy
+//        parseHtml.outYokohamaGalaxy(pw, month, 82);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
