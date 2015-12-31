@@ -29,7 +29,7 @@ public class ParseHtml
 {
 	static int debugFlag = 0;
 	static boolean isOutDifficultLiveHouse = true;
-	static boolean isOutNormalLiveHouse = false;
+	static boolean isOutNormalLiveHouse = true;
 	
 	static HashMap<Integer,Integer> fadMap = new HashMap<Integer,Integer>();
 	static HashMap<Integer,Integer> lizardMap = new HashMap<Integer,Integer>();
@@ -54,26 +54,17 @@ public class ParseHtml
 		//出力先を作成する
         FileWriter fw = new FileWriter("out.csv", false);
         PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-        int month = 2;
+        int month = 11;
         
         
-        fadMap.put(2, 14702);
-        fadMap.put(3, 14942);
-        fadMap.put(4, 15230);
-        lizardMap.put(2, 6402);
-        lizardMap.put(3, 6649);
-        lizardMap.put(4, 6910);
+        fadMap.put(11, 3);
+        fadMap.put(12, 17452);
+        
+        lizardMap.put(11, 29);
+        lizardMap.put(12, 8775);
         
         parseHtml.currentMonth	= Calendar.getInstance().get(Calendar.MONTH) + 1;
         parseHtml.currentDate	= Calendar.getInstance().get(Calendar.DATE);
-        
-//        parseHtml.outShimokitaYaneura(pw, month, 71);
-//        parseHtml.outKoenjiRoots(pw, month, 65);
-//        parseHtml.outShibuyaBurrow(pw, month, 21);
-//        parseHtml.outShinjukuMarble(pw,month, 2);
-//        parseHtml.outChibaLook(pw, month, 79);
-//        //82. 横浜Galaxy
-//        parseHtml.outYokohamaGalaxy(pw, month, 82);
         
         //安定して取得できるライブハウス
         if(isOutNormalLiveHouse){
@@ -93,6 +84,7 @@ public class ParseHtml
 			parseHtml.outBasementBar(pw, month, 6);
 			//7. 下北沢THREE
 			parseHtml.outShimokitaThree(pw, month, 7);
+			parseHtml.outShimokitaThreeNight(pw, month, 7);
 			//8. 下北沢DAISY BAR
 			parseHtml.outShimokitaDaisyBar(pw, month, 8);
 //			if(isOutDifficultLiveHouse){
@@ -697,9 +689,9 @@ public class ParseHtml
 				date = String.format("%02d%02d", Integer.valueOf(dateSplits[1]),Integer.valueOf(dateSplits[2]));
 				act = text;
 				
-				if(!act.contains("***")){
+//				if(!act.contains("***")){
 					this.outParam(pw, 7);
-				}
+//				}
 				title = "";
 				act = "";
 				other = "";
@@ -714,7 +706,68 @@ public class ParseHtml
 		outShimokitaThree(pw, ++month, liveHouseNo);
 		return true;
 	}
-	
+	private boolean outShimokitaThreeNight(PrintWriter pw, int month, int liveHouseNo) 
+	{
+		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
+		try{
+			//TODO: 当月のURLが違う
+			String url = month == currentMonth ? "http://www.toos.co.jp/3/3_clubschedule.html" : "http://www.toos.co.jp/3/3_clubschedule_15" + String.format("%02d", month) +".html";
+			Document doc = Jsoup.connect(url).timeout(10000).get();
+			Elements baseElements = doc.body().select("table[width=625][border=0][cellspacing=2][cellpadding=1] tr");
+			
+			this.initParam();
+			for( Element element : baseElements)
+			{
+				String text = stringReplaceLineBreakAndRemoveTag(element);
+				if( text.equals("") )
+				{
+					continue;
+				}
+				for(Element e : element.select("h1") )
+				{
+					date = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(date, "");
+				}
+				for(Element e : element.select("h2") )
+				{
+					title = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(title, "");
+				}
+				for(Element e : element.select("span[class=style9]") )
+				{
+					if( !e.text().contains("open") && !e.text().contains("start") )
+					{
+						continue;
+					}
+					other = stringReplaceLineBreakAndRemoveTag(e);
+					text = text.replace(other, "");
+					other = other.replace("adv", LINE_BREAK + "adv");
+				}
+				
+				String[] dateSplits = date.split("\\.");
+				if(dateSplits.length < 3){
+					continue;
+				}
+				date = String.format("%02d%02d", Integer.valueOf(dateSplits[1]),Integer.valueOf(dateSplits[2]));
+				act = text;
+				
+//				if(!act.contains("***")){
+					this.outParam(pw, 7);
+//				}
+				title = "";
+				act = "";
+				other = "";
+			}
+		} catch(Exception e){
+			System.out.println("7.THREE Failure" + e);
+			return false;
+		}
+		if(month >= 12){
+			return true;
+		}
+		outShimokitaThreeNight(pw, ++month, liveHouseNo);
+		return true;
+	}
 	private boolean outShimokitaDaisyBar(PrintWriter pw, int month, int liveHouseNo) 
 	{
 		print("■■" + liveHouseNo + "-" +  String.format("%02d", month));
@@ -1113,7 +1166,7 @@ public class ParseHtml
 				{
 					String tagName = e.tagName();
 					String className = e.className();
-					if(className.equals("day"))
+					if(tagName.equals("th"))
 					{
 						other = "";
 						act = "";
